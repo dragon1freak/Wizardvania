@@ -1,0 +1,10 @@
+# Godot ignores
+.import/
+export.cfg
+export_presets.cfg
+
+*.translation
+
+# Mono ignores
+.mono/
+data_*/
