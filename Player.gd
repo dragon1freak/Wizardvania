@@ -1,17 +1,24 @@
 extends PlatformerController
 class_name Player
 
+export(bool) var HAS_ALT_JUMP : bool = false
+export(bool) var HAS_ALT_MOVE : bool = false
+export(bool) var HAS_ELEMENT_ACTION : bool = false
+
+export(bool) var HAS_FIRE : bool = false
+export(bool) var HAS_ICE : bool = false
+
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20
 export(float, 0, 10, 0.01) var GLIDE_TIMER_MAX : float = 1.0
 var glide_timer : float = GLIDE_TIMER_MAX
 var can_glide : bool = false
 var gliding : bool = false
 
-var can_double_jump : bool = true
+var can_double_jump : bool = false
 
 export(float, 0, 1000, 0.1) var DASH_FORCE : float = 200
 export(float, 0, 1, 0.01) var DASH_TIMER : float = 0.1
-var can_dash : bool = true
+var can_dash : bool = false
 var dashing : bool = false
 
 export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50
@@ -22,8 +29,13 @@ var WALL_JUMP_MAX : int = 3
 onready var _left_wall_check : RayCast2D = $LeftWallCheck
 onready var _right_wall_check : RayCast2D = $RightWallCheck
 var can_wall_jump : bool = false
-var can_hold_wall : bool = true
+var can_hold_wall : bool = false
 var holding_wall : bool = false
+
+export(float, 0, 1000, 0.1) var SLAM_FORCE : float = 200
+export(float, 0, 1, 0.01) var SLAM_TIMER : float = 0.1
+var can_slam : bool = false
+var slamming : bool = false
 
 enum STATES {IDLE, WALK, JUMP, FALL, DASH}
 enum ELEMENTS {AIR, FIRE, ICE}
@@ -31,6 +43,7 @@ var ELEMENT_STATE : int = ELEMENTS.AIR
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	can_sprint = false
 	var tilemap = get_parent().get_node("TileMap")
 	var tilemap_rect = tilemap.get_used_rect()
 	var camera = $Camera2D
@@ -59,10 +72,10 @@ func physics_tick(delta : float) -> void:
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
 		ELEMENTS.AIR:
+			motion.y += GRAVITY * delta
 			if gliding && motion.y > 0:
 				motion.y = clamp(motion.y, -JUMP_FORCE, GLIDE_FALL_SPEED)
 				glide_timer -= delta
-			motion.y += GRAVITY * delta
 			if glide_timer <= 0.0:
 				can_glide = false
 				gliding = false
@@ -82,18 +95,22 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 				wall_hold_timer -= delta
 			else:
 				holding_wall = false
-				motion.y += GRAVITY * delta
+				if !slamming:
+					motion.y += GRAVITY * delta
 			if wall_hold_timer <= 0.0:
 				can_hold_wall = false
 				can_wall_jump = false
 
 func handle_element_state() -> void:
-	if Input.is_action_just_pressed("fire_state") || (Input.is_action_just_released("ice_state") && Input.get_action_strength("fire_state") > 0):
-		ELEMENT_STATE = ELEMENTS.FIRE
-	elif Input.is_action_just_pressed("ice_state") || (Input.is_action_just_released("fire_state") && Input.get_action_strength("ice_state") > 0):
-		ELEMENT_STATE = ELEMENTS.ICE
-	elif is_zero_approx(Input.get_action_strength("fire_state")) && is_zero_approx(Input.get_action_strength("ice_state")):
-		ELEMENT_STATE = ELEMENTS.AIR
+	if HAS_FIRE && (Input.is_action_just_pressed("fire_state") || (is_zero_approx(Input.get_action_strength("ice_state")) && Input.get_action_strength("fire_state") > 0)):
+		if !gliding && !slamming:
+			ELEMENT_STATE = ELEMENTS.FIRE
+	elif HAS_ICE && (Input.is_action_just_pressed("ice_state") || (is_zero_approx(Input.get_action_strength("fire_state")) && Input.get_action_strength("ice_state") > 0)):
+		if !gliding && !dashing:
+			ELEMENT_STATE = ELEMENTS.ICE
+	elif (!HAS_FIRE || is_zero_approx(Input.get_action_strength("fire_state"))) && (!HAS_ICE || is_zero_approx(Input.get_action_strength("ice_state"))):
+		if !dashing && !slamming:
+			ELEMENT_STATE = ELEMENTS.AIR
 
 func manage_state() -> void:
 	if motion.y == 0:
@@ -131,7 +148,7 @@ func manage_animations() -> void:
 			_animation_player.play("Fall")
 
 func handle_motion(delta : float, input_direction : Vector2 = Vector2.ZERO) -> void:
-	if !dashing && input_direction.x != 0:
+	if !slamming && !dashing && input_direction.x != 0:
 		apply_motion(delta, input_direction)
 		if abs(motion.x) > MAX_SPEED && !sprinting:
 			slow_sprint(delta)
@@ -153,7 +170,6 @@ func apply_motion(delta : float, move_direction : Vector2) -> void:
 	var final_acc : float = move_direction.x * ACCELERATION * delta * (sprint_strength if is_on_floor() else 1.0)
 	motion.x += final_acc if abs(motion.x) <= MAX_SPEED || sprinting else 0.0
 	motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
-	print(motion.x)
 
 func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : bool = false, jump_released : bool = false) -> void:
 	match ELEMENT_STATE:
@@ -169,7 +185,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 				holding_wall = false
 			if (jump_pressed or should_jump) && can_jump:
 				apply_jump()
-			elif (jump_pressed or should_jump) && holding_wall:
+			elif (jump_pressed or should_jump) && holding_wall && !slamming:
 				apply_wall_jump(wall_jump_dir)
 			elif jump_pressed:
 				buffer_jump()
@@ -183,7 +199,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 				if can_glide:
 					gliding = true
 				buffer_jump()
-			elif jump_released:
+			elif is_zero_approx(jump_strength) && gliding:
 				gliding = false
 			if jump_strength == 0 and motion.y < 0:
 				cancel_jump(delta)
@@ -198,18 +214,16 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			if jump_strength == 0 and motion.y < 0:
 				cancel_jump(delta)
 	if is_on_floor() and motion.y >= 0.0:
+		if HAS_ALT_JUMP:
+			can_double_jump = true
+			can_wall_jump = true
+			can_hold_wall = true
+			WALL_JUMP_COUNT = WALL_JUMP_MAX
+			wall_hold_timer = WALL_JUMP_TIMER
+			can_glide = true
+			gliding = false
+			glide_timer = GLIDE_TIMER_MAX
 		can_jump = true
-		can_double_jump = true
-		can_wall_jump = true
-		can_hold_wall = true
-		WALL_JUMP_COUNT = WALL_JUMP_MAX
-		wall_hold_timer = WALL_JUMP_TIMER
-		can_glide = true
-		gliding = false
-		glide_timer = GLIDE_TIMER_MAX
-		can_sprint = true
-	else:
-		can_sprint = false
 
 func apply_wall_jump(wall_jump_dir : float) -> void:
 	holding_wall = false
@@ -220,15 +234,30 @@ func apply_wall_jump(wall_jump_dir : float) -> void:
 	apply_jump(JUMP_FORCE, Vector2(wall_jump_dir, -2).normalized())
 
 func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_pressed : bool, sprint_released : bool) -> void:
-		match ELEMENT_STATE:
-			ELEMENTS.AIR:
+	match ELEMENT_STATE:
+		ELEMENTS.AIR:
+			if can_sprint:
 				handle_sprint(sprint_strength)
-			ELEMENTS.FIRE:
-				sprinting = false
-				if can_dash && sprint_pressed:
-					apply_dash(input_direction)
-				elif is_on_floor() && is_zero_approx(sprint_strength):
-					can_dash = true
+		ELEMENTS.FIRE:
+			sprinting = false
+			if can_dash && sprint_pressed:
+				apply_dash(input_direction)
+			if is_on_wall():
+				dashing = false
+				var final_max_speed = MAX_SPEED * abs(input_direction.x)
+				motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
+		ELEMENTS.ICE:
+			sprinting = false
+			if !is_on_floor() && can_slam && sprint_pressed:
+				apply_slam()
+			elif slamming && sprint_pressed:
+				cancel_slam()
+	if is_on_floor() and motion.y >= 0.0:
+		if HAS_ALT_MOVE:
+			can_sprint = true
+			can_dash = true
+			can_slam = true
+			slamming = false
 
 func apply_dash(input_direction : Vector2) -> void:
 	dashing = true
@@ -242,3 +271,15 @@ func apply_dash(input_direction : Vector2) -> void:
 	dashing = false
 	var final_max_speed = MAX_SPEED * abs(input_direction.x)
 	motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
+
+func apply_slam() -> void:
+	slamming = true
+	holding_wall = false
+	can_hold_wall = false
+	can_slam = false
+	motion.x = 0
+	apply_jump(SLAM_FORCE, Vector2.DOWN)
+
+func cancel_slam() -> void:
+	slamming = false
+	motion.y = 0

@@ -53,7 +53,7 @@ enum {IDLE, WALK, JUMP, FALL}
 var state : int = IDLE
 
 # The player can sprint when can_sprint is true
-onready var can_sprint : bool = ENABLE_SPRINT
+onready var can_sprint : bool = false
 # The player is sprinting when sprinting is true
 var sprinting : bool = false
 # The player can jump when can_jump is true
