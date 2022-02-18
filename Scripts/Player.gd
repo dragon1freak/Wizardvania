@@ -8,12 +8,16 @@ export(bool) var HAS_ELEMENT_ACTION : bool = false
 export(bool) var HAS_FIRE : bool = false
 export(bool) var HAS_ICE : bool = false
 
+export(float, 0, 10, 0.1) var ACTION_COOLDOWN_TIMER : float = 1.0
+# =============== AIR ABILITIES =============================
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20
 export(float, 0, 10, 0.01) var GLIDE_TIMER_MAX : float = 1.0
 var glide_timer : float = GLIDE_TIMER_MAX
 var can_glide : bool = false
 var gliding : bool = false
 
+var can_gust : bool = false
+# =============== FIRE ABILITIES ============================= 
 var can_double_jump : bool = false
 
 export(float, 0, 1000, 0.1) var DASH_FORCE : float = 200
@@ -21,6 +25,9 @@ export(float, 0, 1, 0.01) var DASH_TIMER : float = 0.1
 var can_dash : bool = false
 var dashing : bool = false
 
+var FIREBOLT : PackedScene = preload("res://Scenes/Player/Firebolt.tscn")
+var can_firebolt : bool = false
+# =============== ICE ABILITIES ============================= 
 export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50
 export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 1.0
 var wall_hold_timer : float = WALL_JUMP_TIMER
@@ -37,12 +44,15 @@ export(float, 0, 1, 0.01) var SLAM_TIMER : float = 0.1
 var can_slam : bool = false
 var slamming : bool = false
 
+var can_shell : bool = false
+# ===========================================================
 enum STATES {IDLE, WALK, JUMP, FALL, DASH}
 enum ELEMENTS {AIR, FIRE, ICE}
 var ELEMENT_STATE : int = ELEMENTS.AIR
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	element_action_cooldown()
 	can_sprint = false
 	var tilemap = get_parent().get_node("TileMap")
 	var tilemap_rect = tilemap.get_used_rect()
@@ -59,6 +69,7 @@ func physics_tick(delta : float) -> void:
 	var inputs : Dictionary = handle_inputs()
 	handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
 	handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
+	handle_action(inputs.input_direction, inputs.action_pressed)
 	handle_motion(delta, inputs.input_direction)
 	manage_animations()
 	manage_state()
@@ -68,6 +79,20 @@ func physics_tick(delta : float) -> void:
 	if !is_on_floor() && can_jump:
 		coyote_time()
 	motion = move_and_slide(motion, Vector2.UP)
+
+func handle_inputs() -> Dictionary:
+	return {
+		input_direction = get_input_direction(), 
+		jump_strength = Input.get_action_strength(ACTION_JUMP),
+		jump_pressed = Input.is_action_just_pressed(ACTION_JUMP), 
+		jump_released = Input.is_action_just_released(ACTION_JUMP), 
+		sprint_strength = Input.get_action_strength(ACTION_SPRINT),
+		sprint_pressed = Input.is_action_just_pressed(ACTION_SPRINT),
+		sprint_released = Input.is_action_just_released(ACTION_SPRINT),
+		action_strength = Input.get_action_strength("action"),
+		action_pressed = Input.is_action_just_pressed("action"),
+		action_released = Input.is_action_just_released("action"),
+		}
 
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
@@ -171,6 +196,8 @@ func apply_motion(delta : float, move_direction : Vector2) -> void:
 	motion.x += final_acc if abs(motion.x) <= MAX_SPEED || sprinting else 0.0
 	motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
 
+# ================= Alt Jump Logic ============================================
+
 func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : bool = false, jump_released : bool = false) -> void:
 	match ELEMENT_STATE:
 		ELEMENTS.ICE:
@@ -233,6 +260,8 @@ func apply_wall_jump(wall_jump_dir : float) -> void:
 		WALL_JUMP_COUNT = WALL_JUMP_MAX
 	apply_jump(JUMP_FORCE, Vector2(wall_jump_dir, -2).normalized())
 
+# ================= Alt Move Logic ============================================
+
 func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_pressed : bool, sprint_released : bool) -> void:
 	match ELEMENT_STATE:
 		ELEMENTS.AIR:
@@ -283,3 +312,41 @@ func apply_slam() -> void:
 func cancel_slam() -> void:
 	slamming = false
 	motion.y = 0
+
+# ================= Element Action Logic ============================================
+
+func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
+	if action_pressed:
+		match ELEMENT_STATE:
+			ELEMENTS.AIR:
+				if can_gust:
+					if is_zero_approx(input_direction.y):
+						print("whoosh")
+					else:
+						print("whoosh in " + str(input_direction.y))
+					element_action_cooldown()
+			ELEMENTS.FIRE:
+				if can_firebolt:
+					if is_zero_approx(input_direction.x):
+						print("burning")
+					else:
+						print("burning in " + str(input_direction.x))
+					element_action_cooldown()
+			ELEMENTS.ICE:
+				if can_shell:
+					if is_zero_approx(input_direction.x) && is_zero_approx(input_direction.y):
+						print("protect me cone")
+					elif !is_zero_approx(input_direction.x):
+						print("shell to the hor " + str(input_direction.x))
+					elif !is_zero_approx(input_direction.y):
+						print("shell to the vert " + str(input_direction.y))
+					element_action_cooldown()
+
+func element_action_cooldown() -> void:
+	can_gust = false
+	can_firebolt = false
+	can_shell = false
+	yield(get_tree().create_timer(ACTION_COOLDOWN_TIMER),"timeout")
+	can_gust = true
+	can_firebolt = true
+	can_shell = true

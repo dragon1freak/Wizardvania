@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Projectile",
+"class": "Firebolt",
+"language": "GDScript",
+"path": "res://Scripts/Firebolt.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "PlatformerController",
 "language": "GDScript",
@@ -17,11 +22,18 @@ _global_script_classes=[ {
 "base": "PlatformerController",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Player.gd"
+"path": "res://Scripts/Player.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://Scripts/Projectile.gd"
 } ]
 _global_script_class_icons={
+"Firebolt": "",
 "PlatformerController": "",
-"Player": ""
+"Player": "",
+"Projectile": ""
 }
 
 [application]
