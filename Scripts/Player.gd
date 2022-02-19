@@ -11,6 +11,8 @@ export(bool) var HAS_FIRE : bool = false
 export(bool) var HAS_ICE : bool = false
 
 export(float, 0, 10, 0.1) var ACTION_COOLDOWN_TIMER : float = 1.0
+var can_action : bool = false
+export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20.0
 export(float, 0, 10, 0.01) var GLIDE_TIMER_MAX : float = 1.0
@@ -47,7 +49,6 @@ var can_hold_wall : bool = false
 var holding_wall : bool = false
 
 export(float, 0, 1000, 0.1) var SLAM_FORCE : float = 200
-export(float, 0, 1, 0.01) var SLAM_TIMER : float = 0.1
 var can_slam : bool = false
 var slamming : bool = false
 
@@ -252,8 +253,10 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 				if !can_jump && can_double_jump:
 					can_double_jump = false
 				apply_jump()
+				cancel_dash()
 			elif jump_pressed:
 				buffer_jump()
+				cancel_dash()
 			if jump_strength == 0 and motion.y < 0:
 				cancel_jump(delta)
 	if is_on_floor() and motion.y >= 0.0:
@@ -314,8 +317,11 @@ func apply_dash(input_direction : Vector2) -> void:
 	motion.x += DASH_FORCE * dash_direction
 	yield(get_tree().create_timer(DASH_TIMER),"timeout")
 	dashing = false
-	var final_max_speed = MAX_SPEED * abs(input_direction.x)
-	motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
+	motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
+
+func cancel_dash() -> void:
+	dashing = false
+	motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
 
 func apply_slam() -> void:
 	slamming = true
@@ -329,6 +335,15 @@ func cancel_slam() -> void:
 	slamming = false
 	motion.y = 0
 
+func alt_move_cooldown() -> void:
+	can_sprint = false
+	can_slam = false
+	can_dash = false
+	yield(get_tree().create_timer(ALT_MOVE_COOLDOWN_TIMER),"timeout")
+	can_sprint = true
+	can_slam = true
+	can_dash = true
+
 # ================= Element Action Logic ============================================
 
 func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
@@ -340,7 +355,6 @@ func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
 					NEW_GUST.construct(GUST_SPEED, Vector2.DOWN if input_direction.y > 0 else Vector2.UP, GUST_LIFETIME)
 					NEW_GUST.position = self.global_position
 					get_tree().get_root().add_child(NEW_GUST)
-					print("gusting in " + str(input_direction.x))
 					element_action_cooldown()
 			ELEMENTS.FIRE:
 				if can_firebolt:
@@ -348,7 +362,6 @@ func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
 					NEW_FIREBOLT.construct(FIREBOLT_SPEED, Vector2.LEFT if _sprite.flip_h else Vector2.RIGHT, FIREBOLT_LIFETIME)
 					NEW_FIREBOLT.position = self.global_position
 					get_tree().get_root().add_child(NEW_FIREBOLT)
-					print("burning in " + str(input_direction.x))
 					element_action_cooldown()
 			ELEMENTS.ICE:
 				if can_shell:
@@ -360,13 +373,11 @@ func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
 						SHELL.rotation_degrees = -90 if input_direction.x < 0 else 90
 					SHELL.visible = true
 					element_action_cooldown()
+		if !can_action && is_on_floor():
+			element_action_cooldown()
 
 func element_action_cooldown() -> void:
-	can_gust = false
-	can_firebolt = false
-	can_shell = false
+	can_action = false
 	yield(get_tree().create_timer(ACTION_COOLDOWN_TIMER),"timeout")
-	can_gust = true
-	can_firebolt = true
-	can_shell = true
+	can_action = true
 	SHELL.visible = false
