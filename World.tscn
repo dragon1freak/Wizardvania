@@ -475,16 +475,17 @@ tile_data = PoolIntArray( 65524, 0, 4, 65525, 0, 196609, 65526, 0, 196609, 65527
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 216, 105 )
-ACTION_SPRINT = "alt_move"
 JUMP_FORCE = 220.0
-ENABLE_SPRINT = true
-TOGGLE_STATES = true
 HAS_ALT_JUMP = true
 HAS_ALT_MOVE = true
 HAS_ELEMENT_ACTION = true
 HAS_FIRE = true
 HAS_ICE = true
+GUST_SPEED = 200.0
+GUST_LIFETIME = 0.3
 DASH_FORCE = 500.0
 DASH_TIMER = 0.2
+FIREBOLT_SPEED = 150.0
+FIREBOLT_LIFETIME = 0.8
 WALL_FALL_SPEED = 0.0
 SLAM_FORCE = 600.0

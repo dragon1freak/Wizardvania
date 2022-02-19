@@ -2,25 +2,21 @@ extends KinematicBody2D
 class_name PlatformerController
 
 # The path to the character's Sprite node, defaults to 'get_node("Sprite")'
-export(NodePath) var PLAYER_SPRITE
+var PLAYER_SPRITE
 onready var _sprite : Sprite = get_node(PLAYER_SPRITE) if PLAYER_SPRITE else $Sprite
 
 # The path to the character's AnimationPlayer node, defaults to 'get_node("AnimationPlayer")'
-export(NodePath) var ANIMATION_PLAYER
+var ANIMATION_PLAYER
 onready var _animation_player : AnimationPlayer = get_node(ANIMATION_PLAYER) if ANIMATION_PLAYER else $AnimationPlayer
 
 # Input Map actions related to each movement direction, jumping, and sprinting.  Set each to their related 
 # action's name in your Input Mapping or create actions with the default names.
-export(String) var ACTION_UP : String = "up"
-export(String) var ACTION_DOWN : String = "down"
-export(String) var ACTION_LEFT : String = "left"
-export(String) var ACTION_RIGHT : String = "right"
-export(String) var ACTION_JUMP : String = "jump"
-export(String) var ACTION_SPRINT : String = "sprint"
-
-# Enables/Disables hard movement when using a joystick.  When enabled, slightly moving the joystick
-# will only move the character at a percentage of the maximum acceleration and speed instead of the maximum.
-export(bool) var JOYSTICK_MOVEMENT : bool = false
+var ACTION_UP : String = "up"
+var ACTION_DOWN : String = "down"
+var ACTION_LEFT : String = "left"
+var ACTION_RIGHT : String = "right"
+var ACTION_JUMP : String = "jump"
+var ACTION_SPRINT : String = "alt_move"
 
 # The following float values are in px/sec when used in movement calculations with 'delta'
 # How fast the character gets to the MAX_SPEED value
@@ -39,12 +35,10 @@ export(float, 0, 1000, 0.1) var JUMP_CANCEL_FORCE : float = 800
 export(float, 0, 1000, 0.1) var GRAVITY : float = 500
 
 # How long in seconds after walking off a platform the character can still jump, set this to zero to disable it
-export(float, 0, 1, 0.01) var COYOTE_TIMER : float = 0.08
+var COYOTE_TIMER : float = 0.08
 # How long in seconds before landing should the game still accept the Jump command, set this to zero to disable it
-export(float, 0, 1, 0.01) var JUMP_BUFFER_TIMER : float = 0.1
+var JUMP_BUFFER_TIMER : float = 0.1
 
-# Enable/Disable sprinting
-export(bool) var ENABLE_SPRINT : bool = false
 # Sprint multiplier, multiplies the MAX_SPEED by this value when sprinting
 export(float, 0, 10, 0.1) var SPRINT_MULTIPLIER : float = 1.5
 
@@ -119,9 +113,12 @@ func handle_inputs() -> Dictionary:
 		jump_strength = Input.get_action_strength(ACTION_JUMP),
 		jump_pressed = Input.is_action_just_pressed(ACTION_JUMP), 
 		jump_released = Input.is_action_just_released(ACTION_JUMP), 
-		sprint_strength = Input.get_action_strength(ACTION_SPRINT) if ENABLE_SPRINT else 0.0,
-		sprint_pressed = Input.is_action_just_pressed(ACTION_SPRINT) if ENABLE_SPRINT else false,
-		sprint_released = Input.is_action_just_released(ACTION_SPRINT) if ENABLE_SPRINT else false
+		sprint_strength = Input.get_action_strength(ACTION_SPRINT),
+		sprint_pressed = Input.is_action_just_pressed(ACTION_SPRINT),
+		sprint_released = Input.is_action_just_released(ACTION_SPRINT),
+		action_strength = Input.get_action_strength("action"),
+		action_pressed = Input.is_action_just_pressed("action"),
+		action_released = Input.is_action_just_released("action"),
 		}
 
 # Gets the X/Y axis movement direction using the input mappings assigned to the ACTION UP/DOWN/LEFT/RIGHT variables
@@ -129,7 +126,7 @@ func get_input_direction() -> Vector2:
 	var x_dir = Input.get_action_strength(ACTION_RIGHT) - Input.get_action_strength(ACTION_LEFT)
 	var y_dir = Input.get_action_strength(ACTION_DOWN) - Input.get_action_strength(ACTION_UP)
 
-	return Vector2(x_dir if JOYSTICK_MOVEMENT else sign(x_dir), y_dir if JOYSTICK_MOVEMENT else sign(y_dir))
+	return Vector2(sign(x_dir), sign(y_dir))
 
 # ------------------ Movement Logic ---------------------------------
 # Takes delta and the current input direction and either applies the movement or applies friction

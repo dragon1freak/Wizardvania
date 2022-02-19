@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Sprites/Player.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Firebolt.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Player/Gust.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[node name="Firebolt" type="KinematicBody2D"]
+[node name="Gust" type="KinematicBody2D"]
 collision_layer = 16
 script = ExtResource( 2 )
 
@@ -14,8 +14,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 0.560784, 0, 1 )
-rotation = 1.5708
+modulate = Color( 0.737255, 0.945098, 1, 0.0980392 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -2 )
 hframes = 7

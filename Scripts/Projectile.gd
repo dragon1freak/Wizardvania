@@ -6,15 +6,10 @@ var direction : Vector2 = Vector2.ZERO
 var lifetime : float = 1.0
 var type : String = ""
 
-func contruct(speed : float, direction : Vector2, lifetime : float, type : String) -> void:
+func construct(speed : float, direction : Vector2, lifetime : float) -> void:
 	self.speed = speed
 	self.direction = direction
 	self.lifetime = lifetime
-	self.type = type
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 func _physics_process(delta):
 	var collision = move_and_collide(direction * speed * delta)

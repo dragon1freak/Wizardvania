@@ -12,26 +12,31 @@ export(bool) var HAS_ICE : bool = false
 
 export(float, 0, 10, 0.1) var ACTION_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
-export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20
+export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20.0
 export(float, 0, 10, 0.01) var GLIDE_TIMER_MAX : float = 1.0
 var glide_timer : float = GLIDE_TIMER_MAX
 var can_glide : bool = false
 var gliding : bool = false
 
+var GUST : PackedScene = preload("res://Scenes/Player/Gust.tscn")
+export(float, 0, 1000, 1) var GUST_SPEED : float = 100.0
+export(float, 0, 10, 0.1) var GUST_LIFETIME : float = 1.0 
 var can_gust : bool = false
 # =============== FIRE ABILITIES ============================= 
 var can_double_jump : bool = false
 
-export(float, 0, 1000, 0.1) var DASH_FORCE : float = 200
+export(float, 0, 1000, 0.1) var DASH_FORCE : float = 200.0
 export(float, 0, 1, 0.01) var DASH_TIMER : float = 0.1
 var can_dash : bool = false
 var dashing : bool = false
 
 var FIREBOLT : PackedScene = preload("res://Scenes/Player/Firebolt.tscn")
+export(float, 0, 1000, 1) var FIREBOLT_SPEED : float = 100.0
+export(float, 0, 1, 0.1) var FIREBOLT_LIFETIME : float = 1.0 
 var can_firebolt : bool = false
 # =============== ICE ABILITIES ============================= 
-export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50
-export(float, 0, 10, 0.01) var WALL_JUMP_TIMER : float = 1.0
+export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50.0
+export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 1.0
 var wall_hold_timer : float = WALL_JUMP_TIMER
 var WALL_JUMP_COUNT : int = 3
 var WALL_JUMP_MAX : int = 3
@@ -46,6 +51,8 @@ export(float, 0, 1, 0.01) var SLAM_TIMER : float = 0.1
 var can_slam : bool = false
 var slamming : bool = false
 
+onready var SHELL : Node2D = $Shell
+export(float, 0, 1, 0.1) var SHELL_LIFETIME : float = 1.0 
 var can_shell : bool = false
 # ===========================================================
 enum STATES {IDLE, WALK, JUMP, FALL, DASH}
@@ -84,20 +91,6 @@ func physics_tick(delta : float) -> void:
 	if !is_on_floor() && can_jump:
 		coyote_time()
 	motion = move_and_slide(motion, Vector2.UP)
-
-func handle_inputs() -> Dictionary:
-	return {
-		input_direction = get_input_direction(), 
-		jump_strength = Input.get_action_strength(ACTION_JUMP),
-		jump_pressed = Input.is_action_just_pressed(ACTION_JUMP), 
-		jump_released = Input.is_action_just_released(ACTION_JUMP), 
-		sprint_strength = Input.get_action_strength(ACTION_SPRINT),
-		sprint_pressed = Input.is_action_just_pressed(ACTION_SPRINT),
-		sprint_released = Input.is_action_just_released(ACTION_SPRINT),
-		action_strength = Input.get_action_strength("action"),
-		action_pressed = Input.is_action_just_pressed("action"),
-		action_released = Input.is_action_just_released("action"),
-		}
 
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
@@ -174,10 +167,6 @@ func manage_state() -> void:
 		state = STATES.FALL
 
 func manage_animations() -> void:
-	if motion.x > 0:
-		_sprite.flip_h = false
-	elif motion.x < 0:
-		_sprite.flip_h = true
 	match ELEMENT_STATE:
 		ELEMENTS.ICE:
 			_sprite.modulate = Color(0, 1, 1)
@@ -200,6 +189,10 @@ func handle_motion(delta : float, input_direction : Vector2 = Vector2.ZERO) -> v
 		apply_motion(delta, input_direction)
 		if abs(motion.x) > MAX_SPEED && !sprinting:
 			slow_sprint(delta)
+		if input_direction.x > 0:
+			_sprite.flip_h = false
+		elif input_direction.x < 0:
+			_sprite.flip_h = true
 	elif !dashing:
 		apply_friction(delta)
 
@@ -343,26 +336,29 @@ func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
 		match ELEMENT_STATE:
 			ELEMENTS.AIR:
 				if can_gust:
-					if is_zero_approx(input_direction.y):
-						print("whoosh")
-					else:
-						print("whoosh in " + str(input_direction.y))
+					var NEW_GUST = GUST.instance()
+					NEW_GUST.construct(GUST_SPEED, Vector2.DOWN if input_direction.y > 0 else Vector2.UP, GUST_LIFETIME)
+					NEW_GUST.position = self.global_position
+					get_tree().get_root().add_child(NEW_GUST)
+					print("gusting in " + str(input_direction.x))
 					element_action_cooldown()
 			ELEMENTS.FIRE:
 				if can_firebolt:
-					if is_zero_approx(input_direction.x):
-						print("burning")
-					else:
-						print("burning in " + str(input_direction.x))
+					var NEW_FIREBOLT = FIREBOLT.instance()
+					NEW_FIREBOLT.construct(FIREBOLT_SPEED, Vector2.LEFT if _sprite.flip_h else Vector2.RIGHT, FIREBOLT_LIFETIME)
+					NEW_FIREBOLT.position = self.global_position
+					get_tree().get_root().add_child(NEW_FIREBOLT)
+					print("burning in " + str(input_direction.x))
 					element_action_cooldown()
 			ELEMENTS.ICE:
 				if can_shell:
-					if is_zero_approx(input_direction.x) && is_zero_approx(input_direction.y):
-						print("protect me cone")
-					elif !is_zero_approx(input_direction.x):
-						print("shell to the hor " + str(input_direction.x))
+					if is_zero_approx(input_direction.y) && is_zero_approx(input_direction.x):
+						SHELL.rotation_degrees = -90 if _sprite.flip_h else 90
 					elif !is_zero_approx(input_direction.y):
-						print("shell to the vert " + str(input_direction.y))
+						SHELL.rotation_degrees = 180 if input_direction.y > 0 else 0
+					elif !is_zero_approx(input_direction.x):
+						SHELL.rotation_degrees = -90 if input_direction.x < 0 else 90
+					SHELL.visible = true
 					element_action_cooldown()
 
 func element_action_cooldown() -> void:
@@ -373,3 +369,4 @@ func element_action_cooldown() -> void:
 	can_gust = true
 	can_firebolt = true
 	can_shell = true
+	SHELL.visible = false

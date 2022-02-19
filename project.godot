@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Firebolt.gd"
 }, {
+"base": "Projectile",
+"class": "Gust",
+"language": "GDScript",
+"path": "res://Scenes/Player/Gust.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "PlatformerController",
 "language": "GDScript",
@@ -31,6 +36,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Firebolt": "",
+"Gust": "",
 "PlatformerController": "",
 "Player": "",
 "Projectile": ""
@@ -45,6 +51,10 @@ run/main_scene="res://World.tscn"
 
 window/size/width=1280
 window/size/height=720
+
+[global]
+
+collision=false
 
 [importer_defaults]
 
@@ -130,6 +140,14 @@ ice_state={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Interacts"
+2d_physics/layer_4="Projectiles"
+2d_physics/layer_5="Player Projectiles"
 
 [physics]
 
