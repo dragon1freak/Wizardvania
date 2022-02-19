@@ -1,6 +1,8 @@
 extends PlatformerController
 class_name Player
 
+export(bool) var TOGGLE_STATES : bool = false
+
 export(bool) var HAS_ALT_JUMP : bool = false
 export(bool) var HAS_ALT_MOVE : bool = false
 export(bool) var HAS_ELEMENT_ACTION : bool = false
@@ -29,7 +31,7 @@ var FIREBOLT : PackedScene = preload("res://Scenes/Player/Firebolt.tscn")
 var can_firebolt : bool = false
 # =============== ICE ABILITIES ============================= 
 export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50
-export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 1.0
+export(float, 0, 10, 0.01) var WALL_JUMP_TIMER : float = 1.0
 var wall_hold_timer : float = WALL_JUMP_TIMER
 var WALL_JUMP_COUNT : int = 3
 var WALL_JUMP_MAX : int = 3
@@ -63,7 +65,10 @@ func _ready():
 	camera.limit_bottom = camera.limit_top + tilemap_rect.size.y * tilemap.cell_size.y
 
 func _physics_process(delta):
-	handle_element_state()
+	if TOGGLE_STATES: 
+		handle_toggle_state()
+	else:
+		handle_element_state()
 
 func physics_tick(delta : float) -> void:
 	var inputs : Dictionary = handle_inputs()
@@ -130,12 +135,30 @@ func handle_element_state() -> void:
 	if HAS_FIRE && (Input.is_action_just_pressed("fire_state") || (is_zero_approx(Input.get_action_strength("ice_state")) && Input.get_action_strength("fire_state") > 0)):
 		if !gliding && !slamming:
 			ELEMENT_STATE = ELEMENTS.FIRE
+			if TOGGLE_STATES && ELEMENT_STATE == ELEMENTS.FIRE:
+				ELEMENT_STATE = ELEMENTS.AIR
 	elif HAS_ICE && (Input.is_action_just_pressed("ice_state") || (is_zero_approx(Input.get_action_strength("fire_state")) && Input.get_action_strength("ice_state") > 0)):
 		if !gliding && !dashing:
 			ELEMENT_STATE = ELEMENTS.ICE
+			if TOGGLE_STATES && ELEMENT_STATE == ELEMENTS.ICE:
+				ELEMENT_STATE = ELEMENTS.AIR
 	elif (!HAS_FIRE || is_zero_approx(Input.get_action_strength("fire_state"))) && (!HAS_ICE || is_zero_approx(Input.get_action_strength("ice_state"))):
-		if !dashing && !slamming:
+		if !dashing && !slamming && !TOGGLE_STATES:
 			ELEMENT_STATE = ELEMENTS.AIR
+
+func handle_toggle_state() -> void:
+	if HAS_FIRE && (Input.is_action_just_pressed("fire_state")):
+		if !gliding && !slamming:
+			if ELEMENT_STATE == ELEMENTS.FIRE:
+				ELEMENT_STATE = ELEMENTS.AIR
+			else:
+				ELEMENT_STATE = ELEMENTS.FIRE
+	elif HAS_ICE && (Input.is_action_just_pressed("ice_state")):
+		if !gliding && !dashing:
+			if ELEMENT_STATE == ELEMENTS.ICE:
+				ELEMENT_STATE = ELEMENTS.AIR
+			else:
+				ELEMENT_STATE = ELEMENTS.ICE
 
 func manage_state() -> void:
 	if motion.y == 0:

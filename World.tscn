@@ -478,6 +478,7 @@ position = Vector2( 216, 105 )
 ACTION_SPRINT = "alt_move"
 JUMP_FORCE = 220.0
 ENABLE_SPRINT = true
+TOGGLE_STATES = true
 HAS_ALT_JUMP = true
 HAS_ALT_MOVE = true
 HAS_ELEMENT_ACTION = true
