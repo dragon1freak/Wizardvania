@@ -10,8 +10,9 @@ export(bool) var HAS_ELEMENT_ACTION : bool = false
 export(bool) var HAS_FIRE : bool = false
 export(bool) var HAS_ICE : bool = false
 
+export(bool) var COOLDOWN_PER_ACTION : bool = false
+
 export(float, 0, 10, 0.1) var ACTION_COOLDOWN_TIMER : float = 1.0
-var can_action : bool = false
 export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20.0
@@ -62,7 +63,7 @@ var ELEMENT_STATE : int = ELEMENTS.AIR
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	element_action_cooldown()
+#	element_action_cooldown()
 	can_sprint = false
 	var tilemap = get_parent().get_node("TileMap")
 	var tilemap_rect = tilemap.get_used_rect()
@@ -82,7 +83,7 @@ func physics_tick(delta : float) -> void:
 	var inputs : Dictionary = handle_inputs()
 	handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
 	handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
-	handle_action(inputs.input_direction, inputs.action_pressed)
+#	handle_action(inputs.input_direction, inputs.action_pressed)
 	handle_motion(delta, inputs.input_direction)
 	manage_animations()
 	manage_state()
@@ -107,12 +108,12 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 			if !dashing:
 				motion.y += GRAVITY * delta
 		ELEMENTS.ICE:
-			if input_direction.x < 0 && _left_wall_check.is_colliding() && can_hold_wall:
+			if input_direction.x < 0 && _left_wall_check.is_colliding() && can_hold_wall && !is_on_floor():
 				holding_wall = true
 				motion.y += GRAVITY * delta
 				motion.y = clamp(motion.y, -JUMP_FORCE, WALL_FALL_SPEED)
 				wall_hold_timer -= delta
-			elif input_direction.x > 0 && _right_wall_check.is_colliding() && can_hold_wall:
+			elif input_direction.x > 0 && _right_wall_check.is_colliding() && can_hold_wall && !is_on_floor():
 				holding_wall = true
 				motion.y += GRAVITY * delta
 				motion.y = clamp(motion.y, -JUMP_FORCE, WALL_FALL_SPEED)
@@ -122,8 +123,7 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 				if !slamming:
 					motion.y += GRAVITY * delta
 			if wall_hold_timer <= 0.0:
-				can_hold_wall = false
-				can_wall_jump = false
+				WALL_FALL_SPEED += GRAVITY * delta * 0.25
 
 func handle_element_state() -> void:
 	if HAS_FIRE && (Input.is_action_just_pressed("fire_state") || (is_zero_approx(Input.get_action_strength("ice_state")) && Input.get_action_strength("fire_state") > 0)):
@@ -266,6 +266,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			can_hold_wall = true
 			WALL_JUMP_COUNT = WALL_JUMP_MAX
 			wall_hold_timer = WALL_JUMP_TIMER
+			WALL_FALL_SPEED = 0
 			can_glide = true
 			gliding = false
 			glide_timer = GLIDE_TIMER_MAX
@@ -273,11 +274,11 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 
 func apply_wall_jump(wall_jump_dir : float) -> void:
 	holding_wall = false
-	WALL_JUMP_COUNT -= 1
-	if WALL_JUMP_COUNT <= 0:
-		can_wall_jump = false
-		WALL_JUMP_COUNT = WALL_JUMP_MAX
-	apply_jump(JUMP_FORCE, Vector2(wall_jump_dir, -2).normalized())
+#	WALL_JUMP_COUNT -= 1
+#	if WALL_JUMP_COUNT <= 0:
+#		can_wall_jump = false
+#		WALL_JUMP_COUNT = WALL_JUMP_MAX
+	apply_jump(JUMP_FORCE, Vector2(wall_jump_dir, -1).normalized())
 
 # ================= Alt Move Logic ============================================
 
@@ -346,38 +347,42 @@ func alt_move_cooldown() -> void:
 
 # ================= Element Action Logic ============================================
 
-func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
-	if action_pressed:
-		match ELEMENT_STATE:
-			ELEMENTS.AIR:
-				if can_gust:
-					var NEW_GUST = GUST.instance()
-					NEW_GUST.construct(GUST_SPEED, Vector2.DOWN if input_direction.y > 0 else Vector2.UP, GUST_LIFETIME)
-					NEW_GUST.position = self.global_position
-					get_tree().get_root().add_child(NEW_GUST)
-					element_action_cooldown()
-			ELEMENTS.FIRE:
-				if can_firebolt:
-					var NEW_FIREBOLT = FIREBOLT.instance()
-					NEW_FIREBOLT.construct(FIREBOLT_SPEED, Vector2.LEFT if _sprite.flip_h else Vector2.RIGHT, FIREBOLT_LIFETIME)
-					NEW_FIREBOLT.position = self.global_position
-					get_tree().get_root().add_child(NEW_FIREBOLT)
-					element_action_cooldown()
-			ELEMENTS.ICE:
-				if can_shell:
-					if is_zero_approx(input_direction.y) && is_zero_approx(input_direction.x):
-						SHELL.rotation_degrees = -90 if _sprite.flip_h else 90
-					elif !is_zero_approx(input_direction.y):
-						SHELL.rotation_degrees = 180 if input_direction.y > 0 else 0
-					elif !is_zero_approx(input_direction.x):
-						SHELL.rotation_degrees = -90 if input_direction.x < 0 else 90
-					SHELL.visible = true
-					element_action_cooldown()
-		if !can_action && is_on_floor():
-			element_action_cooldown()
-
-func element_action_cooldown() -> void:
-	can_action = false
-	yield(get_tree().create_timer(ACTION_COOLDOWN_TIMER),"timeout")
-	can_action = true
-	SHELL.visible = false
+#func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
+#	if action_pressed:
+#		match ELEMENT_STATE:
+#			ELEMENTS.AIR:
+#				if can_gust:
+#					var NEW_GUST = GUST.instance()
+#					NEW_GUST.construct(GUST_SPEED, Vector2.DOWN if input_direction.y > 0 else Vector2.UP, GUST_LIFETIME)
+#					if input_direction.y > 0:
+#						apply_jump(JUMP_FORCE / 2)
+#					NEW_GUST.position = self.global_position
+#					get_tree().get_root().add_child(NEW_GUST)
+#					element_action_cooldown()
+#			ELEMENTS.FIRE:
+#				if can_firebolt:
+#					var NEW_FIREBOLT = FIREBOLT.instance()
+#					NEW_FIREBOLT.construct(FIREBOLT_SPEED, Vector2.LEFT if _sprite.flip_h else Vector2.RIGHT, FIREBOLT_LIFETIME)
+#					NEW_FIREBOLT.position = self.global_position
+#					get_tree().get_root().add_child(NEW_FIREBOLT)
+#					element_action_cooldown()
+#			ELEMENTS.ICE:
+#				if can_shell:
+#					if is_zero_approx(input_direction.y) && is_zero_approx(input_direction.x):
+#						SHELL.rotation_degrees = -90 if _sprite.flip_h else 90
+#					elif !is_zero_approx(input_direction.y):
+#						SHELL.rotation_degrees = 180 if input_direction.y > 0 else 0
+#					elif !is_zero_approx(input_direction.x):
+#						SHELL.rotation_degrees = -90 if input_direction.x < 0 else 90
+#					SHELL.visible = true
+#					element_action_cooldown()
+#
+#func element_action_cooldown() -> void:
+#	can_gust = false
+#	can_firebolt = false
+#	can_shell = false
+#	yield(get_tree().create_timer(ACTION_COOLDOWN_TIMER),"timeout")
+#	can_gust = true
+#	can_firebolt = true
+#	can_shell = true
+#	SHELL.visible = false

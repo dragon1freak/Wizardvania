@@ -123,6 +123,7 @@ enabled = true
 cast_to = Vector2( 10, 0 )
 
 [node name="Shell" type="Node2D" parent="."]
+visible = false
 
 [node name="Ice_Shell" type="KinematicBody2D" parent="Shell"]
 position = Vector2( 0, -17 )
