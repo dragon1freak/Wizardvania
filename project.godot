@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "StaticBody2D",
+"class": "DashBlocker",
+"language": "GDScript",
+"path": "res://Scripts/Level Building/DashBlocker.gd"
+}, {
+"base": "StaticBody2D",
+"class": "EnergyDoor",
+"language": "GDScript",
+"path": "res://Scripts/Level Building/EnergyDoor.gd"
+}, {
 "base": "Projectile",
 "class": "Firebolt",
 "language": "GDScript",
-"path": "res://Scripts/Firebolt.gd"
+"path": "res://Scripts/Unused/Firebolt.gd"
 }, {
 "base": "Projectile",
 "class": "Gust",
@@ -22,24 +32,38 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "PlatformerController",
 "language": "GDScript",
-"path": "res://Scripts/PlatformerController.gd"
+"path": "res://Scripts/Player/PlatformerController.gd"
 }, {
 "base": "PlatformerController",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Scripts/Player.gd"
+"path": "res://Scripts/Player/Player.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Projectile",
 "language": "GDScript",
 "path": "res://Scripts/Projectile.gd"
+}, {
+"base": "StaticBody2D",
+"class": "SlamBlocker",
+"language": "GDScript",
+"path": "res://Scripts/Level Building/SlamBlocker.gd"
+}, {
+"base": "Area2D",
+"class": "Trigger",
+"language": "GDScript",
+"path": "res://Scripts/Level Building/Trigger.gd"
 } ]
 _global_script_class_icons={
+"DashBlocker": "",
+"EnergyDoor": "",
 "Firebolt": "",
 "Gust": "",
 "PlatformerController": "",
 "Player": "",
-"Projectile": ""
+"Projectile": "",
+"SlamBlocker": "",
+"Trigger": ""
 }
 
 [application]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Tileset.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Level Building/EnergyDoor.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 3 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 8.00001 )
+
+[node name="EnergyDoor" type="StaticBody2D"]
+modulate = Color( 0.937255, 0.368627, 1, 1 )
+collision_layer = 0
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="SquishChecker" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="SquishChecker"]
+position = Vector2( 0, 3.33786e-06 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 16, 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )

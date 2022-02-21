@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=2]
+
+[node name="Dangers" type="Area2D"]
+modulate = Color( 0.415686, 0, 0, 1 )
+script = ExtResource( 2 )
+
+[node name="DangerMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+collision_use_parent = true
+format = 1
+tile_data = PoolIntArray( 589869, 0, 196611, 1114101, 0, 196608, 1114102, 0, 196609, 1114103, 0, 196609, 1114104, 0, 196609, 1114105, 0, 196609, 1114106, 0, 196609, 1114107, 0, 196609, 1114108, 0, 196609, 1114109, 0, 196609, 1114110, 0, 196609, 1114111, 0, 196610, 1441793, 0, 3, 1507329, 0, 196612, 1507330, 0, 196610, 1507343, 0, 196608, 1507344, 0, 196609, 1507345, 0, 196609, 1507346, 0, 196609, 1507347, 0, 196610 )
+
+[connection signal="body_entered" from="." to="." method="_on_Dangers_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Dangers_body_exited"]

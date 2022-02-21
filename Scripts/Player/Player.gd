@@ -5,14 +5,11 @@ export(bool) var TOGGLE_STATES : bool = false
 
 export(bool) var HAS_ALT_JUMP : bool = false
 export(bool) var HAS_ALT_MOVE : bool = false
-export(bool) var HAS_ELEMENT_ACTION : bool = false
 
 export(bool) var HAS_FIRE : bool = false
 export(bool) var HAS_ICE : bool = false
 
-export(bool) var COOLDOWN_PER_ACTION : bool = false
 
-export(float, 0, 10, 0.1) var ACTION_COOLDOWN_TIMER : float = 1.0
 export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20.0
@@ -20,11 +17,6 @@ export(float, 0, 10, 0.01) var GLIDE_TIMER_MAX : float = 1.0
 var glide_timer : float = GLIDE_TIMER_MAX
 var can_glide : bool = false
 var gliding : bool = false
-
-var GUST : PackedScene = preload("res://Scenes/Player/Gust.tscn")
-export(float, 0, 1000, 1) var GUST_SPEED : float = 100.0
-export(float, 0, 10, 0.1) var GUST_LIFETIME : float = 1.0 
-var can_gust : bool = false
 # =============== FIRE ABILITIES ============================= 
 var can_double_jump : bool = false
 
@@ -32,11 +24,6 @@ export(float, 0, 1000, 0.1) var DASH_FORCE : float = 200.0
 export(float, 0, 1, 0.01) var DASH_TIMER : float = 0.1
 var can_dash : bool = false
 var dashing : bool = false
-
-var FIREBOLT : PackedScene = preload("res://Scenes/Player/Firebolt.tscn")
-export(float, 0, 1000, 1) var FIREBOLT_SPEED : float = 100.0
-export(float, 0, 1, 0.1) var FIREBOLT_LIFETIME : float = 1.0 
-var can_firebolt : bool = false
 # =============== ICE ABILITIES ============================= 
 export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50.0
 export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 1.0
@@ -52,18 +39,16 @@ var holding_wall : bool = false
 export(float, 0, 1000, 0.1) var SLAM_FORCE : float = 200
 var can_slam : bool = false
 var slamming : bool = false
-
-onready var SHELL : Node2D = $Shell
-export(float, 0, 1, 0.1) var SHELL_LIFETIME : float = 1.0 
-var can_shell : bool = false
 # ===========================================================
 enum STATES {IDLE, WALK, JUMP, FALL, DASH}
 enum ELEMENTS {AIR, FIRE, ICE}
 var ELEMENT_STATE : int = ELEMENTS.AIR
 
+var spawn
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	element_action_cooldown()
+	spawn = global_position
 	can_sprint = false
 	var tilemap = get_parent().get_node("TileMap")
 	var tilemap_rect = tilemap.get_used_rect()
@@ -89,7 +74,8 @@ func physics_tick(delta : float) -> void:
 	manage_state()
 	
 	handle_gravity(delta, inputs.input_direction, inputs.jump_strength)
-	
+	if Input.is_action_just_pressed("action"):
+		handle_death()
 	if !is_on_floor() && can_jump:
 		coyote_time()
 	motion = move_and_slide(motion, Vector2.UP)
@@ -291,7 +277,14 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 			sprinting = false
 			if can_dash && sprint_pressed:
 				apply_dash(input_direction)
-			if is_on_wall():
+			if is_on_wall() && dashing:
+				for i in get_slide_count():
+					var collision = get_slide_collision(i)
+					apply_jump(JUMP_FORCE / 2, collision.normal)
+					if collision.collider is DashBlocker:
+						yield(frame_freeze(), "completed")
+						collision.collider.handle_break()
+						print("Collided with: ", collision.collider.name)
 				dashing = false
 				var final_max_speed = MAX_SPEED * abs(input_direction.x)
 				motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
@@ -301,12 +294,20 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 				apply_slam()
 			elif slamming && sprint_pressed:
 				cancel_slam()
+			if slamming && is_on_floor():
+				slamming = false 
+				apply_jump(JUMP_FORCE / 2)
+				for i in get_slide_count():
+					var collision = get_slide_collision(i)
+					if collision.collider is SlamBlocker:
+						yield(frame_freeze(), "completed")
+						collision.collider.handle_break()
+						print("Collided with: ", collision.collider.name)
 	if is_on_floor() and motion.y >= 0.0:
 		if HAS_ALT_MOVE:
 			can_sprint = true
 			can_dash = true
 			can_slam = true
-			slamming = false
 
 func apply_dash(input_direction : Vector2) -> void:
 	dashing = true
@@ -345,44 +346,13 @@ func alt_move_cooldown() -> void:
 	can_slam = true
 	can_dash = true
 
-# ================= Element Action Logic ============================================
+func handle_death() -> void:
+	apply_jump(JUMP_FORCE, Vector2(1 if _sprite.flip_h else -1, -sign(motion.y)))
+	yield(frame_freeze(), "completed")
+	motion = Vector2.ZERO
+	self.global_position = spawn
 
-#func handle_action(input_direction : Vector2, action_pressed : bool) -> void:
-#	if action_pressed:
-#		match ELEMENT_STATE:
-#			ELEMENTS.AIR:
-#				if can_gust:
-#					var NEW_GUST = GUST.instance()
-#					NEW_GUST.construct(GUST_SPEED, Vector2.DOWN if input_direction.y > 0 else Vector2.UP, GUST_LIFETIME)
-#					if input_direction.y > 0:
-#						apply_jump(JUMP_FORCE / 2)
-#					NEW_GUST.position = self.global_position
-#					get_tree().get_root().add_child(NEW_GUST)
-#					element_action_cooldown()
-#			ELEMENTS.FIRE:
-#				if can_firebolt:
-#					var NEW_FIREBOLT = FIREBOLT.instance()
-#					NEW_FIREBOLT.construct(FIREBOLT_SPEED, Vector2.LEFT if _sprite.flip_h else Vector2.RIGHT, FIREBOLT_LIFETIME)
-#					NEW_FIREBOLT.position = self.global_position
-#					get_tree().get_root().add_child(NEW_FIREBOLT)
-#					element_action_cooldown()
-#			ELEMENTS.ICE:
-#				if can_shell:
-#					if is_zero_approx(input_direction.y) && is_zero_approx(input_direction.x):
-#						SHELL.rotation_degrees = -90 if _sprite.flip_h else 90
-#					elif !is_zero_approx(input_direction.y):
-#						SHELL.rotation_degrees = 180 if input_direction.y > 0 else 0
-#					elif !is_zero_approx(input_direction.x):
-#						SHELL.rotation_degrees = -90 if input_direction.x < 0 else 90
-#					SHELL.visible = true
-#					element_action_cooldown()
-#
-#func element_action_cooldown() -> void:
-#	can_gust = false
-#	can_firebolt = false
-#	can_shell = false
-#	yield(get_tree().create_timer(ACTION_COOLDOWN_TIMER),"timeout")
-#	can_gust = true
-#	can_firebolt = true
-#	can_shell = true
-#	SHELL.visible = false
+func frame_freeze(time_scale : float = 0.1, duration : float = 0.4) -> void:
+	Engine.time_scale = time_scale
+	yield(get_tree().create_timer(duration * time_scale),"timeout")
+	Engine.time_scale = 1.0
