@@ -105,7 +105,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[node name="CrumbleBlock" type="Area2D"]
+[node name="CrumbleBlock" type="Area2D" groups=["resetable"]]
 script = ExtResource( 2 )
 
 [node name="TopCollider" type="CollisionShape2D" parent="."]

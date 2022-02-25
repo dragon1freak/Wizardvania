@@ -52,3 +52,5 @@ func respawn() -> void:
 	respawn_timer = respawn_time
 	crumble_timer = crumble_time
 
+func reset() -> void:
+	self.respawn()

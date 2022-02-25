@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Trigger",
+"class": "ButtonTrigger",
+"language": "GDScript",
+"path": "res://Scripts/Level Building/Button.gd"
+}, {
 "base": "StaticBody2D",
 "class": "DashBlocker",
 "language": "GDScript",
@@ -55,6 +60,7 @@ _global_script_classes=[ {
 "path": "res://Scripts/Level Building/Trigger.gd"
 } ]
 _global_script_class_icons={
+"ButtonTrigger": "",
 "DashBlocker": "",
 "EnergyDoor": "",
 "Firebolt": "",
@@ -71,10 +77,16 @@ _global_script_class_icons={
 config/name="WizardVania"
 run/main_scene="res://World.tscn"
 
+[autoload]
+
+GUIController="*res://GUIController.tscn"
+
 [display]
 
 window/size/width=1280
 window/size/height=720
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
 
 [global]
 

@@ -31,3 +31,9 @@ func _trigger_on_body_exited(body) -> void:
 	if body is Player && !trigger_on_enter && target != null && !triggered:
 		target.trigger()
 		triggered = true
+
+func reset() -> void:
+	self.triggered = false
+	self.timer = timer_value
+	if target.has_method("reset"):
+		target.reset()
