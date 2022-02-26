@@ -48,6 +48,7 @@ var ELEMENT_STATE : int = ELEMENTS.AIR
 var spawn : Vector2
 onready var camera : Camera2D = $Camera2D
 var entering_room : bool = false
+var teleporting : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	element_action_cooldown()
@@ -64,15 +65,13 @@ func physics_tick(delta : float) -> void:
 	manage_animations()
 	manage_state()
 	var inputs : Dictionary = handle_inputs()
-	if !entering_room:
+	if !entering_room && !teleporting:
 		handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
 		handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
 	#	handle_action(inputs.input_direction, inputs.action_pressed)
 		handle_motion(delta, inputs.input_direction)
 
 	handle_gravity(delta, inputs.input_direction, inputs.jump_strength)
-	if Input.is_action_just_pressed("action"):
-		handle_death()
 	if !is_on_floor() && can_jump:
 		coyote_time()
 	motion = move_and_slide(motion, Vector2.UP)
@@ -277,11 +276,12 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 			if is_on_wall() && dashing:
 				for i in get_slide_count():
 					var collision = get_slide_collision(i)
-					apply_jump(JUMP_FORCE / 2, collision.normal if collision else Vector2.ZERO)
-					if collision.collider is DashBlocker:
-						yield(frame_freeze(0.1, 0.25), "completed")
-						collision.collider.handle_break()
-						print("Collided with: ", collision.collider.name)
+					if collision:
+						apply_jump(JUMP_FORCE / 2, collision.normal)
+						if collision.collider is DashBlocker:
+							yield(frame_freeze(0.1, 0.25), "completed")
+							collision.collider.handle_break()
+							print("Collided with: ", collision.collider.name)
 				dashing = false
 				var final_max_speed = MAX_SPEED * abs(input_direction.x)
 				motion.x = clamp(motion.x, -final_max_speed, final_max_speed)

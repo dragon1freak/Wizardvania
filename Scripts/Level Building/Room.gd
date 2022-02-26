@@ -1,7 +1,7 @@
 extends Node2D
 
 export(String) var room_name : String = ""
-onready var room_id : String = room_name if room_name else self.name
+onready var room_id : String = room_name if room_name != "" else self.name
 export(bool) var _has_fire : bool = true
 export(bool) var _has_ice : bool = true
 export(bool) var _has_air : bool = true
@@ -26,6 +26,7 @@ func _ready():
 	for node in get_tree().get_nodes_in_group("resetable"):
 		if is_a_parent_of(node):
 			resetable_children.push_back(node)
+	$Teleporter.set_room_id(self.room_id)
 
 func _on_RoomDetect_body_entered(body):
 	if body is Player:
