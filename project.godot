@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Player/Gust.gd"
 }, {
+"base": "TextureRect",
+"class": "MapSegment",
+"language": "GDScript",
+"path": "res://Scripts/UI/MapSegment.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "PlatformerController",
 "language": "GDScript",
@@ -47,7 +52,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Projectile",
 "language": "GDScript",
-"path": "res://Scripts/Projectile.gd"
+"path": "res://Scripts/Unused/Projectile.gd"
 }, {
 "base": "StaticBody2D",
 "class": "SlamBlocker",
@@ -70,6 +75,7 @@ _global_script_class_icons={
 "EnergyDoor": "",
 "Firebolt": "",
 "Gust": "",
+"MapSegment": "",
 "PlatformerController": "",
 "Player": "",
 "Projectile": "",
@@ -81,17 +87,19 @@ _global_script_class_icons={
 [application]
 
 config/name="WizardVania"
-run/main_scene="res://World.tscn"
+run/main_scene="res://Scenes/Levels/MainMenu.tscn"
 
 [autoload]
 
-GUIController="*res://GUIController.tscn"
+GUIController="*res://Global/GUIController.tscn"
+GameManager="*res://Global/GameManager.tscn"
+PlayerManager="*res://PlayerManager.gd"
 
 [display]
 
 window/size/width=1280
 window/size/height=720
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [global]
@@ -124,6 +132,20 @@ texture={
 
 [input]
 
+ui_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":12,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+}
+ui_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":13,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+}
 left={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
@@ -182,6 +204,18 @@ ice_state={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+toggle_map={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":77,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -195,3 +229,9 @@ ice_state={
 [physics]
 
 common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+2d/options/use_nvidia_rect_flicker_workaround=true
+2d/snapping/use_gpu_pixel_snap=true

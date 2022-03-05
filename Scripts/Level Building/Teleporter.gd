@@ -28,8 +28,8 @@ func set_new_target(new_target : String) -> void:
 		if teleporter.room_id == target_room_id:
 			target_teleporter = teleporter
 
-func set_room_id(room_id : String) -> void:
-	self.room_id = room_id
+func set_room_id(new_room_id : String) -> void:
+	self.room_id = new_room_id
 	for teleporter in teleporters:
 		if teleporter.room_id == target_room_id:
 			target_teleporter = teleporter
@@ -40,6 +40,8 @@ func _on_Teleporter_body_entered(body):
 			self.activate()
 			if target_teleporter:
 				target_teleporter.set_new_target(self.room_id)
+			get_tree().call_group("map_segments", "set_room_completed", self.room_id)
+			get_parent().is_completed = true
 		if !player:
 			player = body
 		can_teleport = true

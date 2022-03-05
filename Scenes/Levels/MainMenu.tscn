@@ -1,0 +1,170 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/UI/MenuButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/UI/CheckBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=4]
+
+[node name="MainMenu" type="CanvasLayer"]
+layer = 0
+script = ExtResource( 4 )
+
+[node name="MenuContainer" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="MenuContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.164706, 0.156863, 0.188235, 1 )
+
+[node name="MainMenuContainer" type="VBoxContainer" parent="MenuContainer"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -184.0
+margin_right = 184.0
+alignment = 1
+
+[node name="ContinueButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 95.0
+margin_top = 236.0
+margin_right = 272.0
+margin_bottom = 295.0
+focus_mode = 0
+disabled = true
+text = "Continue"
+
+[node name="NewGameButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 78.0
+margin_top = 299.0
+margin_right = 289.0
+margin_bottom = 358.0
+text = "New Game"
+
+[node name="OptionsButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 107.0
+margin_top = 362.0
+margin_right = 261.0
+margin_bottom = 421.0
+text = "Options"
+
+[node name="QuitButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 139.0
+margin_top = 425.0
+margin_right = 229.0
+margin_bottom = 484.0
+text = "Quit"
+
+[node name="OptionsContainer" type="VBoxContainer" parent="MenuContainer"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -184.0
+margin_right = 184.0
+alignment = 1
+
+[node name="MainVolumeSlider" parent="MenuContainer/OptionsContainer" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 211.0
+margin_right = 368.0
+margin_bottom = 250.0
+slider_label_text = "Main"
+label_rect_size = Vector2( 110, 0 )
+
+[node name="MusicVolumeSlider" parent="MenuContainer/OptionsContainer" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 254.0
+margin_right = 368.0
+margin_bottom = 293.0
+slider_label_text = "Music"
+label_rect_size = Vector2( 110, 0 )
+
+[node name="SoundsVolumeSlider" parent="MenuContainer/OptionsContainer" instance=ExtResource( 2 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 297.0
+margin_right = 368.0
+margin_bottom = 336.0
+slider_label_text = "Sounds"
+label_rect_size = Vector2( 110, 0 )
+
+[node name="FullscreenCheck" parent="MenuContainer/OptionsContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 340.0
+margin_right = 368.0
+margin_bottom = 379.0
+check_label_text = "Fullscreen"
+
+[node name="ElementStateCheck" parent="MenuContainer/OptionsContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 383.0
+margin_right = 368.0
+margin_bottom = 422.0
+hint_tooltip = "idk man"
+check_label_text = "Toggle Element State"
+
+[node name="Spacer" type="MarginContainer" parent="MenuContainer/OptionsContainer"]
+margin_top = 426.0
+margin_right = 368.0
+margin_bottom = 446.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="OptionsBack" parent="MenuContainer/OptionsContainer" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 134.0
+margin_top = 450.0
+margin_right = 233.0
+margin_bottom = 509.0
+focus_neighbour_top = NodePath("../ElementStateCheck")
+text = "Back"
+
+[connection signal="pressed" from="MenuContainer/MainMenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="MenuContainer/MainMenuContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
+[connection signal="pressed" from="MenuContainer/MainMenuContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
+[connection signal="pressed" from="MenuContainer/MainMenuContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="slider_value_changed" from="MenuContainer/OptionsContainer/MainVolumeSlider" to="." method="_on_MainVolumeSlider_slider_value_changed"]
+[connection signal="slider_value_changed" from="MenuContainer/OptionsContainer/MusicVolumeSlider" to="." method="_on_MusicVolumeSlider_slider_value_changed"]
+[connection signal="slider_value_changed" from="MenuContainer/OptionsContainer/SoundsVolumeSlider" to="." method="_on_SoundsVolumeSlider_slider_value_changed"]
+[connection signal="check_value_changed" from="MenuContainer/OptionsContainer/FullscreenCheck" to="." method="_on_FullscreenCheck_check_value_changed"]
+[connection signal="check_value_changed" from="MenuContainer/OptionsContainer/ElementStateCheck" to="." method="_on_ElementStateCheck_check_value_changed"]
+[connection signal="pressed" from="MenuContainer/OptionsContainer/OptionsBack" to="." method="_on_OptionsBack_pressed"]

@@ -7,8 +7,8 @@ export(bool) var HAS_ALT_JUMP : bool = false
 export(bool) var HAS_ALT_MOVE : bool = false
 
 var HAS_AIR : bool = true
-export(bool) var HAS_FIRE : bool = false
-export(bool) var HAS_ICE : bool = false
+var HAS_FIRE : bool = false
+var HAS_ICE : bool = false
 
 
 export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
@@ -49,32 +49,43 @@ var spawn : Vector2
 onready var camera : Camera2D = $Camera2D
 var entering_room : bool = false
 var teleporting : bool = false
+var paused : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	PlayerManager.player = self
 #	element_action_cooldown()
+	self.HAS_ALT_JUMP = PlayerManager.HAS_ALT_JUMP
+	self.HAS_ALT_MOVE = PlayerManager.HAS_ALT_MOVE
+	self.HAS_FIRE = PlayerManager.HAS_FIRE
+	self.HAS_ICE = PlayerManager.HAS_ICE
+	self.TOGGLE_STATES = PlayerManager.TOGGLE_STATES
+	
 	spawn = global_position
 	can_sprint = false
+	if GUIController.player == null:
+		GUIController.player = self
 
-func _physics_process(delta):
+func _physics_process(_delta : float):
 	if TOGGLE_STATES: 
 		handle_toggle_state()
 	else:
 		handle_element_state()
 
 func physics_tick(delta : float) -> void:
-	manage_animations()
-	manage_state()
-	var inputs : Dictionary = handle_inputs()
-	if !entering_room && !teleporting:
-		handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
-		handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
-	#	handle_action(inputs.input_direction, inputs.action_pressed)
-		handle_motion(delta, inputs.input_direction)
+	if !paused:
+		manage_animations()
+		manage_state()
+		var inputs : Dictionary = handle_inputs()
+		if !entering_room && !teleporting:
+			handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
+			handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
+		#	handle_action(inputs.input_direction, inputs.action_pressed)
+			handle_motion(delta, inputs.input_direction)
 
-	handle_gravity(delta, inputs.input_direction, inputs.jump_strength)
-	if !is_on_floor() && can_jump:
-		coyote_time()
-	motion = move_and_slide(motion, Vector2.UP)
+		handle_gravity(delta, inputs.input_direction, inputs.jump_strength)
+		if !is_on_floor() && can_jump:
+			coyote_time()
+		motion = move_and_slide(motion, Vector2.UP)
 
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
@@ -275,7 +286,7 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 				apply_dash(input_direction)
 			if is_on_wall() && dashing:
 				for i in get_slide_count():
-					var collision = get_slide_collision(i)
+					var collision = get_slide_collision(i) if i <= get_slide_count() else null
 					if collision:
 						apply_jump(JUMP_FORCE / 2, collision.normal)
 						if collision.collider is DashBlocker:
@@ -368,8 +379,8 @@ func handle_room_enter(cam_limits : Dictionary, player_spawn : Vector2, element_
 	jumping = false
 	
 	spawn = player_spawn
-	HAS_FIRE = element_states.has_fire
-	HAS_ICE = element_states.has_ice
+	HAS_FIRE = element_states.has_fire && PlayerManager.HAS_FIRE
+	HAS_ICE = element_states.has_ice && PlayerManager.HAS_ICE
 	self.current_room = new_room
 
 	var horizontal_speed : float = MAX_SPEED * sign(motion.x) if motion.x != 0.0 else 0.0
@@ -382,3 +393,6 @@ func handle_room_enter(cam_limits : Dictionary, player_spawn : Vector2, element_
 	yield(get_tree().create_timer(0.1),"timeout")
 	entering_room = false
 	
+func toggle_pause(pause_state : bool) -> void:
+	self.paused = pause_state
+	self._animation_player.playback_speed = 0.0 if pause_state else 1.0
