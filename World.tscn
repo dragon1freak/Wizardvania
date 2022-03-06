@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=2]
@@ -11,6 +11,10 @@
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Level Building/CrumbleBlock.tscn" type="PackedScene" id=10]
 [ext_resource path="res://World.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Pickups/AltMovePickup.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Pickups/AltJumpPickup.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Pickups/FirePickup.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Pickups/IcePickup.tscn" type="PackedScene" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -151,6 +155,18 @@ tile_data = PoolIntArray( 196609, 0, 196611, 196620, 0, 196608, 196621, 0, 19660
 position = Vector2( 40, 216 )
 room_id = "Room3"
 target_room_id = "Room1"
+
+[node name="AltMovePickup" parent="." instance=ExtResource( 12 )]
+position = Vector2( 520, 296 )
+
+[node name="AltJumpPickup" parent="." instance=ExtResource( 13 )]
+position = Vector2( 552, 296 )
+
+[node name="FirePickup" parent="." instance=ExtResource( 14 )]
+position = Vector2( 424, 296 )
+
+[node name="IcePickup" parent="." instance=ExtResource( 15 )]
+position = Vector2( 392, 296 )
 
 [connection signal="body_entered" from="Room1/Dangers" to="Room1/Dangers" method="_on_Dangers_body_entered"]
 [connection signal="body_entered" from="Room2/RoomDetect" to="Room2" method="_on_RoomDetect_body_entered"]

@@ -9,7 +9,6 @@ onready var timer = timer_value
 
 var triggered : bool = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	var _res = self.connect("body_entered", self, "_trigger_on_body_entered")
 	_res = self.connect("body_exited", self, "_trigger_on_body_exited")
@@ -23,7 +22,7 @@ func _process(delta):
 			timer = timer_value
 
 func _trigger_on_body_entered(body) -> void:
-	if body is Player && trigger_on_enter && target != null && !triggered:
+	if body is Player && trigger_on_enter && target != null && !triggered && !target.open:
 		target.trigger()
 		triggered = true
 

@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=1]
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=2]
 [ext_resource path="res://Sprites/Player.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Level Building/Button.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Level Building/EnergyDoor.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -32,5 +34,13 @@ hframes = 7
 position = Vector2( 776, 296 )
 is_entrance = true
 room_id = "Room1"
+
+[node name="EnergyDoor" parent="." instance=ExtResource( 6 )]
+position = Vector2( 320, 280 )
+rotation = -1.5809
+
+[node name="Button" parent="." instance=ExtResource( 5 )]
+position = Vector2( 464, 296 )
+target_path = NodePath("../EnergyDoor")
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]

@@ -64,3 +64,10 @@ func _unhandled_input(event):
 		player.get_node("Camera2D").smoothing_speed = 5
 		player.teleporting = false
 		GUIController.fade_in()
+
+func get_save_state() -> Dictionary:
+	return {"is_entrance": is_entrance, "is_active": is_active, "target_room_id": target_room_id}
+
+func set_save_state(teleporter_state : Dictionary) -> void:
+	if teleporter_state["is_active"]:
+		set_new_target(teleporter_state["target_room_id"])

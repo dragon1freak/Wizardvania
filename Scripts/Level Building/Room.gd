@@ -2,6 +2,8 @@ extends Node2D
 
 export(String) var room_name : String = ""
 onready var room_id : String = room_name if room_name != "" else self.name
+export(bool) var is_challenge_room : bool = false
+
 export(bool) var _has_fire : bool = true
 export(bool) var _has_ice : bool = true
 export(bool) var _has_air : bool = true
@@ -53,7 +55,12 @@ func reset_room() -> void:
 			child.reset()
 
 func get_save_state() -> Dictionary:
-	var room_state : Dictionary = {"room_id": room_id, "is_discovered": is_discovered, "is_completed": is_completed, "is_current": is_current}
+	var room_state : Dictionary = {"room_id": room_id, "is_discovered": is_discovered, "is_completed": is_completed, "is_current": is_current, "doors": {}}
+	if !is_challenge_room:
+		for child in resetable_children:
+			if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:
+				room_state["doors"][child.name] = child.save_state()
+	room_state["teleporter_state"] = $Teleporter.get_save_state()
 	return room_state
 
 func set_save_state(room_name : String, room_state : Dictionary) -> void:
@@ -68,6 +75,10 @@ func set_save_state(room_name : String, room_state : Dictionary) -> void:
 			get_tree().call_group("map_segments", "set_current", self.room_id)
 		if self.is_completed:
 			get_tree().call_group("map_segments", "set_room_completed", self.room_id)
-
+		$Teleporter.set_save_state(room_state["teleporter_state"])
+		if !is_challenge_room:
+				for child in resetable_children:
+					if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:
+						child.load_state(room_state["doors"][child.name])
 		if get_parent().has_method("room_is_ready"):
 			get_parent().room_is_ready()

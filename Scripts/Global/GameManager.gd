@@ -31,7 +31,7 @@ func save_game() -> void:
 		for room in rooms:
 			var room_data = room.get_save_state()
 			save_data["rooms"].push_front(room_data)
-		
+		save_data["player_state"] = PlayerManager.get_save_state()
 		var save_file : File = File.new()
 		var _res = save_file.open("user://savedata.save", File.WRITE)
 		save_file.store_line(to_json(save_data))
@@ -47,6 +47,7 @@ func load_save() -> void:
 		save_file.close()
 		for room in save_data["rooms"]:
 			emit_signal("set_save_data", room["room_id"], room)
+		PlayerManager.set_save_state(save_data["player_state"])
 		emit_signal("save_loaded")
 	else:
 		emit_signal("save_failed_to_load")

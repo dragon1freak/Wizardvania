@@ -2,6 +2,7 @@ extends CanvasLayer
 
 onready var mm_container : VBoxContainer = $MenuContainer/MainMenuContainer
 onready var options_container : VBoxContainer = $MenuContainer/OptionsContainer
+onready var ngc_container : VBoxContainer = $MenuContainer/NewGameConfirm
 
 func _ready() -> void:
 	if File.new().file_exists("user://savedata.save"):
@@ -17,7 +18,10 @@ func _on_ContinueButton_pressed():
 	GameManager.continue_game()
 
 func _on_NewGameButton_pressed():
-	GameManager.start_new_game()
+	if File.new().file_exists("user://savedata.save"):
+		toggle_new_game_confirm()
+	else:
+		GameManager.start_new_game()
 
 func _on_OptionsButton_pressed():
 	toggle_options()
@@ -35,6 +39,15 @@ func toggle_options() -> void:
 	if options_container.visible:
 		set_values()
 		options_container.get_node("MainVolumeSlider/HSlider").grab_focus()
+	elif mm_container.visible:
+		mm_container.get_node("NewGameButton").grab_focus()
+
+func toggle_new_game_confirm() -> void:
+	ngc_container.visible = !ngc_container.visible
+	mm_container.visible = !mm_container.visible
+	if ngc_container.visible:
+		set_values()
+		ngc_container.get_node("NewGameAbort").grab_focus()
 	elif mm_container.visible:
 		mm_container.get_node("NewGameButton").grab_focus()
 
@@ -65,3 +78,9 @@ func set_values() -> void:
 	options_container.get_node("MainVolumeSlider/HSlider").value = GUIController.main_volume
 	options_container.get_node("MusicVolumeSlider/HSlider").value = GUIController.music_volume
 	options_container.get_node("SoundsVolumeSlider/HSlider").value = GUIController.sfx_volume
+
+func _on_NewGameConfirm_pressed():
+	GameManager.start_new_game()
+
+func _on_NewGameAbort_pressed():
+	toggle_new_game_confirm()

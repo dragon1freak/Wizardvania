@@ -51,9 +51,8 @@ var entering_room : bool = false
 var teleporting : bool = false
 var paused : bool = false
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	PlayerManager.player = self
-#	element_action_cooldown()
 	self.HAS_ALT_JUMP = PlayerManager.HAS_ALT_JUMP
 	self.HAS_ALT_MOVE = PlayerManager.HAS_ALT_MOVE
 	self.HAS_FIRE = PlayerManager.HAS_FIRE
@@ -65,7 +64,14 @@ func _ready():
 	if GUIController.player == null:
 		GUIController.player = self
 
-func _physics_process(_delta : float):
+func set_state() -> void:
+	self.HAS_ALT_JUMP = PlayerManager.HAS_ALT_JUMP
+	self.HAS_ALT_MOVE = PlayerManager.HAS_ALT_MOVE
+	self.HAS_FIRE = PlayerManager.HAS_FIRE
+	self.HAS_ICE = PlayerManager.HAS_ICE
+	self.TOGGLE_STATES = PlayerManager.TOGGLE_STATES
+
+func _physics_process(_delta : float) -> void:
 	if TOGGLE_STATES: 
 		handle_toggle_state()
 	else:
@@ -79,7 +85,6 @@ func physics_tick(delta : float) -> void:
 		if !entering_room && !teleporting:
 			handle_alt_jump(delta, inputs.jump_strength, inputs.jump_pressed, inputs.jump_released)
 			handle_alt_move(inputs.input_direction, inputs.sprint_strength, inputs.sprint_pressed, inputs.sprint_released)
-		#	handle_action(inputs.input_direction, inputs.action_pressed)
 			handle_motion(delta, inputs.input_direction)
 
 		handle_gravity(delta, inputs.input_direction, inputs.jump_strength)

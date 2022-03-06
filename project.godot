@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Player/Gust.gd"
 }, {
+"base": "Node",
+"class": "Interactable",
+"language": "GDScript",
+"path": "res://Scripts/Pickups/Interactable.gd"
+}, {
 "base": "TextureRect",
 "class": "MapSegment",
 "language": "GDScript",
@@ -75,6 +80,7 @@ _global_script_class_icons={
 "EnergyDoor": "",
 "Firebolt": "",
 "Gust": "",
+"Interactable": "",
 "MapSegment": "",
 "PlatformerController": "",
 "Player": "",
@@ -93,7 +99,7 @@ run/main_scene="res://Scenes/Levels/MainMenu.tscn"
 
 GUIController="*res://Global/GUIController.tscn"
 GameManager="*res://Global/GameManager.tscn"
-PlayerManager="*res://PlayerManager.gd"
+PlayerManager="*res://Scripts/Global/PlayerManager.gd"
 
 [display]
 

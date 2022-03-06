@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/UI/MenuButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/UI/CheckBox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/UI/MainMenu.gd" type="Script" id=4]
+[ext_resource path="res://Fonts/ButtonFont.tres" type="DynamicFont" id=5]
 
 [node name="MainMenu" type="CanvasLayer"]
 layer = 0
@@ -158,6 +159,45 @@ margin_bottom = 509.0
 focus_neighbour_top = NodePath("../ElementStateCheck")
 text = "Back"
 
+[node name="NewGameConfirm" type="VBoxContainer" parent="MenuContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 304.0
+margin_right = -304.0
+alignment = 1
+
+[node name="Label" type="Label" parent="MenuContainer/NewGameConfirm"]
+margin_top = 242.0
+margin_right = 672.0
+margin_bottom = 351.0
+custom_fonts/font = ExtResource( 5 )
+text = "Starting a new game will overwrite your existing save data, continue?"
+align = 1
+autowrap = true
+
+[node name="NewGameConfirm" parent="MenuContainer/NewGameConfirm" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 299.0
+margin_top = 355.0
+margin_right = 373.0
+margin_bottom = 414.0
+text = "Yes"
+
+[node name="NewGameAbort" parent="MenuContainer/NewGameConfirm" instance=ExtResource( 1 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 304.0
+margin_top = 418.0
+margin_right = 368.0
+margin_bottom = 477.0
+text = "No"
+
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
@@ -168,3 +208,5 @@ text = "Back"
 [connection signal="check_value_changed" from="MenuContainer/OptionsContainer/FullscreenCheck" to="." method="_on_FullscreenCheck_check_value_changed"]
 [connection signal="check_value_changed" from="MenuContainer/OptionsContainer/ElementStateCheck" to="." method="_on_ElementStateCheck_check_value_changed"]
 [connection signal="pressed" from="MenuContainer/OptionsContainer/OptionsBack" to="." method="_on_OptionsBack_pressed"]
+[connection signal="pressed" from="MenuContainer/NewGameConfirm/NewGameConfirm" to="." method="_on_NewGameConfirm_pressed"]
+[connection signal="pressed" from="MenuContainer/NewGameConfirm/NewGameAbort" to="." method="_on_NewGameAbort_pressed"]
