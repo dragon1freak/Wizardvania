@@ -6,10 +6,15 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[node name="Node2D" type="Node2D" groups=["rooms"]]
+[node name="Room1" type="Node2D" groups=["rooms"]]
 script = ExtResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="OneWays" type="TileMap" parent="TileMap"]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 format = 1

@@ -25,15 +25,18 @@ func _ready():
 	cam_limits.limit_top = tilemap_rect.position.y * tilemap.cell_size.y + self.global_position.y 
 	cam_limits.limit_right = cam_limits.limit_left + tilemap_rect.size.x * tilemap.cell_size.x
 	cam_limits.limit_bottom = cam_limits.limit_top + tilemap_rect.size.y * tilemap.cell_size.y
-	
+	printt(self.name, cam_limits)
 	var room_detect_shape : CollisionShape2D = $RoomDetect/CollisionShape2D
-	room_detect_shape.position = Vector2(cam_limits.limit_right / 2.0, cam_limits.limit_bottom / 2.0)
-	room_detect_shape.shape.extents = room_detect_shape.position
+	var extents_size : Vector2 = Vector2((cam_limits.limit_right - cam_limits.limit_left) / 2.0, ((cam_limits.limit_bottom - cam_limits.limit_top) / 2.0))
+	room_detect_shape.position = Vector2(extents_size.x + (tilemap_rect.position.x * tilemap.cell_size.x), extents_size.y  + (tilemap_rect.position.y * tilemap.cell_size.y))
+	printt(self.name, "RECT", room_detect_shape.position)
+	room_detect_shape.shape.extents = extents_size
 	
 	for node in get_tree().get_nodes_in_group("resetable"):
 		if is_a_parent_of(node):
 			resetable_children.push_back(node)
-	$Teleporter.set_room_id(self.room_id)
+	if self.get_node_or_null("Teleporter"):
+		$Teleporter.set_room_id(self.room_id)
 
 func _on_RoomDetect_body_entered(body):
 	if body is Player:
@@ -42,6 +45,8 @@ func _on_RoomDetect_body_entered(body):
 		get_tree().call_group("map_segments", "set_current", self.room_id)
 		get_tree().call_group("rooms", "set_current", self.room_id)
 		self.is_discovered = true
+		if $PlayerSpawn.has_method("activate"):
+			$PlayerSpawn.activate()
 
 func set_current(room : String) -> void:
 	if room_id == room:
@@ -60,7 +65,8 @@ func get_save_state() -> Dictionary:
 		for child in resetable_children:
 			if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:
 				room_state["doors"][child.name] = child.save_state()
-	room_state["teleporter_state"] = $Teleporter.get_save_state()
+	if self.get_node_or_null("Teleporter"):
+		room_state["teleporter_state"] = $Teleporter.get_save_state()
 	return room_state
 
 func set_save_state(room_name : String, room_state : Dictionary) -> void:
@@ -75,7 +81,8 @@ func set_save_state(room_name : String, room_state : Dictionary) -> void:
 			get_tree().call_group("map_segments", "set_current", self.room_id)
 		if self.is_completed:
 			get_tree().call_group("map_segments", "set_room_completed", self.room_id)
-		$Teleporter.set_save_state(room_state["teleporter_state"])
+		if self.get_node_or_null("Teleporter"):
+			$Teleporter.set_save_state(room_state["teleporter_state"])
 		if !is_challenge_room:
 				for child in resetable_children:
 					if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:

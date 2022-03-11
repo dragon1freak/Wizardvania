@@ -2,10 +2,10 @@ extends Area2D
 
 export(bool) var crumble_on_exit : bool = true
 export(bool) var crumble_on_enter : bool = false
-export(float, 0, 10, 0.1) var respawn_time : float = 1.0
-export(float, 0, 10, 0.1) var crumble_time : float = 1.0
-var respawn_timer : float = respawn_time
-var crumble_timer : float = crumble_time
+export(float, 0, 10, 0.05) var respawn_time : float = 1.0
+export(float, 0, 10, 0.05) var crumble_time : float = 1.0
+onready var respawn_timer : float = respawn_time
+onready var crumble_timer : float = crumble_time
 
 var crumbling : bool = false
 var crumbled : bool = false
@@ -51,6 +51,8 @@ func respawn() -> void:
 	crumbled = false
 	respawn_timer = respawn_time
 	crumble_timer = crumble_time
+	if self.get_overlapping_bodies().size() > 0 && self.get_overlapping_bodies()[0] is Player:
+		start_crumble()
 
 func reset() -> void:
 	self.respawn()

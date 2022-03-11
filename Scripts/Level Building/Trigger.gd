@@ -25,14 +25,17 @@ func _trigger_on_body_entered(body) -> void:
 	if body is Player && trigger_on_enter && target != null && !triggered && !target.open:
 		target.trigger()
 		triggered = true
+		$Sprite.frame = 1
 
 func _trigger_on_body_exited(body) -> void:
 	if body is Player && !trigger_on_enter && target != null && !triggered:
 		target.trigger()
 		triggered = true
+		$Sprite.frame = 1
 
 func reset() -> void:
 	self.triggered = false
 	self.timer = timer_value
 	if target.has_method("reset"):
 		target.reset()
+	$Sprite.frame = 0

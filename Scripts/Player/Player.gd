@@ -10,6 +10,9 @@ var HAS_AIR : bool = true
 var HAS_FIRE : bool = false
 var HAS_ICE : bool = false
 
+var air_sprite : Resource = preload("res://Sprites/Player.png")
+var fire_sprite : Resource = preload("res://Sprites/PlayerFire.png")
+var ice_sprite : Resource = preload("res://Sprites/PlayerIce.png")
 
 export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
@@ -168,11 +171,14 @@ func manage_state() -> void:
 func manage_animations() -> void:
 	match ELEMENT_STATE:
 		ELEMENTS.ICE:
-			_sprite.modulate = Color(0, 1, 1)
+#			_sprite.modulate = Color(0, 1, 1)
+			_sprite.texture = ice_sprite
 		ELEMENTS.FIRE:
-			_sprite.modulate = Color(1, 0, 0)
+#			_sprite.modulate = Color(1, 0, 0)
+			_sprite.texture = fire_sprite
 		ELEMENTS.AIR:
 			_sprite.modulate = Color(1, 1, 1)
+			_sprite.texture = air_sprite
 	match state:
 		IDLE:
 			_animation_player.play("Idle")
@@ -257,7 +263,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 				cancel_dash()
 			if jump_strength == 0 && jumping and motion.y < 0:
 				cancel_jump(delta)
-	if is_on_floor() and motion.y >= 0.0:
+	if is_on_floor() and motion.y >= 0.0 and !can_jump:
 		if HAS_ALT_JUMP:
 			can_double_jump = true
 			can_wall_jump = true
@@ -269,6 +275,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			gliding = false
 			glide_timer = GLIDE_TIMER_MAX
 		can_jump = true
+		$Land.play()
 
 func apply_wall_jump(wall_jump_dir : float) -> void:
 	holding_wall = false
@@ -395,7 +402,7 @@ func handle_room_enter(cam_limits : Dictionary, player_spawn : Vector2, element_
 	camera.limit_top = cam_limits.limit_top
 	camera.limit_right = cam_limits.limit_right
 	camera.limit_bottom = cam_limits.limit_bottom
-	yield(get_tree().create_timer(0.1),"timeout")
+	yield(get_tree().create_timer(0.15),"timeout")
 	entering_room = false
 	
 func toggle_pause(pause_state : bool) -> void:

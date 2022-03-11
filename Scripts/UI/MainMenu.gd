@@ -13,6 +13,7 @@ func _ready() -> void:
 		mm_container.get_node("ContinueButton").disabled = true
 		mm_container.get_node("ContinueButton").focus_mode = 0
 		mm_container.get_node("NewGameButton").grab_focus()
+	AudioManager.game_loaded()
 
 func _on_ContinueButton_pressed():
 	GameManager.continue_game()

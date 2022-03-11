@@ -1,13 +1,14 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Pickups/FirePickup.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Element_A_Fire1-16.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/FirePickup.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/tilemap_packed.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
 [node name="FirePickup" type="Area2D" groups=["pickups"]]
+z_index = -1
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -18,7 +19,7 @@ texture = ExtResource( 2 )
 
 [node name="Indicator" type="Sprite" parent="."]
 visible = false
-position = Vector2( 0, -32 )
+position = Vector2( 0, -16 )
 texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 80, 0, 16, 16 )

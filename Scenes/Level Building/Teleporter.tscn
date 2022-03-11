@@ -1,16 +1,45 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Sprites/Player.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Teleporter.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Level Building/Teleporter.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Light2.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 11, 10 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "Activate"
-length = 0.5
+length = 0.3
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Active"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -18,31 +47,27 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0.423529, 0.423529, 0.423529, 1 ), Color( 0, 0.905882, 1, 1 ) ]
+"update": 1,
+"values": [ 4, 5 ]
 }
-
-[sub_resource type="Animation" id=3]
-resource_name = "Active"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 0, 1, 1, 1 ) ]
+"values": [ 1.0 ]
 }
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -50,14 +75,14 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 0.423529, 0.423529, 0.423529, 1 ) ]
+"update": 1,
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=5]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -66,10 +91,23 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 0.423529, 0.423529, 0.423529, 1 ) ]
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
 }
 
 [node name="Teleporter" type="Area2D" groups=["teleporters"]]
+z_index = -1
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 2 )
@@ -78,18 +116,23 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.423529, 0.423529, 0.423529, 1 )
-rotation = 3.14159
+light_mask = 0
 texture = ExtResource( 1 )
-offset = Vector2( 0, -2 )
-hframes = 7
+hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Idle"
 anims/Activate = SubResource( 2 )
 anims/Active = SubResource( 3 )
 anims/Idle = SubResource( 4 )
 anims/RESET = SubResource( 5 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 3 )
+texture_scale = 2.0
+color = Color( 0.447059, 0.631373, 0.686275, 1 )
+energy = 0.0
+range_layer_min = -100
+range_item_cull_mask = 2
 
 [connection signal="body_entered" from="." to="." method="_on_Teleporter_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Teleporter_body_exited"]
