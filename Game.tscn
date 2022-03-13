@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://World.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec2 cam_offset = vec2(0.0, 0.0);
+
+void vertex() {
+	VERTEX += cam_offset;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/cam_offset = Vector2( 0, 0 )
+
+[node name="Game" type="Node2D"]
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -3.0
+margin_top = -3.0
+margin_right = 381.0
+margin_bottom = 213.0
+rect_scale = Vector2( 3, 3 )
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 386, 218 )
+handle_input_locally = false
+render_target_update_mode = 3
+gui_disable_input = true
+
+[node name="World" parent="ViewportContainer/Viewport" instance=ExtResource( 1 )]

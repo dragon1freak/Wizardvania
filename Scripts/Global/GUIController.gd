@@ -5,7 +5,7 @@ var player : Player = null
 var in_game : bool = false
 
 onready var pause_container : MarginContainer = $MiniMap/PauseContainer
-onready var map_segments : Control = $MiniMap/PauseContainer/MapSegments
+onready var map_segments : Control = $MiniMap/PauseContainer/CenterContainer/MapSegments
 onready var pause_menu : Control = $MiniMap/PauseContainer/PauseMenu
 onready var pause_options : Control = $MiniMap/PauseContainer/PauseOptions
 onready var quit_confirm : Control = $MiniMap/PauseContainer/QuitConfirm
@@ -50,7 +50,10 @@ func toggle_pause_menu() -> void:
 	pause_options.visible = false
 	quit_confirm.visible = false
 	if pause_menu.visible:
+#		get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, Vector2(1280, 720), 1)
 		pause_menu.get_node("VBoxContainer/Resume").grab_focus()
+#	else:
+#		get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_VIEWPORT, SceneTree.STRETCH_ASPECT_KEEP, Vector2(1280, 720), 1)
 	map_segments.visible = false
 	pause_container.visible = pause_menu.visible
 	if player != null:

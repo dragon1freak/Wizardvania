@@ -25,18 +25,18 @@ func _ready():
 	cam_limits.limit_top = tilemap_rect.position.y * tilemap.cell_size.y + self.global_position.y 
 	cam_limits.limit_right = cam_limits.limit_left + tilemap_rect.size.x * tilemap.cell_size.x
 	cam_limits.limit_bottom = cam_limits.limit_top + tilemap_rect.size.y * tilemap.cell_size.y
-	printt(self.name, cam_limits)
+
 	var room_detect_shape : CollisionShape2D = $RoomDetect/CollisionShape2D
 	var extents_size : Vector2 = Vector2((cam_limits.limit_right - cam_limits.limit_left) / 2.0, ((cam_limits.limit_bottom - cam_limits.limit_top) / 2.0))
 	room_detect_shape.position = Vector2(extents_size.x + (tilemap_rect.position.x * tilemap.cell_size.x), extents_size.y  + (tilemap_rect.position.y * tilemap.cell_size.y))
-	printt(self.name, "RECT", room_detect_shape.position)
+	printt(self.name, "RECT", tilemap_rect)
 	room_detect_shape.shape.extents = extents_size
 	
 	for node in get_tree().get_nodes_in_group("resetable"):
 		if is_a_parent_of(node):
 			resetable_children.push_back(node)
 	if self.get_node_or_null("Teleporter"):
-		$Teleporter.set_room_id(self.room_id)
+		$Teleporter.set_room_id()
 
 func _on_RoomDetect_body_entered(body):
 	if body is Player:
@@ -87,5 +87,5 @@ func set_save_state(room_name : String, room_state : Dictionary) -> void:
 				for child in resetable_children:
 					if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:
 						child.load_state(room_state["doors"][child.name])
-		if get_parent().has_method("room_is_ready"):
-			get_parent().room_is_ready()
+		if get_tree().get_nodes_in_group("world")[0].has_method("room_is_ready"):
+			get_tree().get_nodes_in_group("world")[0].room_is_ready()

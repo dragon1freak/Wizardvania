@@ -94,6 +94,10 @@ func physics_tick(delta : float) -> void:
 		if !is_on_floor() && can_jump:
 			coyote_time()
 		motion = move_and_slide(motion, Vector2.UP)
+	else:
+		$LeftStep.stop()
+		$RightStep.stop()
+		$Land.stop()
 
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
@@ -301,6 +305,7 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 					var collision = get_slide_collision(i) if i <= get_slide_count() else null
 					if collision:
 						apply_jump(JUMP_FORCE / 2, collision.normal)
+						$Land.play()
 						if collision.collider is DashBlocker:
 							yield(frame_freeze(0.1, 0.25), "completed")
 							collision.collider.handle_break()
@@ -407,4 +412,5 @@ func handle_room_enter(cam_limits : Dictionary, player_spawn : Vector2, element_
 	
 func toggle_pause(pause_state : bool) -> void:
 	self.paused = pause_state
+	_animation_player.stop()
 	self._animation_player.playback_speed = 0.0 if pause_state else 1.0

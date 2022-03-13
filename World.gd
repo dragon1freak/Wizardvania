@@ -2,12 +2,16 @@ extends Node2D
 
 var room_list : Array = []
 
+onready var viewport : Viewport = get_parent()
+onready var viewport_container : ViewportContainer = viewport.get_parent()
+
 func _ready():
 	if File.new().file_exists("user://savedata.save"):
 		GameManager.load_save()
 	else:
 		GUIController.level_loaded()
 	GameManager.connect("save_failed_to_load", self, "_loading_failed")
+#	get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_VIEWPORT, SceneTree.STRETCH_ASPECT_KEEP, Vector2(1280, 720), 1)
 
 
 var rooms_ready : int = 0

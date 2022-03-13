@@ -28,8 +28,8 @@ func set_new_target(new_target : String) -> void:
 		if teleporter.room_id == target_room_id:
 			target_teleporter = teleporter
 
-func set_room_id(new_room_id : String) -> void:
-	self.room_id = new_room_id
+func set_room_id() -> void:
+#	self.room_id = new_room_id
 	for teleporter in teleporters:
 		if teleporter.room_id == target_room_id:
 			target_teleporter = teleporter

@@ -17,6 +17,8 @@ format = 1
 [node name="OneWays" type="TileMap" parent="TileMap"]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
+collision_layer = 0
+collision_mask = 3
 format = 1
 
 [node name="RoomDetect" type="Area2D" parent="."]

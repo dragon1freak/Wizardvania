@@ -12,6 +12,9 @@ var triggered : bool = false
 func _ready():
 	var _res = self.connect("body_entered", self, "_trigger_on_body_entered")
 	_res = self.connect("body_exited", self, "_trigger_on_body_exited")
+	if target.open:
+		triggered = true
+		$Sprite.frame = 1
 
 func _process(delta):
 	if timer_value > 0.0 && triggered:
@@ -39,3 +42,8 @@ func reset() -> void:
 	if target.has_method("reset"):
 		target.reset()
 	$Sprite.frame = 0
+
+func set_open(object) -> void:
+	if object == target:
+		triggered = true
+		$Sprite.frame = 1

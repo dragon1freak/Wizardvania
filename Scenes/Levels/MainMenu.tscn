@@ -20,11 +20,8 @@ anchor_bottom = 1.0
 color = Color( 0.164706, 0.156863, 0.188235, 1 )
 
 [node name="MainMenuContainer" type="VBoxContainer" parent="MenuContainer"]
-anchor_left = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -184.0
-margin_right = 184.0
 alignment = 1
 
 [node name="ContinueButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
@@ -32,9 +29,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 95.0
+margin_left = 551.0
 margin_top = 236.0
-margin_right = 272.0
+margin_right = 728.0
 margin_bottom = 295.0
 focus_mode = 0
 disabled = true
@@ -45,9 +42,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 78.0
+margin_left = 534.0
 margin_top = 299.0
-margin_right = 289.0
+margin_right = 745.0
 margin_bottom = 358.0
 text = "New Game"
 
@@ -56,9 +53,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 107.0
+margin_left = 563.0
 margin_top = 362.0
-margin_right = 261.0
+margin_right = 717.0
 margin_bottom = 421.0
 text = "Options"
 
@@ -67,9 +64,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 139.0
+margin_left = 595.0
 margin_top = 425.0
-margin_right = 229.0
+margin_right = 685.0
 margin_bottom = 484.0
 text = "Quit"
 

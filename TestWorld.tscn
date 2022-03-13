@@ -36,7 +36,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource( 2 )]
+[node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 616, 280 )
 SPRINT_MULTIPLIER = 1.5
 HAS_ALT_JUMP = true
@@ -66,6 +66,7 @@ position = Vector2( 296, 228 )
 
 [node name="Teleporter" parent="Room1" index="3"]
 position = Vector2( 776, 292 )
+room_id = "lower"
 
 [node name="EnergyDoor" parent="Room1" index="4"]
 position = Vector2( 320, 282 )
@@ -118,7 +119,7 @@ tile_data = PoolIntArray( 983042, 5, 0, 983043, 5, 0, 983044, 5, 0, 983045, 5, 0
 [node name="Teleporter" parent="Room2" instance=ExtResource( 9 )]
 position = Vector2( 448, 292 )
 room_id = "Room2"
-target_room_id = "Room1"
+target_room_id = "lower"
 
 [node name="CrumbleBlock" parent="Room2" instance=ExtResource( 10 )]
 position = Vector2( 240, 280 )

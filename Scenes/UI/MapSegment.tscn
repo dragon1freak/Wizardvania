@@ -1,15 +1,19 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Sprites/Tileset.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/MiniMapFrame.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/UI/MapSegment.gd" type="Script" id=2]
 
-[node name="TextureRect" type="TextureRect" groups=["map_segments"]]
+[node name="TextureRect" type="NinePatchRect" groups=["map_segments"]]
 margin_left = -88.0
 margin_top = -40.0
 margin_right = 88.0
 margin_bottom = 40.0
 texture = ExtResource( 1 )
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+current_color = Color( 0.913725, 0.313726, 0.67451, 1 )
+empty_color = Color( 0.729412, 0.364706, 0.584314, 1 )
+completed_color = Color( 0.4, 0.247059, 0.337255, 1 )

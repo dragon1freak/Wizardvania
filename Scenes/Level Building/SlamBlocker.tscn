@@ -7,7 +7,7 @@
 extents = Vector2( 16, 5 )
 
 [sub_resource type="OccluderPolygon2D" id=2]
-polygon = PoolVector2Array( -16, -8, 16, -8, 16, 2, -16, 2 )
+polygon = PoolVector2Array( -16, -8, 16, -8, 16, 2, 0, -4, -16, 2 )
 
 [node name="SlamBlocker" type="StaticBody2D" groups=["resetable"]]
 script = ExtResource( 2 )

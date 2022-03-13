@@ -10,7 +10,8 @@ func trigger() -> void:
 #	self.visible = !self.visible
 	self.open = !self.open
 	$AnimationPlayer.play("Off" if self.open else "Idle")
-	self.set_collision_mask_bit(1, false if open else true)
+	self.set_collision_mask_bit(1, !open)
+	$Light2D.visible = !open
 
 func reset() -> void:
 #	self.visible = true
@@ -21,8 +22,11 @@ func reset() -> void:
 func load_state(is_open : bool) -> void:
 #	self.visible = !is_open
 	self.open = is_open
+	$Light2D.visible = false
 	self.set_collision_mask_bit(1, !is_open)
 	$AnimationPlayer.play("Off" if self.open else "Idle")
+	if self.open:
+		get_tree().call_group("button", "set_open", self)
 
 func save_state() -> bool:
 	return self.open

@@ -4,7 +4,7 @@
 [ext_resource path="res://Scripts/Level Building/CrumbleBlock.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 3 )
+extents = Vector2( 8, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 8, 5 )
@@ -144,9 +144,13 @@ tracks/3/keys = {
 [node name="CrumbleBlock" type="Area2D" groups=["resetable"]]
 collision_mask = 2
 script = ExtResource( 2 )
+crumble_on_exit = false
+crumble_on_enter = true
+respawn_time = 2.0
+crumble_time = 0.25
 
 [node name="TopCollider" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -6 )
+position = Vector2( 0, -8.5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
