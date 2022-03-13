@@ -18,13 +18,13 @@ func _ready():
 	pass # Replace with function body.
 
 func _physics_process(delta):
-	actual_cam_pos = lerp(actual_cam_pos, player.global_position, delta * 5)
+	actual_cam_pos = lerp(actual_cam_pos, player.global_position, delta * 10)
 	
-	var sub_pixel_position = player.global_position.round() - player.global_position
+	var sub_pixel_position = actual_cam_pos.round() - actual_cam_pos
 	
 	world.viewport_container.material.set_shader_param("cam_offset", sub_pixel_position)
 	
-	global_position = player.global_position.round()
+	global_position = actual_cam_pos.round()
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _physics_process(delta):

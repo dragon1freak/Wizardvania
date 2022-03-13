@@ -4,7 +4,7 @@
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=2]
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 [node name="Room1" type="Node2D" groups=["rooms"]]
 script = ExtResource( 1 )
@@ -24,12 +24,11 @@ format = 1
 [node name="RoomDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomDetect"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="PlayerSpawn" type="Sprite" parent="."]
 
 [node name="Dangers" type="Area2D" parent="."]
-modulate = Color( 0.415686, 0, 0, 1 )
 script = ExtResource( 3 )
 
 [node name="DangerMap" type="TileMap" parent="Dangers"]
@@ -40,4 +39,3 @@ format = 1
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]
-[connection signal="body_exited" from="Dangers" to="Dangers" method="_on_Dangers_body_exited"]

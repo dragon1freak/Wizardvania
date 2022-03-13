@@ -5,7 +5,7 @@ var player : Player = null
 var in_game : bool = false
 
 onready var pause_container : MarginContainer = $MiniMap/PauseContainer
-onready var map_segments : Control = $MiniMap/PauseContainer/CenterContainer/MapSegments
+onready var map_segments : Control = $MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments
 onready var pause_menu : Control = $MiniMap/PauseContainer/PauseMenu
 onready var pause_options : Control = $MiniMap/PauseContainer/PauseOptions
 onready var quit_confirm : Control = $MiniMap/PauseContainer/QuitConfirm

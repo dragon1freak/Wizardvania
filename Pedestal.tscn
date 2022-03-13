@@ -7,7 +7,7 @@ extents = Vector2( 4, 4 )
 
 [node name="Pedestal" type="Sprite"]
 position = Vector2( 588, 300 )
-z_index = -1
+z_index = -2
 texture = ExtResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]

@@ -98,6 +98,7 @@ func physics_tick(delta : float) -> void:
 		$LeftStep.stop()
 		$RightStep.stop()
 		$Land.stop()
+#	global_position = global_position.round()
 
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:

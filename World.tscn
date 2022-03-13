@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://World.gd" type="Script" id=11]
 [ext_resource path="res://map.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/Levels/Final/AltJump1.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Levels/Final/AltJump2.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Levels/Final/AltJump3.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/Levels/Final/AltJumpPickupRoom.tscn" type="PackedScene" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -92,6 +95,12 @@ anchor_bottom = 1.0
 texture = ExtResource( 12 )
 
 [node name="AltJump1" parent="." instance=ExtResource( 13 )]
+
+[node name="AltJump2" parent="." instance=ExtResource( 14 )]
+
+[node name="AltJump3" parent="." instance=ExtResource( 15 )]
+
+[node name="AltJumpPickupRoom" parent="." instance=ExtResource( 16 )]
 
 [connection signal="body_entered" from="MainHub/RoomDetect" to="MainHub" method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="MainHub/Dangers" to="MainHub/Dangers" method="_on_Dangers_body_entered"]
