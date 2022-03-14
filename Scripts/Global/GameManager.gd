@@ -43,7 +43,6 @@ func load_save() -> void:
 	if save_file.file_exists("user://savedata.save"):
 		var _res = save_file.open("user://savedata.save", File.READ)
 		var save_data = parse_json(save_file.get_line())
-		print(save_data)
 		save_file.close()
 		for room in save_data["rooms"]:
 			emit_signal("set_save_data", room["room_id"], room)

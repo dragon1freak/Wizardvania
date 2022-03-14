@@ -10,7 +10,6 @@
 [sub_resource type="RectangleShape2D" id=2]
 
 [node name="PickupRoomBase" type="Node2D" groups=["rooms"]]
-position = Vector2( 3056, 0 )
 script = ExtResource( 3 )
 
 [node name="TileMap" type="TileMap" parent="."]

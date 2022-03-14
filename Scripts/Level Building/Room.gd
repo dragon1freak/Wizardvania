@@ -29,7 +29,6 @@ func _ready():
 	var room_detect_shape : CollisionShape2D = $RoomDetect/CollisionShape2D
 	var extents_size : Vector2 = Vector2((cam_limits.limit_right - cam_limits.limit_left) / 2.0, ((cam_limits.limit_bottom - cam_limits.limit_top) / 2.0))
 	room_detect_shape.position = Vector2(extents_size.x + (tilemap_rect.position.x * tilemap.cell_size.x), extents_size.y  + (tilemap_rect.position.y * tilemap.cell_size.y))
-	printt(self.name, "RECT", tilemap_rect)
 	room_detect_shape.shape.extents = extents_size
 	
 	for node in get_tree().get_nodes_in_group("resetable"):

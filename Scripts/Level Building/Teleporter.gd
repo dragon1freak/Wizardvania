@@ -17,6 +17,7 @@ onready var teleporters : Array = get_tree().get_nodes_in_group("teleporters")
 func activate() -> void:
 	is_active = true
 	_animation_player.play("Activate")
+	$Light2D.visible = true
 	yield(_animation_player, "animation_finished")
 	_animation_player.play("Active")
 

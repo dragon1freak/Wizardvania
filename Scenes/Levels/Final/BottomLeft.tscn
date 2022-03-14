@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Level Building/CrumbleBlock.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Pickups/AltMovePickup.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 12, 12 )
@@ -51,7 +50,7 @@ position = Vector2( 984, 212 )
 [node name="Teleporter" parent="." instance=ExtResource( 3 )]
 position = Vector2( -44, 212 )
 is_entrance = true
-room_id = "AltMove"
+room_id = "AltRun"
 
 [node name="CrumbleBlock" parent="." instance=ExtResource( 5 )]
 position = Vector2( 936, 136 )
@@ -72,10 +71,10 @@ position = Vector2( 520, 124 )
 position = Vector2( 392, 184 )
 
 [node name="CrumbleBlock11" parent="." instance=ExtResource( 5 )]
-position = Vector2( 144, 132 )
+position = Vector2( 144, 140 )
 
 [node name="CrumbleBlock12" parent="." instance=ExtResource( 5 )]
-position = Vector2( 200, 132 )
+position = Vector2( 200, 136 )
 
 [node name="CrumbleBlock13" parent="." instance=ExtResource( 5 )]
 position = Vector2( 256, 133 )
@@ -97,10 +96,7 @@ crumble_time = 0.2
 
 [node name="CrumbleBlock20" parent="." instance=ExtResource( 5 )]
 position = Vector2( 152, 72 )
-crumble_time = 0.1
-
-[node name="AltMovePickup" parent="CrumbleBlock20" instance=ExtResource( 7 )]
-position = Vector2( 72, 108 )
+crumble_time = 0.15
 
 [node name="CrumbleBlock16" parent="." instance=ExtResource( 5 )]
 position = Vector2( 232, 72 )

@@ -310,7 +310,6 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 						if collision.collider is DashBlocker:
 							yield(frame_freeze(0.1, 0.25), "completed")
 							collision.collider.handle_break()
-							print("Collided with: ", collision.collider.name)
 				dashing = false
 				var final_max_speed = MAX_SPEED * abs(input_direction.x)
 				motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
@@ -328,7 +327,6 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 					if collision.collider is SlamBlocker:
 						yield(frame_freeze(0.1, 0.25), "completed")
 						collision.collider.handle_break()
-						print("Collided with: ", collision.collider.name)
 	if is_on_floor() and motion.y >= 0.0:
 		if HAS_ALT_MOVE:
 			can_sprint = true
@@ -374,7 +372,8 @@ func alt_move_cooldown() -> void:
 
 var current_room : Node2D = null
 func handle_death() -> void:
-	apply_jump(JUMP_FORCE, Vector2(1 if _sprite.flip_h else -1, -sign(motion.y)))
+	$Hurt.play()
+	apply_jump(JUMP_FORCE, Vector2(1 if _sprite.flip_h else -1, -sign(motion.y) if motion.y != 0 else -1))
 	frame_freeze()
 	GUIController.fade_out()
 	yield(get_node("/root/GUIController/AnimationPlayer"), "animation_finished")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=2]
@@ -14,8 +14,20 @@
 [ext_resource path="res://map.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/Levels/Final/AltJump1.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/Levels/Final/AltJump2.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/Levels/Final/AltJump3.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/Levels/Final/FirePickupRoom.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Levels/Final/AltJumpPickupRoom.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Levels/Final/AltRun2.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/Levels/Final/AltRun3.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Scenes/Levels/Final/AltRun1.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/Levels/Final/AltRunPickupRoom.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Scenes/Levels/Final/AltJump3.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/Levels/Final/Fire1.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scenes/Levels/Final/Fire2.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Scenes/Levels/Final/Fire3.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/Levels/Final/IcePickupRoom.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Scenes/Levels/Final/Ice1.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Scenes/Levels/Final/Ice2.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Scenes/Levels/Final/Ice3.tscn" type="PackedScene" id=29]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -94,13 +106,46 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 12 )
 
-[node name="AltJump1" parent="." instance=ExtResource( 13 )]
+[node name="AltJumpRooms" type="Node2D" parent="."]
 
-[node name="AltJump2" parent="." instance=ExtResource( 14 )]
+[node name="AltJump1" parent="AltJumpRooms" instance=ExtResource( 13 )]
 
-[node name="AltJump3" parent="." instance=ExtResource( 15 )]
+[node name="AltJump2" parent="AltJumpRooms" instance=ExtResource( 14 )]
 
-[node name="AltJumpPickupRoom" parent="." instance=ExtResource( 16 )]
+[node name="AltJump3" parent="AltJumpRooms" instance=ExtResource( 21 )]
+
+[node name="AltJumpPickupRoom" parent="AltJumpRooms" instance=ExtResource( 16 )]
+
+[node name="AltRunRooms" type="Node2D" parent="."]
+
+[node name="AltRun1" parent="AltRunRooms" instance=ExtResource( 19 )]
+
+[node name="AltRun2" parent="AltRunRooms" instance=ExtResource( 17 )]
+
+[node name="AltRun3" parent="AltRunRooms" instance=ExtResource( 18 )]
+
+[node name="AltRunPickupRoom" parent="AltRunRooms" instance=ExtResource( 20 )]
+
+[node name="FireRooms" type="Node2D" parent="."]
+
+[node name="Fire1" parent="FireRooms" instance=ExtResource( 22 )]
+
+[node name="Fire2" parent="FireRooms" instance=ExtResource( 23 )]
+
+[node name="Fire3" parent="FireRooms" instance=ExtResource( 24 )]
+
+[node name="FirePickupRoom" parent="FireRooms" instance=ExtResource( 15 )]
+position = Vector2( 2912, -928 )
+
+[node name="IceRooms" type="Node2D" parent="."]
+
+[node name="Ice1" parent="IceRooms" instance=ExtResource( 27 )]
+
+[node name="Ice2" parent="IceRooms" instance=ExtResource( 28 )]
+
+[node name="Ice3" parent="IceRooms" instance=ExtResource( 29 )]
+
+[node name="IcePickupRoom" parent="IceRooms" instance=ExtResource( 25 )]
 
 [connection signal="body_entered" from="MainHub/RoomDetect" to="MainHub" method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="MainHub/Dangers" to="MainHub/Dangers" method="_on_Dangers_body_entered"]

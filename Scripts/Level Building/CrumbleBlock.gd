@@ -13,7 +13,11 @@ onready var collider : CollisionShape2D = $StaticBody2D/CollisionShape2D
 onready var sprite : Sprite = $Sprite
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if !self.is_connected("body_entered", self, "_on_CrumbleBlock_body_entered"):
+		self.connect("body_entered", self, "_on_CrumbleBlock_body_entered")
+	if !self.is_connected("body_exited", self, "_on_CrumbleBlock_body_exited"):
+		self.connect("body_exited", self, "_on_CrumbleBlock_body_exited")
+
 
 func _process(delta):
 	if crumbled && respawn_time > 0.0:

@@ -127,6 +127,7 @@ anims/Idle = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [node name="Light2D" type="Light2D" parent="."]
+visible = false
 texture = ExtResource( 3 )
 texture_scale = 2.0
 color = Color( 0.447059, 0.631373, 0.686275, 1 )

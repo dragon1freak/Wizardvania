@@ -6,7 +6,7 @@
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=9]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 
 [node name="AltJump3" type="Node2D" groups=["rooms"]]
 position = Vector2( 2512, 0 )
@@ -30,7 +30,7 @@ tile_data = PoolIntArray( 458760, 2, 1, 458777, 2, 1, 524293, 2, 1, 589836, 2, 6
 [node name="RoomDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomDetect"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="Dangers" type="Area2D" parent="."]
 script = ExtResource( 5 )
