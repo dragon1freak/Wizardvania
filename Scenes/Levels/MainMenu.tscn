@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/UI/MenuButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=2]
@@ -32,6 +32,10 @@ region = Rect2( 26, 21, 11, 12 )
 [sub_resource type="AtlasTexture" id=6]
 atlas = SubResource( 4 )
 region = Rect2( 1, 21, 11, 12 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = SubResource( 4 )
+region = Rect2( 76, 23, 10, 11 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = SubResource( 4 )
@@ -69,9 +73,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 551.0
-margin_top = 204.0
+margin_top = 236.0
 margin_right = 728.0
-margin_bottom = 263.0
+margin_bottom = 295.0
 focus_mode = 0
 disabled = true
 text = "Continue"
@@ -82,9 +86,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 534.0
-margin_top = 267.0
+margin_top = 299.0
 margin_right = 745.0
-margin_bottom = 326.0
+margin_bottom = 358.0
 text = "New Game"
 
 [node name="ControlsButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
@@ -93,9 +97,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 558.0
-margin_top = 330.0
+margin_top = 362.0
 margin_right = 722.0
-margin_bottom = 389.0
+margin_bottom = 421.0
 text = "Controls"
 
 [node name="OptionsButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
@@ -104,12 +108,13 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 563.0
-margin_top = 393.0
+margin_top = 425.0
 margin_right = 717.0
-margin_bottom = 452.0
+margin_bottom = 484.0
 text = "Options"
 
 [node name="QuitButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
+visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -264,15 +269,16 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MenuContainer/Controls"]
-margin_top = 234.0
+margin_top = 202.0
 margin_right = 1280.0
-margin_bottom = 422.0
+margin_bottom = 454.0
+custom_constants/separation = 67
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/Controls/HBoxContainer"]
-margin_left = 249.0
-margin_right = 597.0
-margin_bottom = 188.0
+margin_left = 194.0
+margin_right = 542.0
+margin_bottom = 252.0
 
 [node name="Move" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer"]
 margin_right = 348.0
@@ -370,13 +376,46 @@ texture = SubResource( 6 )
 expand = true
 stretch_mode = 5
 
+[node name="Map" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer"]
+margin_top = 192.0
+margin_right = 348.0
+margin_bottom = 252.0
+alignment = 1
+
+[node name="TextureRect3" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer/Map"]
+visible = false
+margin_left = 517.0
+margin_right = 577.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+texture = SubResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer/Map"]
+margin_left = 47.0
+margin_top = 3.0
+margin_right = 236.0
+margin_bottom = 56.0
+custom_fonts/font = ExtResource( 5 )
+text = " M - Map - "
+
+[node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer/Map"]
+margin_left = 240.0
+margin_right = 300.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+texture = SubResource( 10 )
+expand = true
+stretch_mode = 5
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="MenuContainer/Controls/HBoxContainer"]
-margin_left = 601.0
-margin_right = 1031.0
-margin_bottom = 188.0
+margin_left = 609.0
+margin_right = 1085.0
+margin_bottom = 252.0
 
 [node name="Interact" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
-margin_right = 430.0
+margin_right = 476.0
 margin_bottom = 60.0
 alignment = 1
 
@@ -391,16 +430,16 @@ expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Interact"]
-margin_left = 64.0
+margin_left = 87.0
 margin_top = 3.0
-margin_right = 301.0
+margin_right = 324.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
 text = " E - Interact - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Interact"]
-margin_left = 305.0
-margin_right = 365.0
+margin_left = 328.0
+margin_right = 388.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 7 )
@@ -409,7 +448,7 @@ stretch_mode = 5
 
 [node name="Fire" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
 margin_top = 64.0
-margin_right = 430.0
+margin_right = 476.0
 margin_bottom = 124.0
 alignment = 1
 
@@ -425,14 +464,14 @@ stretch_mode = 5
 
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Fire"]
 margin_top = 3.0
-margin_right = 366.0
+margin_right = 412.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
-text = " LMB/LArrow - Fire - "
+text = " LMB/,</LArrow - Fire - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Fire"]
-margin_left = 370.0
-margin_right = 430.0
+margin_left = 416.0
+margin_right = 476.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 8 )
@@ -441,7 +480,7 @@ stretch_mode = 5
 
 [node name="Ice" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
 margin_top = 128.0
-margin_right = 430.0
+margin_right = 476.0
 margin_bottom = 188.0
 alignment = 1
 
@@ -458,14 +497,14 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Ice"]
 margin_left = 4.0
 margin_top = 3.0
-margin_right = 362.0
+margin_right = 408.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
-text = " RMB/RArrow - Ice - "
+text = " RMB/.>/RArrow - Ice - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Ice"]
-margin_left = 366.0
-margin_right = 426.0
+margin_left = 412.0
+margin_right = 472.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 9 )
@@ -478,9 +517,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 590.0
-margin_top = 426.0
+margin_top = 458.0
 margin_right = 689.0
-margin_bottom = 485.0
+margin_bottom = 517.0
 text = "Back"
 
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
