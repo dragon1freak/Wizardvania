@@ -38,8 +38,10 @@ func _ready():
 	for node in get_tree().get_nodes_in_group("teleporters"):
 		if is_a_parent_of(node):
 			teleporters.push_back(node)
-#	if self.get_node_or_null("Teleporter"):
-#		$Teleporter.set_room_id()
+	if self.get_node_or_null("Teleporter"):
+		$Teleporter.set_room_id()
+	if self.get_node_or_null("Teleporter2"):
+		$Teleporter2.set_room_id()
 
 func _on_RoomDetect_body_entered(body):
 	if body is Player:

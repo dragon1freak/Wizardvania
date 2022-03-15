@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/Pickups/IcePickup.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/IcePickup.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/tilemap_packed.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Pickups/Indicator.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -17,12 +17,8 @@ shape = SubResource( 1 )
 [node name="MainSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
-[node name="Indicator" type="Sprite" parent="."]
+[node name="Indicator" parent="." instance=ExtResource( 3 )]
 visible = false
-position = Vector2( 0, -16 )
-texture = ExtResource( 3 )
-region_enabled = true
-region_rect = Rect2( 80, 0, 16, 16 )
 
 [connection signal="body_entered" from="." to="." method="_on_IcePickup_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_IcePickup_body_exited"]

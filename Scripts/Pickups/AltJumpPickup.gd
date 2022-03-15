@@ -1,6 +1,6 @@
 extends Interactable
 
-onready var indicator_sprite : Sprite = $Indicator
+onready var indicator_sprite : Node2D = $Indicator
 var player : Player = null
 
 func _on_AltJumpPickup_body_entered(body):
@@ -17,6 +17,7 @@ func _on_AltJumpPickup_body_exited(body):
 
 func interact() -> void:
 	PlayerManager.set_state("HAS_ALT_JUMP")
+	GUIController.alt_jump_text.show_menu()
 	player.set_state()
 	self.queue_free()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Global/GUIController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/UI/MapSegment.tscn" type="PackedScene" id=2]
@@ -9,6 +9,12 @@
 [ext_resource path="res://Sprites/GBPlayer.png" type="Texture" id=7]
 [ext_resource path="res://Fonts/SliderFont.tres" type="DynamicFont" id=8]
 [ext_resource path="res://map-export.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/MiniMapFrame.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/AltJumpMenu.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/AltMoveText.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/FireText.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/IceText.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/WinText.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeIn"
@@ -104,7 +110,6 @@ visible = false
 rect_scale = Vector2( 0.75, 0.75 )
 
 [node name="MainHub" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -116,7 +121,6 @@ margin_bottom = 160.0
 room_id = "MainHub"
 
 [node name="AltJump1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -128,7 +132,6 @@ margin_bottom = 159.667
 room_id = "AltJump1"
 
 [node name="Fire1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -139,7 +142,6 @@ margin_right = 458.667
 margin_bottom = -83.0
 
 [node name="Fire2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -150,7 +152,6 @@ margin_right = 554.667
 margin_bottom = -83.0
 
 [node name="Fire3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -161,7 +162,6 @@ margin_right = 650.667
 margin_bottom = -83.0
 
 [node name="FirePickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -172,7 +172,6 @@ margin_right = 746.667
 margin_bottom = -83.0
 
 [node name="AltJump2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -184,7 +183,6 @@ margin_bottom = 159.667
 room_id = "AltJump2"
 
 [node name="AltJump3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -196,7 +194,6 @@ margin_bottom = 159.667
 room_id = "AltJump3"
 
 [node name="AltRun1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -208,7 +205,6 @@ margin_bottom = 159.667
 room_id = "AltRun1"
 
 [node name="Ice1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -219,7 +215,6 @@ margin_right = -362.667
 margin_bottom = -83.0
 
 [node name="LeftGem1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -229,7 +224,6 @@ margin_right = -362.667
 margin_bottom = 37.0
 
 [node name="RightGem1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -239,7 +233,6 @@ margin_right = 458.667
 margin_bottom = 37.0
 
 [node name="RightGem2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -249,7 +242,6 @@ margin_right = 554.667
 margin_bottom = 37.0
 
 [node name="RightGem3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -259,7 +251,6 @@ margin_right = 650.667
 margin_bottom = 37.0
 
 [node name="RightGemRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -269,7 +260,6 @@ margin_right = 746.667
 margin_bottom = 37.0
 
 [node name="LeftGem2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -279,7 +269,6 @@ margin_right = -458.667
 margin_bottom = 37.0
 
 [node name="LeftGem3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -289,7 +278,6 @@ margin_right = -554.667
 margin_bottom = 37.0
 
 [node name="LeftGemRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -299,7 +287,6 @@ margin_right = -650.667
 margin_bottom = 37.0
 
 [node name="Ice2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -310,7 +297,6 @@ margin_right = -458.667
 margin_bottom = -83.0
 
 [node name="Ice3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -321,7 +307,6 @@ margin_right = -554.667
 margin_bottom = -83.0
 
 [node name="IcePickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -332,7 +317,6 @@ margin_right = -650.667
 margin_bottom = -83.0
 
 [node name="AltRun2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -344,7 +328,6 @@ margin_bottom = 159.667
 room_id = "AltRun2"
 
 [node name="AltRun3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -356,7 +339,6 @@ margin_bottom = 159.667
 room_id = "AltRun3"
 
 [node name="AltRunPickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -367,7 +349,6 @@ margin_right = -650.667
 margin_bottom = 159.667
 
 [node name="AltJumpPickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -378,7 +359,6 @@ margin_right = 746.667
 margin_bottom = 159.667
 
 [node name="BottomLeft" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -387,9 +367,9 @@ margin_left = -363.0
 margin_top = 83.0
 margin_right = -23.9999
 margin_bottom = 160.0
+empty_color = Color( 0.360784, 0.360784, 0.6, 1 )
 
 [node name="TopLeft" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -398,9 +378,9 @@ margin_left = -363.0
 margin_top = -160.0
 margin_right = -192.0
 margin_bottom = 83.0
+completed_color = Color( 0.14902, 0.156863, 0.223529, 1 )
 
 [node name="Top" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -411,7 +391,6 @@ margin_right = 64.0
 margin_bottom = -64.0
 
 [node name="BottomRight" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -423,7 +402,6 @@ margin_bottom = 160.0
 room_id = "BottomRight"
 
 [node name="TopRight" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -432,6 +410,63 @@ margin_left = 64.0
 margin_top = -160.0
 margin_right = 363.0
 margin_bottom = 0.0
+current_color = Color( 0.776471, 0.329412, 0.6, 1 )
+
+[node name="Control" type="Control" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 426.667
+margin_top = 256.0
+margin_right = 767.667
+margin_bottom = 395.0
+
+[node name="TextureRect" type="TextureRect" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control"]
+self_modulate = Color( 0.776471, 0.329412, 0.6, 1 )
+margin_right = 42.0
+margin_bottom = 43.0
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control/TextureRect"]
+margin_left = 53.0
+margin_right = 257.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 8 )
+text = "- Current Room"
+
+[node name="TextureRect2" type="TextureRect" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control"]
+self_modulate = Color( 0.14902, 0.156863, 0.223529, 1 )
+margin_left = -0.333374
+margin_top = 106.667
+margin_right = 41.6666
+margin_bottom = 149.667
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control/TextureRect2"]
+margin_left = 53.0
+margin_right = 257.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 8 )
+text = "- Completed Room"
+
+[node name="TextureRect3" type="TextureRect" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control"]
+self_modulate = Color( 0.360784, 0.360784, 0.6, 1 )
+margin_left = -0.333374
+margin_top = 53.3334
+margin_right = 41.6666
+margin_bottom = 96.3334
+texture = ExtResource( 10 )
+expand = true
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments/Control/TextureRect3"]
+margin_left = 53.0
+margin_right = 257.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 8 )
+text = "- Discovered Room"
 
 [node name="PauseMenu" type="Control" parent="MiniMap/PauseContainer"]
 visible = false
@@ -611,6 +646,186 @@ margin_right = 672.0
 margin_bottom = 449.0
 text = "No"
 
+[node name="AltJumpText" type="Control" parent="MiniMap/PauseContainer"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 11 )
+
+[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/AltJumpText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_right = -256.0
+custom_constants/separation = 75
+alignment = 1
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/AltJumpText/CenterContainer"]
+margin_top = 210.0
+margin_right = 768.0
+margin_bottom = 375.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "This spell augments your jumping abilities, press the jump button while in the air to glide for a short time."
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Continue" parent="MiniMap/PauseContainer/AltJumpText/CenterContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 295.0
+margin_top = 450.0
+margin_right = 472.0
+margin_bottom = 509.0
+text = "Continue"
+
+[node name="AltMoveText" type="Control" parent="MiniMap/PauseContainer"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 12 )
+
+[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/AltMoveText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_right = -256.0
+custom_constants/separation = 75
+alignment = 1
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/AltMoveText/CenterContainer"]
+margin_top = 238.0
+margin_right = 768.0
+margin_bottom = 347.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "This spell augments your moving abilities, press the sprint button to move faster."
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Continue" parent="MiniMap/PauseContainer/AltMoveText/CenterContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 295.0
+margin_top = 422.0
+margin_right = 472.0
+margin_bottom = 481.0
+text = "Continue"
+
+[node name="FireText" type="Control" parent="MiniMap/PauseContainer"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 13 )
+
+[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/FireText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_right = -256.0
+custom_constants/separation = 75
+alignment = 1
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/FireText/CenterContainer"]
+margin_top = 182.0
+margin_right = 768.0
+margin_bottom = 403.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "This spell adds the Fire element to your element set, hold the Fire button to augment your existing movement and jumping abilities."
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Continue" parent="MiniMap/PauseContainer/FireText/CenterContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 295.0
+margin_top = 478.0
+margin_right = 472.0
+margin_bottom = 537.0
+text = "Continue"
+
+[node name="IceText" type="Control" parent="MiniMap/PauseContainer"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 14 )
+
+[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/IceText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 256.0
+margin_right = -256.0
+custom_constants/separation = 75
+alignment = 1
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/IceText/CenterContainer"]
+margin_top = 182.0
+margin_right = 768.0
+margin_bottom = 403.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "This spell adds the Ice element to your element set, hold the Ice button to augment your existing movement and jumping abilities."
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Continue" parent="MiniMap/PauseContainer/IceText/CenterContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 295.0
+margin_top = 478.0
+margin_right = 472.0
+margin_bottom = 537.0
+text = "Continue"
+
+[node name="WinText" type="Control" parent="MiniMap/PauseContainer"]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+script = ExtResource( 15 )
+
+[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/WinText"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 224.0
+margin_right = -224.0
+custom_constants/separation = 75
+alignment = 1
+
+[node name="Label" type="Label" parent="MiniMap/PauseContainer/WinText/CenterContainer"]
+margin_top = 182.0
+margin_right = 832.0
+margin_bottom = 403.0
+rect_min_size = Vector2( 600, 0 )
+custom_fonts/font = ExtResource( 6 )
+text = "Congratulations on beating the game!  This was made solo over the course of a month, so thanks for putting up with any bugs or jank.  Thank you for playing, hope you enjoyed!"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Continue" parent="MiniMap/PauseContainer/WinText/CenterContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 327.0
+margin_top = 478.0
+margin_right = 504.0
+margin_bottom = 537.0
+text = "Continue"
+
 [node name="Fade" type="ColorRect" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
@@ -690,3 +905,8 @@ texture = ExtResource( 9 )
 [connection signal="pressed" from="MiniMap/PauseContainer/PauseOptions/VBoxContainer/PauseOptionsBack" to="." method="_on_PauseOptionsBack_pressed"]
 [connection signal="pressed" from="MiniMap/PauseContainer/QuitConfirm/VBoxContainer/QuitConfirm" to="." method="_on_QuitConfirm_pressed"]
 [connection signal="pressed" from="MiniMap/PauseContainer/QuitConfirm/VBoxContainer/QuitAbort" to="." method="_on_QuitAbort_pressed"]
+[connection signal="pressed" from="MiniMap/PauseContainer/AltJumpText/CenterContainer/Continue" to="MiniMap/PauseContainer/AltJumpText" method="_on_Continue_pressed"]
+[connection signal="pressed" from="MiniMap/PauseContainer/AltMoveText/CenterContainer/Continue" to="MiniMap/PauseContainer/AltMoveText" method="_on_Continue_pressed"]
+[connection signal="pressed" from="MiniMap/PauseContainer/FireText/CenterContainer/Continue" to="MiniMap/PauseContainer/FireText" method="_on_Continue_pressed"]
+[connection signal="pressed" from="MiniMap/PauseContainer/IceText/CenterContainer/Continue" to="MiniMap/PauseContainer/IceText" method="_on_Continue_pressed"]
+[connection signal="pressed" from="MiniMap/PauseContainer/WinText/CenterContainer/Continue" to="MiniMap/PauseContainer/WinText" method="_on_Continue_pressed"]

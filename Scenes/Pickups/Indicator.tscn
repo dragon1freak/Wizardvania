@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Indicator.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Keyboard Prompts (1).png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Gamepad Prompts (1).png" type="Texture" id=3]
+
+[node name="Indicator" type="Node2D"]
+position = Vector2( 0, -16 )
+script = ExtResource( 1 )
+
+[node name="ConsoleSprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 26, 34, 11, 12 )
+
+[node name="KeyboardSprite" type="Sprite" parent="."]
+position = Vector2( 0.07, 0 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 101, 144, 11, 11 )

@@ -53,6 +53,7 @@ target_room_id = "LeftGem"
 position = Vector2( 192, 204 )
 
 [node name="LeftGem" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 192 )
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

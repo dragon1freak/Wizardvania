@@ -62,8 +62,8 @@ position = Vector2( -16, -104 )
 
 [node name="Teleporter" parent="." instance=ExtResource( 1 )]
 position = Vector2( 240, 52 )
-room_id = "AltJump1"
-target_room_id = "AltJump"
+room_id = "Fire3"
+target_room_id = "Fire"
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

@@ -10,6 +10,12 @@ onready var pause_menu : Control = $MiniMap/PauseContainer/PauseMenu
 onready var pause_options : Control = $MiniMap/PauseContainer/PauseOptions
 onready var quit_confirm : Control = $MiniMap/PauseContainer/QuitConfirm
 
+onready var alt_move_text : Control = $MiniMap/PauseContainer/AltMoveText
+onready var alt_jump_text : Control = $MiniMap/PauseContainer/AltJumpText
+onready var fire_text : Control = $MiniMap/PauseContainer/FireText
+onready var ice_text : Control = $MiniMap/PauseContainer/IceText
+onready var win_text : Control = $MiniMap/PauseContainer/WinText
+
 var main_volume : float = 0.8
 var music_volume : float = 0.8
 var sfx_volume : float = 0.8
@@ -121,3 +127,6 @@ func _on_QuitConfirm_pressed():
 
 func _on_QuitAbort_pressed():
 	toggle_pause_menu()
+
+func _on_Continue_pressed():
+	pass # Replace with function body.

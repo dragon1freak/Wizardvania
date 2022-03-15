@@ -1,6 +1,6 @@
 extends Interactable
 
-onready var indicator_sprite : Sprite = $Indicator
+onready var indicator_sprite : Node2D = $Indicator
 var player : Player = null
 
 func _on_RightGem_body_entered(body):

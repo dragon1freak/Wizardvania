@@ -3,6 +3,7 @@ extends CanvasLayer
 onready var mm_container : VBoxContainer = $MenuContainer/MainMenuContainer
 onready var options_container : VBoxContainer = $MenuContainer/OptionsContainer
 onready var ngc_container : VBoxContainer = $MenuContainer/NewGameConfirm
+onready var controls_container : VBoxContainer = $MenuContainer/Controls
 
 func _ready() -> void:
 	if File.new().file_exists("user://savedata.save"):
@@ -40,6 +41,14 @@ func toggle_options() -> void:
 	if options_container.visible:
 		set_values()
 		options_container.get_node("MainVolumeSlider/HSlider").grab_focus()
+	elif mm_container.visible:
+		mm_container.get_node("NewGameButton").grab_focus()
+
+func toggle_controls_menu() -> void:
+	controls_container.visible = !controls_container.visible
+	mm_container.visible = !mm_container.visible
+	if controls_container.visible:
+		controls_container.get_node("ControlsBack").grab_focus()
 	elif mm_container.visible:
 		mm_container.get_node("NewGameButton").grab_focus()
 
@@ -85,3 +94,10 @@ func _on_NewGameConfirm_pressed():
 
 func _on_NewGameAbort_pressed():
 	toggle_new_game_confirm()
+
+
+func _on_ControlsButton_pressed():
+	toggle_controls_menu()
+
+func _on_ControlsBack_pressed():
+	toggle_controls_menu()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=2]
@@ -9,6 +9,13 @@
 [ext_resource path="res://Sprites/FinalPorter.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Light2.png" type="Texture" id=8]
 [ext_resource path="res://Scripts/FinalPorter.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Pickups/IcePickup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Pickups/AltJumpPickup.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Pickups/AltMovePickup.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Pickups/FirePickup.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/Pickups/Indicator.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Pickups/RightGem.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/Pickups/LeftGem.tscn" type="PackedScene" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -66,6 +73,7 @@ target_pickup = "HAS_LEFT_GEM"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem"]
 
 [node name="Light2D" type="Light2D" parent="BigGem"]
+visible = false
 scale = Vector2( 1.40625, 1.83594 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -83,6 +91,7 @@ target_pickup = "HAS_ALT_MOVE"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem2"]
 
 [node name="Light2D" type="Light2D" parent="BigGem2"]
+visible = false
 scale = Vector2( 1.75, 2.28472 )
 texture = SubResource( 2 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -102,6 +111,7 @@ target_pickup = "HAS_ICE"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem3"]
 
 [node name="Light2D" type="Light2D" parent="BigGem3"]
+visible = false
 scale = Vector2( 1.52778, 1.9946 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -121,6 +131,7 @@ target_pickup = "HAS_RIGHT_GEM"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem4"]
 
 [node name="Light2D" type="Light2D" parent="BigGem4"]
+visible = false
 scale = Vector2( 1.40625, 1.83594 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -140,6 +151,7 @@ target_pickup = "HAS_FIRE"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem5"]
 
 [node name="Light2D" type="Light2D" parent="BigGem5"]
+visible = false
 scale = Vector2( 1.52778, 1.9946 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -157,6 +169,7 @@ target_pickup = "HAS_ALT_JUMP"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem6"]
 
 [node name="Light2D" type="Light2D" parent="BigGem6"]
+visible = false
 scale = Vector2( 1.75, 2.28472 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -185,6 +198,28 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FinalPorter/StaticBody2D"]
 shape = SubResource( 4 )
 one_way_collision = true
+
+[node name="Indicator" parent="FinalPorter" instance=ExtResource( 14 )]
+visible = false
+position = Vector2( 0, -28 )
+
+[node name="AltJumpPickup" parent="." instance=ExtResource( 11 )]
+position = Vector2( 356, 212 )
+
+[node name="AltMovePickup" parent="." instance=ExtResource( 12 )]
+position = Vector2( 356, 212 )
+
+[node name="FirePickup" parent="." instance=ExtResource( 13 )]
+position = Vector2( 356, 212 )
+
+[node name="IcePickup" parent="." instance=ExtResource( 10 )]
+position = Vector2( 356, 212 )
+
+[node name="LeftGem" parent="." instance=ExtResource( 16 )]
+position = Vector2( 356, 212 )
+
+[node name="RightGem" parent="." instance=ExtResource( 15 )]
+position = Vector2( 384, 212 )
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]
