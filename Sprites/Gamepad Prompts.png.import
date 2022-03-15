@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tileset.png-1a414b7107dec576154e767e32be6ae4.stex"
+path="res://.import/Gamepad Prompts.png-963ef2345df4ceeb49893cab198f36de.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Tileset.png"
-dest_files=[ "res://.import/Tileset.png-1a414b7107dec576154e767e32be6ae4.stex" ]
+source_file="res://Sprites/Gamepad Prompts.png"
+dest_files=[ "res://.import/Gamepad Prompts.png-963ef2345df4ceeb49893cab198f36de.stex" ]
 
 [params]
 

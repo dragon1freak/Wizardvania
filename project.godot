@@ -103,7 +103,7 @@ GameManager="*res://Global/GameManager.tscn"
 PlayerManager="*res://Scripts/Global/PlayerManager.gd"
 InputHelper="*res://addons/input_helper/input_helper.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
-AudioManager="*res://AudioManager.gd"
+AudioManager="*res://Scripts/Global/AudioManager.gd"
 
 [display]
 

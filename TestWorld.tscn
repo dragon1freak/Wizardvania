@@ -10,12 +10,12 @@
 [ext_resource path="res://Scenes/Level Building/SlamBlocker.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Level Building/CrumbleBlock.tscn" type="PackedScene" id=10]
-[ext_resource path="res://World.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Pickups/AltMovePickup.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/Pickups/AltJumpPickup.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/Pickups/FirePickup.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Pickups/IcePickup.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Pedestal.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scripts/Level Building/Pedestal.tscn" type="PackedScene" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 

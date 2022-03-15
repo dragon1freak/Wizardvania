@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scripts/Global/GUIController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/UI/MapSegment.tscn" type="PackedScene" id=2]
@@ -6,15 +6,14 @@
 [ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/UI/CheckBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/ButtonFont.tres" type="DynamicFont" id=6]
-[ext_resource path="res://Sprites/GBPlayer.png" type="Texture" id=7]
 [ext_resource path="res://Fonts/SliderFont.tres" type="DynamicFont" id=8]
-[ext_resource path="res://map-export.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/map-export.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/MiniMapFrame.png" type="Texture" id=10]
-[ext_resource path="res://Scripts/AltJumpMenu.gd" type="Script" id=11]
-[ext_resource path="res://Scripts/AltMoveText.gd" type="Script" id=12]
-[ext_resource path="res://Scripts/FireText.gd" type="Script" id=13]
-[ext_resource path="res://Scripts/IceText.gd" type="Script" id=14]
-[ext_resource path="res://Scripts/WinText.gd" type="Script" id=15]
+[ext_resource path="res://Scripts/UI/AltJumpMenu.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/UI/AltMoveText.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/UI/FireText.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/UI/IceText.gd" type="Script" id=14]
+[ext_resource path="res://Scripts/UI/WinText.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeIn"
@@ -872,7 +871,6 @@ margin_top = -40.0
 visible = false
 position = Vector2( -110, -11 )
 scale = Vector2( 1.7381, 4.5 )
-texture = ExtResource( 7 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Fade/LoadingSprite"]
 anchor_left = 1.0

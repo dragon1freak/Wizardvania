@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/BrickTileSet.png-94b156b9810ae283987d05fb109a58ac.stex"
+path="res://.import/Keyboard Prompts.png-8ec2c8714e7630052a81839e85f0ad27.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BrickTileSet.png"
-dest_files=[ "res://.import/BrickTileSet.png-94b156b9810ae283987d05fb109a58ac.stex" ]
+source_file="res://Sprites/Keyboard Prompts.png"
+dest_files=[ "res://.import/Keyboard Prompts.png-8ec2c8714e7630052a81839e85f0ad27.stex" ]
 
 [params]
 

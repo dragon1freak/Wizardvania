@@ -1,7 +1,7 @@
 extends Node
 
-onready var music1 : AudioStream = preload("res://TitleThemeWV.ogg")
-onready var music2 : AudioStream = preload("res://MainThemeWV.ogg")
+onready var music1 : AudioStream = preload("res://Sounds/TitleThemeWV.ogg")
+onready var music2 : AudioStream = preload("res://Sounds/MainThemeWV.ogg")
 
 var last_track : AudioStream
 

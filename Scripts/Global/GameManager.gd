@@ -14,12 +14,12 @@ func start_new_game() -> void:
 	var dir : Directory = Directory.new()
 	dir.remove("user://savedata.save")
 	yield(GUIController.get_node("AnimationPlayer"), "animation_finished")
-	get_tree().change_scene("res://World.tscn")
+	get_tree().change_scene("res://Scenes/Levels/World.tscn")
 
 func continue_game() -> void:
 	GUIController.fade_out()
 	yield(GUIController.get_node("AnimationPlayer"), "animation_finished")
-	get_tree().change_scene("res://World.tscn")
+	get_tree().change_scene("res://Scenes/Levels/World.tscn")
 
 func quit_game() -> void:
 	save_game()
