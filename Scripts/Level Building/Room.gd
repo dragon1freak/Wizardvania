@@ -16,6 +16,7 @@ var cam_limits : Dictionary = {}
 onready var player_spawn : Vector2 = $PlayerSpawn.global_position
 
 var resetable_children : Array = []
+var teleporters : Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameManager.connect("set_save_data", self, "set_save_state")
@@ -34,8 +35,11 @@ func _ready():
 	for node in get_tree().get_nodes_in_group("resetable"):
 		if is_a_parent_of(node):
 			resetable_children.push_back(node)
-	if self.get_node_or_null("Teleporter"):
-		$Teleporter.set_room_id()
+	for node in get_tree().get_nodes_in_group("teleporters"):
+		if is_a_parent_of(node):
+			teleporters.push_back(node)
+#	if self.get_node_or_null("Teleporter"):
+#		$Teleporter.set_room_id()
 
 func _on_RoomDetect_body_entered(body):
 	if body is Player:
@@ -50,7 +54,9 @@ func _on_RoomDetect_body_entered(body):
 func set_current(room : String) -> void:
 	if room_id == room:
 		self.is_current = true
+		self.visible = true
 	else:
+		self.visible = false
 		self.is_current = false
 
 func reset_room() -> void:
@@ -66,6 +72,8 @@ func get_save_state() -> Dictionary:
 				room_state["doors"][child.name] = child.save_state()
 	if self.get_node_or_null("Teleporter"):
 		room_state["teleporter_state"] = $Teleporter.get_save_state()
+	if self.get_node_or_null("Teleporter2"):
+		room_state["teleporter2_state"] = $Teleporter2.get_save_state()
 	return room_state
 
 func set_save_state(room_name : String, room_state : Dictionary) -> void:
@@ -82,6 +90,8 @@ func set_save_state(room_name : String, room_state : Dictionary) -> void:
 			get_tree().call_group("map_segments", "set_room_completed", self.room_id)
 		if self.get_node_or_null("Teleporter"):
 			$Teleporter.set_save_state(room_state["teleporter_state"])
+		if self.get_node_or_null("Teleporter2"):
+			$Teleporter2.set_save_state(room_state["teleporter2_state"])
 		if !is_challenge_room:
 				for child in resetable_children:
 					if child is EnergyDoor || child is DashBlocker || child is SlamBlocker:

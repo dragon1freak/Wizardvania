@@ -399,6 +399,7 @@ func handle_room_enter(cam_limits : Dictionary, player_spawn : Vector2, element_
 	HAS_FIRE = element_states.has_fire && PlayerManager.HAS_FIRE
 	HAS_ICE = element_states.has_ice && PlayerManager.HAS_ICE
 	self.current_room = new_room
+	AudioManager.set_current_room(new_room)
 
 	var horizontal_speed : float = MAX_SPEED * sign(motion.x) if motion.x != 0.0 else 0.0
 	var vertical_speed : float = JUMP_FORCE * sign(motion.y) if motion.y != 0.0 else 0.0

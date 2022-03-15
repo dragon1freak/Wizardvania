@@ -24,6 +24,7 @@ func fade_in(anim_speed : float = 1.0) -> void:
 	$AnimationPlayer.play("FadeIn")
 
 func level_loaded() -> void:
+	AudioManager.start_game()
 	fade_in()
 	in_game = true
 	pause_options.get_node("VBoxContainer/FullscreenCheck/CheckBox").pressed = OS.window_fullscreen
@@ -116,7 +117,7 @@ func _on_ElementStateCheck_check_value_changed(value : bool):
 	PlayerManager.set_toggle_states(value)
 
 func _on_QuitConfirm_pressed():
-	GameManager.quit_game()
+	GameManager.quit_to_menu()
 
 func _on_QuitAbort_pressed():
 	toggle_pause_menu()

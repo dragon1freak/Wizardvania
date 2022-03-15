@@ -12,7 +12,7 @@ var triggered : bool = false
 func _ready():
 	var _res = self.connect("body_entered", self, "_trigger_on_body_entered")
 	_res = self.connect("body_exited", self, "_trigger_on_body_exited")
-	if target.open:
+	if target && target.open:
 		triggered = true
 		$Sprite.frame = 1
 

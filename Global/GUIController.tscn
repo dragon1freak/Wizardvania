@@ -66,53 +66,6 @@ anims/FadeIn = SubResource( 1 )
 anims/FadeOut = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 
-[node name="Fade" type="ColorRect" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
-
-[node name="LoadingSprite" type="Control" parent="Fade"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -40.0
-margin_top = -40.0
-
-[node name="Sprite" type="Sprite" parent="Fade/LoadingSprite"]
-visible = false
-position = Vector2( -110, -11 )
-scale = Vector2( 1.7381, 4.5 )
-texture = ExtResource( 7 )
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Fade/LoadingSprite"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -280.0
-margin_top = -72.0
-margin_right = -64.0
-custom_fonts/normal_font = ExtResource( 8 )
-bbcode_enabled = true
-bbcode_text = "[right][wave amp=50 freq=2]Loading...[/wave][/right]"
-text = "Loading..."
-
-[node name="Label" type="Label" parent="Fade/LoadingSprite"]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -144.0
-margin_top = -56.0
-margin_right = -16.0
-margin_bottom = -17.0
-custom_fonts/font = ExtResource( 8 )
-text = "Loading..."
-
 [node name="MiniMap" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -264,7 +217,6 @@ margin_left = -458.667
 margin_top = -160.0
 margin_right = -362.667
 margin_bottom = -83.0
-room_id = "AltRun1"
 
 [node name="LeftGem1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -275,7 +227,6 @@ anchor_bottom = 0.5
 margin_left = -458.667
 margin_right = -362.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="RightGem1" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -286,7 +237,6 @@ anchor_bottom = 0.5
 margin_left = 362.667
 margin_right = 458.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="RightGem2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -297,7 +247,6 @@ anchor_bottom = 0.5
 margin_left = 458.667
 margin_right = 554.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="RightGem3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -308,9 +257,8 @@ anchor_bottom = 0.5
 margin_left = 554.667
 margin_right = 650.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
-[node name="RightGemPickupGem" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
+[node name="RightGemRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -319,7 +267,6 @@ anchor_bottom = 0.5
 margin_left = 650.667
 margin_right = 746.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="LeftGem2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -330,7 +277,6 @@ anchor_bottom = 0.5
 margin_left = -554.667
 margin_right = -458.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="LeftGem3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -341,9 +287,8 @@ anchor_bottom = 0.5
 margin_left = -650.667
 margin_right = -554.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
-[node name="LeftGemPickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
+[node name="LeftGemRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -352,7 +297,6 @@ anchor_bottom = 0.5
 margin_left = -746.667
 margin_right = -650.667
 margin_bottom = 37.0
-room_id = "AltRun1"
 
 [node name="Ice2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -364,7 +308,6 @@ margin_left = -554.667
 margin_top = -160.0
 margin_right = -458.667
 margin_bottom = -83.0
-room_id = "AltRun1"
 
 [node name="Ice3" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -376,7 +319,6 @@ margin_left = -650.667
 margin_top = -160.0
 margin_right = -554.667
 margin_bottom = -83.0
-room_id = "AltRun1"
 
 [node name="IcePickupRoom" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -388,7 +330,6 @@ margin_left = -746.667
 margin_top = -160.0
 margin_right = -650.667
 margin_bottom = -83.0
-room_id = "AltRun1"
 
 [node name="AltRun2" parent="MiniMap/PauseContainer/CenterContainer/MapBufferContainer/MapSegments" instance=ExtResource( 2 )]
 visible = false
@@ -669,6 +610,53 @@ margin_top = 390.0
 margin_right = 672.0
 margin_bottom = 449.0
 text = "No"
+
+[node name="Fade" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
+[node name="LoadingSprite" type="Control" parent="Fade"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -40.0
+
+[node name="Sprite" type="Sprite" parent="Fade/LoadingSprite"]
+visible = false
+position = Vector2( -110, -11 )
+scale = Vector2( 1.7381, 4.5 )
+texture = ExtResource( 7 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Fade/LoadingSprite"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -280.0
+margin_top = -72.0
+margin_right = -64.0
+custom_fonts/normal_font = ExtResource( 8 )
+bbcode_enabled = true
+bbcode_text = "[right][wave amp=50 freq=2]Loading...[/wave][/right]"
+text = "Loading..."
+
+[node name="Label" type="Label" parent="Fade/LoadingSprite"]
+visible = false
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -144.0
+margin_top = -56.0
+margin_right = -16.0
+margin_bottom = -17.0
+custom_fonts/font = ExtResource( 8 )
+text = "Loading..."
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_base_scale = Vector2( 3, 3 )

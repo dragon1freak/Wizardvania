@@ -16,7 +16,7 @@ func _on_AltJumpPickup_body_exited(body):
 		indicator_sprite.visible = false
 
 func interact() -> void:
-	PlayerManager.HAS_ALT_JUMP = true
+	PlayerManager.set_state("HAS_ALT_JUMP")
 	player.set_state()
 	self.queue_free()
 

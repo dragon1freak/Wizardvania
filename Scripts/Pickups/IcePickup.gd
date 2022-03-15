@@ -16,7 +16,7 @@ func _on_IcePickup_body_exited(body):
 		indicator_sprite.visible = false
 
 func interact() -> void:
-	PlayerManager.HAS_ICE = true
+	PlayerManager.set_state("HAS_ICE")
 	player.set_state()
 	self.queue_free()
 

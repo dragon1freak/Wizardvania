@@ -49,11 +49,11 @@ position = Vector2( 320, 196 )
 room_id = "AltJumpPickupRoom"
 target_room_id = "AltJump"
 
-[node name="AltJumpPickup" parent="Teleporter" instance=ExtResource( 4 )]
-position = Vector2( -128, -20 )
-
 [node name="Pedestal" parent="." instance=ExtResource( 3 )]
 position = Vector2( 192, 188 )
+
+[node name="AltJumpPickup" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 176 )
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

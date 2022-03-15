@@ -4,6 +4,7 @@ signal settings_loaded
 signal save_loaded
 signal save_failed_to_load
 signal set_save_data(room_id, save_data)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_settings()
@@ -23,6 +24,17 @@ func continue_game() -> void:
 func quit_game() -> void:
 	save_game()
 	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
+
+func quit_to_menu() -> void:
+	GUIController.fade_out()
+	save_game()
+	AudioManager.current_room = null
+	GUIController.player = null
+	yield(GUIController.get_node("AnimationPlayer"), "animation_finished")
+	GUIController.toggle_pause_menu()
+	GUIController.toggle_pause_menu()
+	get_tree().change_scene("res://Scenes/Levels/MainMenu.tscn")
+	GUIController.fade_in()
 
 func save_game() -> void:
 	var rooms : Array = get_tree().get_nodes_in_group("rooms")
