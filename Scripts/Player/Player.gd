@@ -14,6 +14,17 @@ var air_sprite : Resource = preload("res://Sprites/Player.png")
 var fire_sprite : Resource = preload("res://Sprites/PlayerFire.png")
 var ice_sprite : Resource = preload("res://Sprites/PlayerIce.png")
 
+var dash_right_sprite : Resource = preload("res://Sprites/DashTrail.png")
+var dash_left_sprite : Resource = preload("res://Sprites/DashTrailLeft.png")
+var slam_left_sprite : Resource = preload("res://Sprites/SlamSpriteLeft.png")
+var slam_right_sprite : Resource = preload("res://Sprites/SlamSpriteRight.png")
+
+var jump_particles : PackedScene = preload("res://JumpParticles.tscn")
+var dash_particles : PackedScene = preload("res://DashParticles.tscn")
+var wj_particles : PackedScene = preload("res://WallJumpParticles.tscn")
+var land_particles : PackedScene = preload("res://LandParticles.tscn")
+var sprint_particles : PackedScene = preload("res://SprintParticles.tscn")
+
 export(float, 0, 10, 0.1) var ALT_MOVE_COOLDOWN_TIMER : float = 1.0
 # =============== AIR ABILITIES =============================
 export(float, 0, 1000, 0.1) var GLIDE_FALL_SPEED : float = 20.0
@@ -99,7 +110,7 @@ func physics_tick(delta : float) -> void:
 		$RightStep.stop()
 		$Land.stop()
 #	global_position = global_position.round()
-
+var ice_splat : bool = false
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
 		ELEMENTS.AIR:
@@ -115,17 +126,30 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 				motion.y += GRAVITY * delta
 		ELEMENTS.ICE:
 			if !entering_room && input_direction.x < 0 && _left_wall_check.is_colliding() && can_hold_wall && !is_on_floor():
+				if !ice_splat:
+					var wj_part = wj_particles.instance()
+					wj_part.flip_h = true
+					wj_part.global_position = _left_wall_check.get_collision_point()
+					get_tree().get_current_scene().add_child(wj_part)
+					ice_splat = true
 				holding_wall = true
 				motion.y += GRAVITY * delta
 				motion.y = clamp(motion.y, -JUMP_FORCE, WALL_FALL_SPEED)
 				wall_hold_timer -= delta
 			elif !entering_room && input_direction.x > 0 && _right_wall_check.is_colliding() && can_hold_wall && !is_on_floor():
+				if !ice_splat:
+					var wj_part = wj_particles.instance()
+					wj_part.flip_h = false
+					wj_part.global_position = _right_wall_check.get_collision_point()
+					get_tree().get_current_scene().add_child(wj_part)
+					ice_splat = true
 				holding_wall = true
 				motion.y += GRAVITY * delta
 				motion.y = clamp(motion.y, -JUMP_FORCE, WALL_FALL_SPEED)
 				wall_hold_timer -= delta
 			else:
 				holding_wall = false
+				ice_splat = false
 				if !slamming:
 					motion.y += GRAVITY * delta
 			if wall_hold_timer <= 0.0:
@@ -193,6 +217,8 @@ func manage_animations() -> void:
 			_animation_player.play("Jump")
 		FALL:
 			_animation_player.play("Fall")
+		STATES.DASH:
+			_animation_player.play("Jump")
 
 func handle_motion(delta : float, input_direction : Vector2 = Vector2.ZERO) -> void:
 	if !slamming && !dashing && input_direction.x != 0:
@@ -260,6 +286,9 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			holding_wall = false
 			if (jump_pressed or should_jump) && (can_jump || can_double_jump):
 				if !can_jump && can_double_jump:
+					var jump_parts = jump_particles.instance()
+					jump_parts.global_position = self.global_position
+					get_tree().get_current_scene().add_child(jump_parts)
 					can_double_jump = false
 				apply_jump()
 				cancel_dash()
@@ -280,10 +309,18 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			gliding = false
 			glide_timer = GLIDE_TIMER_MAX
 		can_jump = true
+		var land_parts = land_particles.instance()
+		land_parts.scale = Vector2(0.8,	0.8)
+		land_parts.global_position = $SlamDecalCheck.get_collision_point() if $SlamDecalCheck.is_colliding() else Vector2(self.global_position.x, self.global_position.y + 8)
+		get_tree().get_current_scene().add_child(land_parts)
 		$Land.play()
 
 func apply_wall_jump(wall_jump_dir : float) -> void:
 	holding_wall = false
+#	var wj_part = wj_particles.instance()
+#	wj_part.flip_h = !_right_wall_check.is_colliding()
+#	wj_part.global_position = _right_wall_check.get_collision_point() if _right_wall_check.is_colliding() else _left_wall_check.get_collision_point()
+#	get_tree().get_current_scene().add_child(wj_part)
 #	WALL_JUMP_COUNT -= 1
 #	if WALL_JUMP_COUNT <= 0:
 #		can_wall_jump = false
@@ -299,10 +336,15 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 				handle_sprint(sprint_strength)
 		ELEMENTS.FIRE:
 			sprinting = false
-			if can_dash && sprint_pressed:
+			if can_dash && sprint_pressed && !_right_wall_check.is_colliding() && !_left_wall_check.is_colliding():
+				var dash_parts = dash_particles.instance()
+				dash_parts.global_position = self.global_position
+				dash_parts.rotation_degrees = 0 if _sprite.flip_h else 180
+				get_tree().get_current_scene().add_child(dash_parts)
 				apply_dash(input_direction)
 			if is_on_wall() && dashing:
 				for i in get_slide_count():
+					$DashTrail.emitting = false
 					var collision = get_slide_collision(i) if i <= get_slide_count() else null
 					if collision:
 						apply_jump(JUMP_FORCE / 2, collision.normal)
@@ -320,13 +362,19 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 			elif slamming && sprint_pressed:
 				cancel_slam()
 			if slamming && is_on_floor():
+				$SlamTrail.emitting = false
 				slamming = false 
-				apply_jump(JUMP_FORCE / 2)
 				for i in get_slide_count():
 					var collision = get_slide_collision(i)
 					if collision.collider is SlamBlocker:
 						yield(frame_freeze(0.1, 0.25), "completed")
 						collision.collider.handle_break()
+					else:
+						var wj_part = wj_particles.instance()
+						wj_part.global_position = $SlamDecalCheck.get_collision_point() if $SlamDecalCheck.is_colliding() else collision.position
+						wj_part.rotation_degrees = 90
+						get_tree().get_current_scene().add_child(wj_part)
+				apply_jump(JUMP_FORCE / 2)
 	if is_on_floor() and motion.y >= 0.0:
 		if HAS_ALT_MOVE:
 			can_sprint = true
@@ -334,6 +382,8 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 			can_slam = true
 
 func apply_dash(input_direction : Vector2) -> void:
+	$DashTrail.texture = dash_right_sprite if !_sprite.flip_h else dash_left_sprite
+	$DashTrail.emitting = true
 	dashing = true
 	can_dash = false
 	var dash_direction = -1 if _sprite.flip_h else 1
@@ -342,14 +392,18 @@ func apply_dash(input_direction : Vector2) -> void:
 	motion.y = 0
 	motion.x += DASH_FORCE * dash_direction
 	yield(get_tree().create_timer(DASH_TIMER),"timeout")
+	$DashTrail.emitting = false
 	dashing = false
 	motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
 
 func cancel_dash() -> void:
+	$DashTrail.emitting = false
 	dashing = false
 	motion.x = clamp(motion.x, -MAX_SPEED, MAX_SPEED)
 
 func apply_slam() -> void:
+	$SlamTrail.texture = slam_right_sprite if !_sprite.flip_h else slam_left_sprite
+	$SlamTrail.emitting = true
 	slamming = true
 	holding_wall = false
 	can_hold_wall = false
@@ -358,6 +412,7 @@ func apply_slam() -> void:
 	apply_jump(SLAM_FORCE, Vector2.DOWN)
 
 func cancel_slam() -> void:
+	$SlamTrail.emitting = false
 	slamming = false
 	motion.y = 0
 
@@ -415,3 +470,10 @@ func toggle_pause(pause_state : bool) -> void:
 	self.paused = pause_state
 	_animation_player.stop()
 	self._animation_player.playback_speed = 0.0 if pause_state else 1.0
+
+func make_footstep() -> void:
+	if sprinting:
+		var land_parts = sprint_particles.instance()
+#		land_parts.scale = Vector2(0.4,	0.4)
+		land_parts.global_position = $SlamDecalCheck.get_collision_point() if $SlamDecalCheck.is_colliding() else Vector2(self.global_position.x, self.global_position.y + 8)
+		get_tree().get_current_scene().add_child(land_parts)

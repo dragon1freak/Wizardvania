@@ -8,3 +8,5 @@ export_presets.cfg
 # Mono ignores
 .mono/
 data_*/
+
+addons/particles_renderer/*

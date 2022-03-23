@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=2]
@@ -13,8 +13,212 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
+[sub_resource type="Animation" id=5]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 256, 86 ), Vector2( 256, 87 ), Vector2( 256, 88 ), Vector2( 256, 89 ), Vector2( 256, 90 ), Vector2( 256, 89 ), Vector2( 256, 88 ), Vector2( 256, 87 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 256, 86 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 172, 114 ), Vector2( 172, 113 ), Vector2( 172, 112 ), Vector2( 172, 111 ), Vector2( 172, 110 ), Vector2( 172, 111 ), Vector2( 172, 112 ), Vector2( 172, 113 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 172, 114 ) ]
+}
+
 [sub_resource type="StreamTexture" id=2]
 load_path = "res://.import/Light2.png-4ca664a81a9aba81356585a0604625a7.stex"
+
+[sub_resource type="Animation" id=9]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 208, 96 ), Vector2( 208, 95 ), Vector2( 208, 94 ), Vector2( 208, 95 ), Vector2( 208, 96 ), Vector2( 208, 97 ), Vector2( 208, 98 ), Vector2( 208, 97 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 208, 96 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 384, 88 ), Vector2( 384, 87 ), Vector2( 384, 86 ), Vector2( 384, 87 ), Vector2( 384, 88 ), Vector2( 384, 89 ), Vector2( 384, 90 ), Vector2( 384, 89 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 384, 88 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 432, 98 ), Vector2( 432, 97 ), Vector2( 432, 96 ), Vector2( 432, 95 ), Vector2( 432, 94 ), Vector2( 432, 95 ), Vector2( 432, 96 ), Vector2( 432, 97 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 432, 98 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "Float"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 468, 109 ), Vector2( 468, 110 ), Vector2( 468, 111 ), Vector2( 468, 110 ), Vector2( 468, 109 ), Vector2( 468, 108 ), Vector2( 468, 107 ), Vector2( 468, 108 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 468, 109 ) ]
+}
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12, 2 )
@@ -34,6 +238,8 @@ tile_data = PoolIntArray( 0, 1, 65537, 1, 1, 65537, 2, 1, 65537, 3, 1, 65537, 4,
 [node name="OneWays" type="TileMap" parent="TileMap"]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
+collision_layer = 0
+collision_mask = 3
 format = 1
 tile_data = PoolIntArray( 720903, 2, 0, 720904, 2, 65538, 720927, 2, 65536, 720928, 2, 2, 786437, 2, 1, 786466, 2, 1 )
 
@@ -56,7 +262,7 @@ format = 1
 position = Vector2( 320, 212 )
 
 [node name="BigGem" type="Sprite" parent="." groups=["pickups"]]
-position = Vector2( 256, 88 )
+position = Vector2( 256, 86 )
 scale = Vector2( 0.8, 0.8 )
 z_index = -2
 texture = ExtResource( 6 )
@@ -65,9 +271,11 @@ script = ExtResource( 5 )
 target_pickup = "HAS_LEFT_GEM"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem"]
+autoplay = "Float"
+anims/Float = SubResource( 5 )
+anims/RESET = SubResource( 6 )
 
 [node name="Light2D" type="Light2D" parent="BigGem"]
-visible = false
 scale = Vector2( 1.40625, 1.83594 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )
@@ -76,13 +284,17 @@ range_layer_min = -100
 range_item_cull_mask = 2
 
 [node name="BigGem2" type="Sprite" parent="." groups=["pickups"]]
-position = Vector2( 172, 112 )
+position = Vector2( 172, 114 )
+z_index = 1
 texture = ExtResource( 6 )
 hframes = 2
 script = ExtResource( 5 )
 target_pickup = "HAS_ALT_MOVE"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem2"]
+autoplay = "Float"
+anims/Float = SubResource( 7 )
+anims/RESET = SubResource( 8 )
 
 [node name="Light2D" type="Light2D" parent="BigGem2"]
 visible = false
@@ -103,6 +315,9 @@ script = ExtResource( 5 )
 target_pickup = "HAS_ICE"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem3"]
+autoplay = "Float"
+anims/Float = SubResource( 9 )
+anims/RESET = SubResource( 10 )
 
 [node name="Light2D" type="Light2D" parent="BigGem3"]
 visible = false
@@ -123,6 +338,9 @@ script = ExtResource( 5 )
 target_pickup = "HAS_RIGHT_GEM"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem4"]
+autoplay = "Float"
+anims/Float = SubResource( 11 )
+anims/RESET = SubResource( 12 )
 
 [node name="Light2D" type="Light2D" parent="BigGem4"]
 visible = false
@@ -134,7 +352,7 @@ range_layer_min = -100
 range_item_cull_mask = 2
 
 [node name="BigGem5" type="Sprite" parent="." groups=["pickups"]]
-position = Vector2( 432, 96 )
+position = Vector2( 432, 98 )
 scale = Vector2( 0.9, 0.9 )
 z_index = -2
 texture = ExtResource( 6 )
@@ -143,6 +361,9 @@ script = ExtResource( 5 )
 target_pickup = "HAS_FIRE"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem5"]
+autoplay = "Float"
+anims/Float = SubResource( 13 )
+anims/RESET = SubResource( 14 )
 
 [node name="Light2D" type="Light2D" parent="BigGem5"]
 visible = false
@@ -154,13 +375,17 @@ range_layer_min = -100
 range_item_cull_mask = 2
 
 [node name="BigGem6" type="Sprite" parent="." groups=["pickups"]]
-position = Vector2( 468, 111 )
+position = Vector2( 468, 109 )
+z_index = 1
 texture = ExtResource( 6 )
 hframes = 2
 script = ExtResource( 5 )
 target_pickup = "HAS_ALT_JUMP"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BigGem6"]
+autoplay = "Float"
+anims/Float = SubResource( 15 )
+anims/RESET = SubResource( 16 )
 
 [node name="Light2D" type="Light2D" parent="BigGem6"]
 visible = false

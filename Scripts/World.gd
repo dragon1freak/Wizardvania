@@ -3,7 +3,7 @@ extends Node2D
 var room_list : Array = []
 
 onready var viewport : Viewport = get_parent()
-onready var viewport_container : ViewportContainer = viewport.get_parent()
+#onready var viewport_container : ViewportContainer = viewport.get_parent()
 
 func _ready():
 	GameManager.connect("save_failed_to_load", self, "_loading_failed")

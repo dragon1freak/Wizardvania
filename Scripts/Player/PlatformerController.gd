@@ -156,8 +156,10 @@ func apply_friction(delta : float) -> void:
 # Sets the sprinting variable according to the strength of the sprint input action
 func handle_sprint(sprint_strength : float) -> void:
 	if sprint_strength != 0 and can_sprint:
+		$AnimationPlayer.playback_speed = 1.25
 		sprinting = true
 	else:
+		$AnimationPlayer.playback_speed = 1
 		sprinting = false
 
 # ------------------ Jumping Logic ---------------------------------

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scenes/Levels/Final/MainHub.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=2]
@@ -33,6 +33,10 @@
 [ext_resource path="res://Scenes/Levels/Final/LeftGem3.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scenes/Levels/Final/LeftGem1.tscn" type="PackedScene" id=32]
 [ext_resource path="res://Scenes/Levels/Final/RightGem3.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Scenes/Pickups/AltMovePickup.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Scenes/Pickups/IcePickup.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Scenes/Pickups/FirePickup.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Scenes/Pickups/AltJumpPickup.tscn" type="PackedScene" id=37]
 
 [node name="World" type="Node2D" groups=["world"]]
 process_priority = 1
@@ -46,16 +50,6 @@ script = ExtResource( 11 )
 
 [node name="BottomLeft" parent="." instance=ExtResource( 9 )]
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 320, 144 )
-z_index = -1
-SPRINT_MULTIPLIER = 1.5
-HAS_ALT_JUMP = true
-HAS_ALT_MOVE = true
-DASH_FORCE = 500.0
-WALL_FALL_SPEED = 0.0
-SLAM_FORCE = 400.0
-
 [node name="TopLeft" parent="." instance=ExtResource( 5 )]
 
 [node name="Top" parent="." instance=ExtResource( 8 )]
@@ -64,6 +58,7 @@ SLAM_FORCE = 400.0
 scroll_base_scale = Vector2( 0.8, 0.8 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+light_mask = 3
 motion_mirroring = Vector2( 480, 320 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="ParallaxBackground/ParallaxLayer"]
@@ -140,3 +135,25 @@ position = Vector2( -3120, -432 )
 
 [node name="RightGemRoom" parent="RightGemRooms" instance=ExtResource( 6 )]
 position = Vector2( 2992, -592 )
+
+[node name="AltJumpPickup" parent="." instance=ExtResource( 37 )]
+position = Vector2( 208, 144 )
+
+[node name="AltMovePickup" parent="." instance=ExtResource( 34 )]
+position = Vector2( 240, 144 )
+
+[node name="FirePickup" parent="." instance=ExtResource( 36 )]
+position = Vector2( 272, 144 )
+
+[node name="IcePickup" parent="." instance=ExtResource( 35 )]
+position = Vector2( 368, 144 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 320, 144 )
+z_index = -1
+SPRINT_MULTIPLIER = 1.5
+HAS_ALT_JUMP = true
+HAS_ALT_MOVE = true
+DASH_FORCE = 500.0
+WALL_FALL_SPEED = 0.0
+SLAM_FORCE = 400.0

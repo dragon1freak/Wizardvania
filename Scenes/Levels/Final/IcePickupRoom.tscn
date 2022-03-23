@@ -51,6 +51,7 @@ target_room_id = "Ice"
 
 [node name="Pedestal" parent="." instance=ExtResource( 4 )]
 position = Vector2( 192, 204 )
+z_index = -4
 
 [node name="IcePickup" parent="." instance=ExtResource( 1 )]
 position = Vector2( 192, 192 )
