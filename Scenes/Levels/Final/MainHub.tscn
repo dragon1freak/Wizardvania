@@ -276,6 +276,7 @@ anims/Float = SubResource( 5 )
 anims/RESET = SubResource( 6 )
 
 [node name="Light2D" type="Light2D" parent="BigGem"]
+visible = false
 scale = Vector2( 1.40625, 1.83594 )
 texture = ExtResource( 8 )
 color = Color( 0.729412, 0.364706, 0.584314, 1 )

@@ -13,6 +13,7 @@ func start_new_game() -> void:
 	GUIController.fade_out()
 	var dir : Directory = Directory.new()
 	dir.remove("user://savedata.save")
+	PlayerManager.reset_state()
 	yield(GUIController.get_node("AnimationPlayer"), "animation_finished")
 	get_tree().change_scene("res://Scenes/Levels/World.tscn")
 

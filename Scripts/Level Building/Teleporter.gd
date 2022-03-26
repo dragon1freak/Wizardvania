@@ -18,6 +18,8 @@ func activate() -> void:
 	is_active = true
 	_animation_player.play("Activate")
 	$Light2D.visible = true
+	$Particles.visible = true
+	$Particles.play("default")
 	yield(_animation_player, "animation_finished")
 	_animation_player.play("Active")
 

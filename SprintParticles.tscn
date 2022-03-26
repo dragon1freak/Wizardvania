@@ -1,8 +1,8 @@
 [gd_scene load_steps=37 format=2]
 
-[ext_resource path="res://Particles_00.png" type="Texture" id=1]
+[ext_resource path="res://SprintParticles1.png" type="Texture" id=1]
 [ext_resource path="res://SprintParticles.gd" type="Script" id=2]
-[ext_resource path="res://Particles_01.png" type="Texture" id=3]
+[ext_resource path="res://SprintParticles2.png" type="Texture" id=3]
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 1 )

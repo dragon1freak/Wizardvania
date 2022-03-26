@@ -147,7 +147,7 @@ script = ExtResource( 2 )
 crumble_on_exit = false
 crumble_on_enter = true
 respawn_time = 2.0
-crumble_time = 0.35
+crumble_time = 0.5
 
 [node name="TopCollider" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -8.5 )

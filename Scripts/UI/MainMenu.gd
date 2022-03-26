@@ -15,6 +15,7 @@ func _ready() -> void:
 		mm_container.get_node("ContinueButton").focus_mode = 0
 		mm_container.get_node("NewGameButton").grab_focus()
 	AudioManager.game_loaded()
+	GUIController.in_game = false
 
 func _on_ContinueButton_pressed():
 	GameManager.continue_game()
@@ -56,7 +57,6 @@ func toggle_new_game_confirm() -> void:
 	ngc_container.visible = !ngc_container.visible
 	mm_container.visible = !mm_container.visible
 	if ngc_container.visible:
-		set_values()
 		ngc_container.get_node("NewGameAbort").grab_focus()
 	elif mm_container.visible:
 		mm_container.get_node("NewGameButton").grab_focus()

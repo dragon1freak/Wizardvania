@@ -21,6 +21,15 @@ var music_volume : float = 0.8
 var sfx_volume : float = 0.8
 var is_fullscreen : bool = false
 
+var current_device : String = "keyboard"
+
+func _ready():
+	InputHelper.connect("device_changed", self, "_on_input_device_changed")
+	current_device = InputHelper.guess_device_name()
+
+func _on_input_device_changed(device : String, device_index : int) -> void:
+	current_device = device
+
 func fade_out(anim_speed : float = 1.0) -> void:
 	$AnimationPlayer.playback_speed = anim_speed / Engine.time_scale
 	$AnimationPlayer.play("FadeOut")

@@ -276,8 +276,8 @@ custom_constants/separation = 67
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer/Controls/HBoxContainer"]
-margin_left = 194.0
-margin_right = 542.0
+margin_left = 202.0
+margin_right = 550.0
 margin_bottom = 252.0
 
 [node name="Move" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer"]
@@ -410,12 +410,12 @@ expand = true
 stretch_mode = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MenuContainer/Controls/HBoxContainer"]
-margin_left = 609.0
-margin_right = 1085.0
+margin_left = 617.0
+margin_right = 1077.0
 margin_bottom = 252.0
 
 [node name="Interact" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
-margin_right = 476.0
+margin_right = 460.0
 margin_bottom = 60.0
 alignment = 1
 
@@ -430,16 +430,16 @@ expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Interact"]
-margin_left = 87.0
+margin_left = 79.0
 margin_top = 3.0
-margin_right = 324.0
+margin_right = 316.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
 text = " E - Interact - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Interact"]
-margin_left = 328.0
-margin_right = 388.0
+margin_left = 320.0
+margin_right = 380.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 7 )
@@ -448,7 +448,7 @@ stretch_mode = 5
 
 [node name="Fire" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
 margin_top = 64.0
-margin_right = 476.0
+margin_right = 460.0
 margin_bottom = 124.0
 alignment = 1
 
@@ -463,15 +463,16 @@ expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Fire"]
+margin_left = 2.0
 margin_top = 3.0
-margin_right = 412.0
+margin_right = 393.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
-text = " LMB/,</LArrow - Fire - "
+text = " LMB/J/LArrow - Fire - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Fire"]
-margin_left = 416.0
-margin_right = 476.0
+margin_left = 397.0
+margin_right = 457.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 8 )
@@ -480,7 +481,7 @@ stretch_mode = 5
 
 [node name="Ice" type="HBoxContainer" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2"]
 margin_top = 128.0
-margin_right = 476.0
+margin_right = 460.0
 margin_bottom = 188.0
 alignment = 1
 
@@ -495,16 +496,15 @@ expand = true
 stretch_mode = 5
 
 [node name="Label" type="Label" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Ice"]
-margin_left = 4.0
 margin_top = 3.0
-margin_right = 408.0
+margin_right = 396.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 5 )
-text = " RMB/.>/RArrow - Ice - "
+text = " RMB/K/RArrow - Ice - "
 
 [node name="TextureRect2" type="TextureRect" parent="MenuContainer/Controls/HBoxContainer/VBoxContainer2/Ice"]
-margin_left = 412.0
-margin_right = 472.0
+margin_left = 400.0
+margin_right = 460.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 texture = SubResource( 9 )

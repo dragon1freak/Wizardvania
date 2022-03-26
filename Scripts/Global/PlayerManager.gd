@@ -38,3 +38,11 @@ func set_save_state(player_state : Dictionary) -> void:
 	if player:
 		player.set_state()
 	get_tree().call_group("pickups", "check_state")
+
+func reset_state() -> void:
+	HAS_ALT_JUMP = false
+	HAS_ALT_MOVE = false
+	HAS_FIRE = false
+	HAS_ICE = false
+	HAS_LEFT_GEM = false
+	HAS_RIGHT_GEM = false
