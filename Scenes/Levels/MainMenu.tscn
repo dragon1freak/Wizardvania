@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/UI/MenuButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=2]
@@ -6,7 +6,10 @@
 [ext_resource path="res://Scripts/UI/MainMenu.gd" type="Script" id=4]
 [ext_resource path="res://Fonts/ButtonFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://Fonts/Font Data/Augusta.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://GBTileset.tres" type="TileSet" id=7]
 [ext_resource path="res://Sprites/Keyboard Prompts.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/map.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/Level Building/StandingTorch.tscn" type="PackedScene" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 96
@@ -58,6 +61,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ColorRect" type="ColorRect" parent="MenuContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.164706, 0.156863, 0.188235, 1 )
@@ -73,9 +77,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 551.0
-margin_top = 236.0
+margin_top = 204.0
 margin_right = 728.0
-margin_bottom = 295.0
+margin_bottom = 263.0
 focus_mode = 0
 disabled = true
 text = "Continue"
@@ -86,9 +90,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 534.0
-margin_top = 299.0
+margin_top = 267.0
 margin_right = 745.0
-margin_bottom = 358.0
+margin_bottom = 326.0
 text = "New Game"
 
 [node name="ControlsButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
@@ -97,9 +101,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 558.0
-margin_top = 362.0
+margin_top = 330.0
 margin_right = 722.0
-margin_bottom = 421.0
+margin_bottom = 389.0
 text = "Controls"
 
 [node name="OptionsButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
@@ -108,13 +112,12 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 563.0
-margin_top = 425.0
+margin_top = 393.0
 margin_right = 717.0
-margin_bottom = 484.0
+margin_bottom = 452.0
 text = "Options"
 
 [node name="QuitButton" parent="MenuContainer/MainMenuContainer" instance=ExtResource( 1 )]
-visible = false
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -521,6 +524,41 @@ margin_top = 458.0
 margin_right = 689.0
 margin_bottom = 517.0
 text = "Back"
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Node2D"]
+scale = Vector2( 4, 4 )
+z_index = -100
+tile_set = ExtResource( 7 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -1, 1, 0, -65536, 1, 1, -65535, 1, 1, -65534, 1, 1, -65533, 1, 1, -65532, 1, 1, -65531, 1, 1, -65530, 1, 1, -65529, 1, 1, -65528, 1, 1, -65527, 1, 1, -65526, 1, 1, -65525, 1, 1, -65524, 1, 1, -65523, 1, 1, -65522, 1, 1, -65521, 1, 1, -65520, 1, 1, -65519, 1, 1, -65518, 1, 1, -65517, 1, 1, -65516, 1, 2, 65535, 1, 65536, 0, 1, 65537, 1, 1, 262144, 2, 1, 131073, 3, 1, 131073, 4, 1, 131073, 5, 1, 131073, 6, 1, 131073, 7, 1, 131073, 8, 1, 131073, 9, 1, 131073, 10, 1, 131073, 11, 1, 131073, 12, 1, 131073, 13, 1, 131073, 14, 1, 131073, 15, 1, 131073, 16, 1, 131073, 17, 1, 131073, 18, 1, 262145, 19, 1, 65537, 20, 1, 65538, 131071, 1, 65536, 65536, 1, 262144, 65537, 1, 131074, 65554, 1, 131072, 65555, 1, 262145, 65556, 1, 65538, 196607, 1, 131072, 131072, 1, 131074, 131091, 1, 131072, 131092, 1, 131074, 720895, 1, 0, 655360, 1, 1, 655361, 1, 1, 655362, 1, 1, 655363, 1, 1, 655364, 1, 1, 655365, 1, 1, 655366, 1, 1, 655367, 1, 1, 655368, 1, 1, 655369, 1, 1, 655370, 1, 1, 655371, 1, 1, 655372, 1, 1, 655373, 1, 1, 655374, 1, 1, 655375, 1, 1, 655376, 1, 1, 655377, 1, 1, 655378, 1, 1, 655379, 1, 1, 655380, 1, 2, 786431, 1, 65536, 720896, 1, 65537, 720897, 1, 65537, 720898, 1, 65537, 720899, 1, 65537, 720900, 1, 65537, 720901, 1, 65537, 720902, 1, 65537, 720903, 1, 65537, 720904, 1, 65537, 720905, 1, 65537, 720906, 1, 65537, 720907, 1, 65537, 720908, 1, 65537, 720909, 1, 65537, 720910, 1, 65537, 720911, 1, 262147, 720912, 1, 65537, 720913, 1, 65537, 720914, 1, 65537, 720915, 1, 65537, 720916, 1, 65538, 851967, 1, 131072, 786432, 1, 131073, 786433, 1, 131073, 786434, 1, 131073, 786435, 1, 131073, 786436, 1, 131073, 786437, 1, 131073, 786438, 1, 131073, 786439, 1, 131073, 786440, 1, 131073, 786441, 1, 131073, 786442, 1, 131073, 786443, 1, 131073, 786444, 1, 131073, 786445, 1, 131073, 786446, 1, 131073, 786447, 1, 131073, 786448, 1, 131073, 786449, 1, 131073, 786450, 1, 131073, 786451, 1, 131073, 786452, 1, 131074, 1179691, 1, 196611 )
+
+[node name="StandingTorch" parent="Node2D/TileMap" instance=ExtResource( 10 )]
+position = Vector2( 64, 148 )
+frame = 1
+
+[node name="StandingTorch2" parent="Node2D/TileMap" instance=ExtResource( 10 )]
+position = Vector2( 256, 148 )
+frame = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Node2D/TileMap"]
+layer = -100
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Node2D/TileMap/CanvasLayer"]
+light_mask = 2
+scale = Vector2( 4, 4 )
+z_index = 1
+z_as_relative = false
+color = Color( 0.341176, 0.341176, 0.341176, 1 )
+
+[node name="Map" type="Sprite" parent="Node2D/TileMap/CanvasLayer"]
+light_mask = 3
+position = Vector2( 699, 480 )
+scale = Vector2( 4, 4 )
+z_index = -10
+texture = ExtResource( 9 )
 
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]
 [connection signal="pressed" from="MenuContainer/MainMenuContainer/NewGameButton" to="." method="_on_NewGameButton_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Sprites/FinalPorter.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Light2.png" type="Texture" id=8]
 [ext_resource path="res://Scripts/FinalPorter.gd" type="Script" id=9]
+[ext_resource path="res://Sounds/Teleport.wav" type="AudioStream" id=10]
 [ext_resource path="res://Scenes/Pickups/Indicator.tscn" type="PackedScene" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -422,6 +423,10 @@ one_way_collision = true
 [node name="Indicator" parent="FinalPorter" instance=ExtResource( 14 )]
 visible = false
 position = Vector2( 0, -28 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="FinalPorter"]
+stream = ExtResource( 10 )
+volume_db = -4.0
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

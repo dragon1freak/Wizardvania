@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Level Building/EnergyDoor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Level Building/StandingTorch.tscn" type="PackedScene" id=7]
 
 [sub_resource type="RectangleShape2D" id=6]
 
@@ -51,6 +52,14 @@ position = Vector2( -160, -120 )
 [node name="Button" parent="." instance=ExtResource( 3 )]
 position = Vector2( -24, -216 )
 target_path = NodePath("../EnergyDoor")
+
+[node name="StandingTorch" parent="." instance=ExtResource( 7 )]
+position = Vector2( -288, -172 )
+frame = 1
+
+[node name="StandingTorch2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 312, -140 )
+frame = 3
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

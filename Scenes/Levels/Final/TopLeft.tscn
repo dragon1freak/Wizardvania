@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Level Building/SlamBlocker.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Level Building/StandingTorch.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -97,6 +98,22 @@ position = Vector2( -440, -504 )
 position = Vector2( -556, -684 )
 is_entrance = true
 room_id = "Ice"
+
+[node name="StandingTorch" parent="." instance=ExtResource( 7 )]
+position = Vector2( -304, 132 )
+frame = 3
+
+[node name="StandingTorch3" parent="." instance=ExtResource( 7 )]
+position = Vector2( -168, -252 )
+frame = 1
+
+[node name="StandingTorch4" parent="." instance=ExtResource( 7 )]
+position = Vector2( -256, -524 )
+frame = 1
+
+[node name="StandingTorch5" parent="." instance=ExtResource( 7 )]
+position = Vector2( -192, -668 )
+frame = 1
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

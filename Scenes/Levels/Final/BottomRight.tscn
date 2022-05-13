@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/Level Building/Dangers.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Level Building/StandingTorch.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Level Building/CrumbleBlock.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Level Building/DashBlocker.tscn" type="PackedScene" id=11]
@@ -81,6 +82,17 @@ room_id = "RightGem"
 
 [node name="DashBlocker" parent="." instance=ExtResource( 11 )]
 position = Vector2( 616, 8 )
+
+[node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
+position = Vector2( 192, -12 )
+
+[node name="AnimatedSprite2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 496, -12 )
+frame = 1
+
+[node name="AnimatedSprite3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 656, -316 )
+frame = 1
 
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]
 [connection signal="body_exited" from="Dangers" to="Dangers" method="_on_Dangers_body_exited"]

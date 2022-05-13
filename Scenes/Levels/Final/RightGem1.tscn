@@ -60,13 +60,13 @@ position = Vector2( -64, 113 )
 position = Vector2( 96, 84 )
 
 [node name="CrumbleBlock4" parent="." instance=ExtResource( 5 )]
-position = Vector2( 192, 24 )
+position = Vector2( 176, 24 )
 
 [node name="CrumbleBlock5" parent="." instance=ExtResource( 5 )]
-position = Vector2( 96, -40 )
+position = Vector2( 104, -40 )
 
 [node name="CrumbleBlock6" parent="." instance=ExtResource( 5 )]
-position = Vector2( 192, -104 )
+position = Vector2( 188, -104 )
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

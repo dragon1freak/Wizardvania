@@ -16,6 +16,8 @@ func _ready() -> void:
 		mm_container.get_node("NewGameButton").grab_focus()
 	AudioManager.game_loaded()
 	GUIController.in_game = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	GUIController.win_text.get_parent().visible = false
 
 func _on_ContinueButton_pressed():
 	GameManager.continue_game()
@@ -64,17 +66,14 @@ func toggle_new_game_confirm() -> void:
 func _on_MainVolumeSlider_slider_value_changed(value : float):
 	GUIController.main_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear2db(value))
-	print(value)
 
 func _on_MusicVolumeSlider_slider_value_changed(value):
 	GUIController.music_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear2db(value))
-	print(value)
 
 func _on_SoundsVolumeSlider_slider_value_changed(value):
 	GUIController.sfx_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Sounds"), linear2db(value))
-	print(value)
 
 func _on_FullscreenCheck_check_value_changed(value):
 	GUIController.toggle_fullscreen(value)

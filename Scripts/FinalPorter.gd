@@ -21,6 +21,7 @@ func can_win() -> bool:
 	return PlayerManager.HAS_ALT_JUMP && PlayerManager.HAS_ALT_MOVE && PlayerManager.HAS_FIRE && PlayerManager.HAS_ICE && PlayerManager.HAS_LEFT_GEM && PlayerManager.HAS_RIGHT_GEM
 
 func interact() -> void:
+	$AudioStreamPlayer.play()
 	GUIController.win_text.show_menu()
 
 func check_state() -> void:

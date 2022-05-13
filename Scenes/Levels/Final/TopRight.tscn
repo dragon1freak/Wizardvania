@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GBTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Level Building/Room.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Scenes/Level Building/CrumbleBlock.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Level Building/PlayerSpawn.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Level Building/Teleporter.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Level Building/StandingTorch.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 12, 12 )
@@ -52,24 +53,35 @@ position = Vector2( 168, -88 )
 
 [node name="CrumbleBlock" parent="." instance=ExtResource( 5 )]
 position = Vector2( 520, 72 )
-crumble_time = 0.5
 
 [node name="CrumbleBlock4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 560, -24 )
-crumble_time = 0.5
 
 [node name="CrumbleBlock2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 424, 72 )
-crumble_time = 0.5
 
 [node name="CrumbleBlock3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 312, 60 )
-crumble_time = 0.5
 
 [node name="Teleporter" parent="." instance=ExtResource( 7 )]
 position = Vector2( 664, -76 )
 is_entrance = true
 room_id = "Fire"
+
+[node name="AnimatedSprite" parent="." instance=ExtResource( 8 )]
+position = Vector2( 464, -28 )
+
+[node name="AnimatedSprite2" parent="." instance=ExtResource( 8 )]
+position = Vector2( -112, -188 )
+frame = 3
+
+[node name="StandingTorch" parent="." instance=ExtResource( 8 )]
+position = Vector2( 384, -188 )
+frame = 2
+
+[node name="StandingTorch2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 376, 180 )
+frame = 1
 
 [connection signal="body_entered" from="RoomDetect" to="." method="_on_RoomDetect_body_entered"]
 [connection signal="body_entered" from="Dangers" to="Dangers" method="_on_Dangers_body_entered"]

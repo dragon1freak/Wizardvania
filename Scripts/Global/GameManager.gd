@@ -28,6 +28,7 @@ func quit_game() -> void:
 
 func quit_to_menu() -> void:
 	GUIController.fade_out()
+	GUIController.in_game = false
 	save_game()
 	AudioManager.current_room = null
 	GUIController.player = null
@@ -35,6 +36,7 @@ func quit_to_menu() -> void:
 	GUIController.toggle_pause_menu()
 	GUIController.toggle_pause_menu()
 	get_tree().change_scene("res://Scenes/Levels/MainMenu.tscn")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GUIController.fade_in()
 
 func save_game() -> void:

@@ -41,7 +41,7 @@ var can_dash : bool = false
 var dashing : bool = false
 # =============== ICE ABILITIES ============================= 
 export(float, 0, 1000, 0.1) var WALL_FALL_SPEED : float = 50.0
-export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 1.0
+export(float, 0, 1, 0.01) var WALL_JUMP_TIMER : float = 0
 var wall_hold_timer : float = WALL_JUMP_TIMER
 var WALL_JUMP_COUNT : int = 3
 var WALL_JUMP_MAX : int = 3
@@ -110,6 +110,7 @@ func physics_tick(delta : float) -> void:
 		$RightStep.stop()
 		$Land.stop()
 #	global_position = global_position.round()
+
 var ice_splat : bool = false
 func handle_gravity(delta : float, input_direction : Vector2, jump_strength : float) -> void:
 	match ELEMENT_STATE:
@@ -127,6 +128,8 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 			if !dashing:
 				motion.y += GRAVITY * delta
 		ELEMENTS.ICE:
+#			if !slamming:
+#				motion.y += GRAVITY * delta
 			if !entering_room && input_direction.x < 0 && _left_wall_check.is_colliding() && can_hold_wall && !is_on_floor():
 				if !ice_splat && motion.y >= 0:
 					if GUIController.current_device != "keyboard":
@@ -161,7 +164,7 @@ func handle_gravity(delta : float, input_direction : Vector2, jump_strength : fl
 					motion.y += GRAVITY * delta
 			if wall_hold_timer <= 0.0 && holding_wall:
 				Input.start_joy_vibration(0, 0.1, 0, 0)
-				WALL_FALL_SPEED += GRAVITY * delta * 0.25
+				WALL_FALL_SPEED += GRAVITY * delta * 0.1
 
 func handle_element_state() -> void:
 	if HAS_FIRE && (Input.is_action_just_pressed("fire_state") || (is_zero_approx(Input.get_action_strength("ice_state")) && Input.get_action_strength("fire_state") > 0)):
@@ -317,6 +320,7 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 			can_glide = true
 			gliding = false
 			glide_timer = GLIDE_TIMER_MAX
+			WALL_FALL_SPEED = 0
 		can_jump = true
 		if GUIController.current_device != "keboard":
 			Input.start_joy_vibration(0, 0.1, 0, 0.1)
@@ -327,15 +331,14 @@ func handle_alt_jump(delta : float, jump_strength : float = 0.0, jump_pressed : 
 		$Land.play()
 
 func apply_wall_jump(wall_jump_dir : float) -> void:
-	if !ice_splat:
-		if GUIController.current_device != "keyboard":
-			InputHelper.rumble_small()
-		var wj_part = wj_particles.instance()
-		wj_part.flip_h = _left_wall_check.is_colliding()
-		wj_part.global_position = _right_wall_check.get_collision_point() if _right_wall_check.is_colliding() else _left_wall_check.get_collision_point()
-		get_tree().get_current_scene().add_child(wj_part)
-		ice_splat = true
-	$JumpSound.play()
+	if GUIController.current_device != "keyboard":
+		InputHelper.rumble_small()
+	var wj_part = wj_particles.instance()
+	wj_part.flip_h = _left_wall_check.is_colliding()
+	wj_part.global_position = _right_wall_check.get_collision_point() if _right_wall_check.is_colliding() else _left_wall_check.get_collision_point()
+	get_tree().get_current_scene().add_child(wj_part)
+	ice_splat = true
+	$SlamSound.play()
 	holding_wall = false
 #	WALL_JUMP_COUNT -= 1
 #	if WALL_JUMP_COUNT <= 0:
@@ -352,7 +355,7 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 				handle_sprint(sprint_strength)
 		ELEMENTS.FIRE:
 			sprinting = false
-			if can_dash && sprint_pressed && !_right_wall_check.is_colliding() && !_left_wall_check.is_colliding():
+			if can_dash && sprint_pressed && ((!_sprite.flip_h && !_right_wall_check.is_colliding()) || (_sprite.flip_h && !_left_wall_check.is_colliding())):
 				if GUIController.current_device != "keyboard":
 					InputHelper.rumble_medium()
 				$DashSound.play()
@@ -366,11 +369,12 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 					$DashTrail.emitting = false
 					var collision = get_slide_collision(i) if i <= get_slide_count() else null
 					if collision:
-						apply_jump(JUMP_FORCE / 2, collision.normal)
-						$Land.play()
+#						apply_jump(JUMP_FORCE, collision.normal)
+#						$Land.play()
 						if collision.collider is DashBlocker:
+							collision.collider.handle_break(-1 if _sprite.flip_h else 1)
+							$Camera2D.add_trauma(0.2)
 							yield(frame_freeze(0.1, 0.25), "completed")
-							collision.collider.handle_break()
 				dashing = false
 				var final_max_speed = MAX_SPEED * abs(input_direction.x)
 				motion.x = clamp(motion.x, -final_max_speed, final_max_speed)
@@ -390,8 +394,8 @@ func handle_alt_move(input_direction : Vector2, sprint_strength : float, sprint_
 					if collision.collider is SlamBlocker:
 						if GUIController.current_device != "keyboard":
 							InputHelper.rumble_medium()
-						yield(frame_freeze(0.1, 0.25), "completed")
 						collision.collider.handle_break()
+						yield(frame_freeze(0.1, 0.25), "completed")
 					else:
 						if GUIController.current_device != "keyboard":
 							InputHelper.rumble_medium()
@@ -451,6 +455,7 @@ func alt_move_cooldown() -> void:
 
 var current_room : Node2D = null
 func handle_death() -> void:
+	$Camera2D.add_trauma(0.2)
 	dashing = false
 	gliding = false
 	slamming = false

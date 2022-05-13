@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Sprites/Player.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player/Player.gd" type="Script" id=2]
@@ -9,7 +9,8 @@
 [ext_resource path="res://Sounds/Jump.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/Dash2.wav" type="AudioStream" id=8]
 [ext_resource path="res://Sounds/Slam.wav" type="AudioStream" id=9]
-[ext_resource path="res://Sounds/Jump 121.wav" type="AudioStream" id=10]
+[ext_resource path="res://Sounds/Hit_hurt 99.wav" type="AudioStream" id=10]
+[ext_resource path="res://Scripts/Player/PlayerCam.gd" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 7.5 )
@@ -167,7 +168,8 @@ colors = PoolColorArray( 1, 0, 0, 1, 1, 1, 1, 0.264286, 1, 1, 1, 0 )
 collision_layer = 2
 script = ExtResource( 2 )
 MAX_SPEED = 80.0
-SPRINT_MULTIPLIER = 2.0
+DASH_FORCE = 500.0
+SLAM_FORCE = 400.0
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 0
@@ -194,6 +196,7 @@ drag_margin_h_enabled = true
 smoothing_speed = 10.0
 drag_margin_left = 0.15
 drag_margin_right = 0.15
+script = ExtResource( 11 )
 
 [node name="LeftWallCheck" type="RayCast2D" parent="."]
 enabled = true
@@ -268,13 +271,13 @@ color_ramp = SubResource( 8 )
 
 [node name="DoubleJump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
-volume_db = -6.0
+volume_db = -4.0
 pitch_scale = 1.24
 bus = "Sounds"
 
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
-volume_db = -6.0
+volume_db = -4.0
 pitch_scale = 1.25
 bus = "Sounds"
 
@@ -285,8 +288,7 @@ bus = "Sounds"
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -4.0
-pitch_scale = 1.1
+volume_db = -12.0
 bus = "Sounds"
 __meta__ = {
 "_editor_description_": " "

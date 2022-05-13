@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/Global/GUIController.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/UI/MapSegment.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/UI/Slider.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/UI/CheckBox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/ButtonFont.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Fonts/Font Data/OpenSans-Medium.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://Fonts/SliderFont.tres" type="DynamicFont" id=8]
 [ext_resource path="res://Sprites/map-export.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/MiniMapFrame.png" type="Texture" id=10]
@@ -61,6 +62,80 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("WinFade:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WinFade/WinText:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("WinFade/WinText:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "WinFade"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("WinFade:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("WinFade/WinText")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "show_end_text"
+} ]
+}
+
+[sub_resource type="DynamicFont" id=5]
+size = 64
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 7 )
 
 [node name="GUIController" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -70,6 +145,7 @@ autoplay = "FadeIn"
 anims/FadeIn = SubResource( 1 )
 anims/FadeOut = SubResource( 2 )
 anims/RESET = SubResource( 3 )
+anims/WinFade = SubResource( 4 )
 
 [node name="MiniMap" type="Control" parent="."]
 anchor_right = 1.0
@@ -816,13 +892,20 @@ margin_right = 472.0
 margin_bottom = 565.0
 text = "Continue"
 
-[node name="WinText" type="Control" parent="MiniMap/PauseContainer"]
-visible = false
-margin_right = 1280.0
-margin_bottom = 720.0
+[node name="WinFade" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 200 )
+mouse_filter = 2
+color = Color( 1, 1, 1, 0 )
+
+[node name="WinText" type="Control" parent="WinFade"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 15 )
 
-[node name="CenterContainer" type="VBoxContainer" parent="MiniMap/PauseContainer/WinText"]
+[node name="CenterContainer" type="VBoxContainer" parent="WinFade"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 224.0
@@ -830,26 +913,41 @@ margin_right = -224.0
 custom_constants/separation = 75
 alignment = 1
 
-[node name="Label" type="Label" parent="MiniMap/PauseContainer/WinText/CenterContainer"]
-margin_top = 182.0
+[node name="RichTextLabel" type="RichTextLabel" parent="WinFade/CenterContainer"]
+margin_top = 204.0
 margin_right = 832.0
-margin_bottom = 403.0
+margin_bottom = 382.0
+rect_min_size = Vector2( 0, 100 )
+custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[center][wave amp=50 freq=2]Congratulations![/wave]
+Thank you for playing![/center]"
+text = "Congratulations!
+Thank you for playing!"
+fit_content_height = true
+
+[node name="Label" type="Label" parent="WinFade/CenterContainer"]
+visible = false
+margin_top = 220.0
+margin_right = 832.0
+margin_bottom = 441.0
 rect_min_size = Vector2( 600, 0 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 6 )
 text = "Congratulations on beating the game!  This was made solo over the course of a month, so thanks for putting up with any bugs or jank.  Thank you for playing, hope you enjoyed!"
 align = 1
 valign = 1
 autowrap = true
 
-[node name="Continue" parent="MiniMap/PauseContainer/WinText/CenterContainer" instance=ExtResource( 3 )]
+[node name="Continue" parent="WinFade/CenterContainer" instance=ExtResource( 3 )]
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 327.0
-margin_top = 478.0
+margin_top = 457.0
 margin_right = 504.0
-margin_bottom = 537.0
+margin_bottom = 516.0
 text = "Continue"
 
 [node name="Fade" type="ColorRect" parent="."]
@@ -934,4 +1032,4 @@ texture = ExtResource( 9 )
 [connection signal="pressed" from="MiniMap/PauseContainer/AltMoveText/CenterContainer/Continue" to="MiniMap/PauseContainer/AltMoveText" method="_on_Continue_pressed"]
 [connection signal="pressed" from="MiniMap/PauseContainer/FireText/CenterContainer/Continue" to="MiniMap/PauseContainer/FireText" method="_on_Continue_pressed"]
 [connection signal="pressed" from="MiniMap/PauseContainer/IceText/CenterContainer/Continue" to="MiniMap/PauseContainer/IceText" method="_on_Continue_pressed"]
-[connection signal="pressed" from="MiniMap/PauseContainer/WinText/CenterContainer/Continue" to="MiniMap/PauseContainer/WinText" method="_on_Continue_pressed"]
+[connection signal="pressed" from="WinFade/CenterContainer/Continue" to="WinFade/WinText" method="_on_Continue_pressed"]

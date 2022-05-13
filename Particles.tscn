@@ -1,4 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Sprites/DashBlock.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 6, 16, 4, 4 )
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
@@ -9,7 +18,29 @@ _data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.734375, 0.734375, 0.734375, 1, 1, 1, 1, 1 )
 
-[node name="Teleport" type="CPUParticles2D"]
+[node name="Slam2" type="CPUParticles2D"]
+emitting = false
+amount = 24
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+texture = SubResource( 4 )
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 32 )
+spread = 30.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 55.69
+initial_velocity_random = 1.0
+angular_velocity_random = 1.0
+angle = 720.0
+angle_random = 1.0
+color_ramp = SubResource( 5 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+
+[node name="Teleport" type="CPUParticles2D" parent="CPUParticles2D"]
+emitting = false
 amount = 6
 lifetime = 2.0
 emission_shape = 2
@@ -21,7 +52,7 @@ initial_velocity = 5.0
 color = Color( 0.584314, 0.815686, 0.886275, 1 )
 color_ramp = SubResource( 3 )
 
-[node name="Landing" type="CPUParticles2D" parent="."]
+[node name="Landing" type="CPUParticles2D" parent="CPUParticles2D/Teleport"]
 emitting = false
 amount = 4
 one_shot = true
@@ -39,7 +70,7 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 hue_variation_random = 1.0
 
-[node name="Slam" type="CPUParticles2D" parent="Landing"]
+[node name="Slam" type="CPUParticles2D" parent="CPUParticles2D/Teleport/Landing"]
 emitting = false
 amount = 120
 one_shot = true

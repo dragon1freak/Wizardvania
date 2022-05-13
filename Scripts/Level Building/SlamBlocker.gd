@@ -4,8 +4,12 @@ class_name SlamBlocker
 var open : bool = false
 
 func handle_break() -> void:
-	self.open = true
-	self.visible = false
+	$Sprite.visible = false
+	$LightOccluder2D.visible = false
+	$BreakAnimation.visible = true
+	$BreakAnimation.frame = 0
+	$BreakAnimation.play("default")
+	$BreakSound.play()
 	$CollisionShape2D.set_deferred("disabled", true)
 
 func reset() -> void:
@@ -20,3 +24,8 @@ func load_state(is_open : bool) -> void:
 
 func save_state() -> bool:
 	return self.open
+
+func _on_BreakAnimation_animation_finished():
+	self.open = true
+	self.visible = false
+
